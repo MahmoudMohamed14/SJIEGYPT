@@ -46,7 +46,7 @@ class PendingRequest extends StatelessWidget {
                         children: [
                           Expanded(
                             child: defaultButton(onPress: () {
-                              cubit.EditPermission(context, cubit.listOfPermisPending[index].id!
+                              cubit.EditPermissionSql(context, cubit.listOfPermisPending[index].code!
                                   , cubit.listOfPermisPending[index].date!
                                   , 'NotAccept');
 
@@ -57,7 +57,7 @@ class PendingRequest extends StatelessWidget {
 
                           Expanded(
                             child: defaultButton(onPress: () {
-                              cubit.EditPermission(context, cubit.listOfPermisPending[index].id!
+                              cubit.EditPermissionSql(context, cubit.listOfPermisPending[index].code!
                                   , cubit.listOfPermisPending[index].date!
                                   , 'Accept');
 

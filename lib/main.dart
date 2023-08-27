@@ -1,6 +1,11 @@
 
 
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
+//import 'package:firebase_core/firebase_core.dart';
+
 import 'package:firedart/firedart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,17 +24,56 @@ import 'package:untitled/shared/constant/theme_manager.dart';
 
 
 import 'bloc_observer.dart';
+import 'package:http/http.dart' as http;
+testSql()async {
 
+  var u=Uri.parse('https://sjeg.seongji-eg.com/getdata.php');
+
+  var test= await http.get( u ,headers: {'Accept':'application/json'});
+  var res=json.decode(test.body);
+
+  return res;
+}
 
 
 void main()async  {
 
-
+  // await Firebase.initializeApp(
+  //   options: DefaultFirebaseOptions.currentPlatform,
+  // );
   WidgetsFlutterBinding.ensureInitialized();
 
+
+
+
  // FirebaseAuth.initialize(apiKey, VolatileStore());
-  Firestore.initialize(projectId);
+
   await CacheHelper.init();
+  if (Platform.isWindows){
+
+    Firestore.initialize(projectId);
+    // await Firebase.initializeApp(
+    //
+    //
+    //     options: FirebaseOptions(
+    //       apiKey: "AIzaSyCH1ep_lNnDmSE0SJ8_WUOLD3IWMuF69I4",
+    //       appId: '1:699991408348:android:77ea5bf9029055992a7e19',
+    //       messagingSenderId: "699991408348",
+    //       projectId: "seongjiproject-d3742",
+    //     )
+    // );
+  }else{
+    // await Firebase.initializeApp(
+    //
+    //
+    //     options: FirebaseOptions(
+    //       apiKey: "AIzaSyCH1ep_lNnDmSE0SJ8_WUOLD3IWMuF69I4",
+    //       appId: '1:699991408348:android:77ea5bf9029055992a7e19',
+    //       messagingSenderId: "699991408348",
+    //       projectId: "seongjiproject-d3742",
+    //     )
+    // );
+  }
 
 
 
@@ -52,15 +96,19 @@ class MyApp extends StatelessWidget {
       //  BlocProvider<AddPomCubit>(create: (context)=>AddPomCubit()..getAttendanceUser()),
       //  BlocProvider<PlanCubit>(create: (context)=>PlanCubit()),
         BlocProvider<AttendCubit>(create: (context)=>AttendCubit()),
-      CacheHelper.getData(key: 'isLogin')!=null? BlocProvider<PermissionCubit>(create: (context)=>PermissionCubit()..getOrderPermission()):BlocProvider<PermissionCubit>(create: (context)=>PermissionCubit()),
+        BlocProvider<PermissionCubit>(create: (context)=>PermissionCubit())
+     // CacheHelper.getData(key: 'isLogin')!=null? BlocProvider<PermissionCubit>(create: (context)=>PermissionCubit()..getOrderPermission()):BlocProvider<PermissionCubit>(create: (context)=>PermissionCubit()),
       ],
 
 
       child: BlocListener<AttendCubit,AttendStates>(
 
         listener: (context,state){
-
-      CacheHelper.getData(key: 'isLogin')!=null? PermissionCubit.get(context).getEmit():PermissionCubit.get(context).getEmit();
+    //       if(  CacheHelper.getData(key: 'control')!=null){
+    //         if(CacheHelper.getData(key: 'control')) AttendCubit.get(context).getDepart();
+    //       }
+    //
+    // PermissionCubit.get(context).getEmit();
 
 
 
@@ -71,6 +119,8 @@ class MyApp extends StatelessWidget {
 
           child:  LayoutBuilder(
             builder: (context,contrain){
+
+
 
 
               print(contrain.maxWidth.toString() + contrain.maxHeight.toString() );

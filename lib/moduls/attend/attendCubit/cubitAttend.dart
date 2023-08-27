@@ -1,10 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:csv/csv.dart';
-import 'package:file_picker/file_picker.dart';
+
+// import 'package:csv/csv.dart';
+//  import 'package:file_picker/file_picker.dart';
+
 import 'package:firedart/firedart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http/http.dart' as http;
+
 import 'package:untitled/componant/componant.dart';
 import 'package:untitled/componant/local/cache_helper.dart';
 import 'package:untitled/model/attendModel.dart';
@@ -42,94 +46,94 @@ class AttendCubit extends Cubit< AttendStates> {
 
   String? filePathPaySlip;
   List<PaySlipModel> payListModel=[];
-  int monthindex=0;
+  String monthindex='';
   void getmonthindex(idx){
-    monthindex=idx;
+    monthindex=listOfNameMonth[idx];
     getEmit();
   }
-
+//to build aab to add in google play
   pickFilePaySlip() async {
+    //
+    // FilePickerResult? result = await FilePicker.platform.pickFiles();
+    //
+    // if (result != null) {
+    //   paySlipList = [];
+    //   print(result.files.first.name);
+    //   filePathPaySlip = result.files.first.path!;
+    //
+    //   final input = File(filePathPaySlip!).openRead();
+    //   final fields = await input
+    //       .transform(utf8.decoder)
+    //       .transform(const CsvToListConverter())
+    //       .toList();
+    //  paySlipList  = fields;
+    //   print(fields.length);
+    //   print(paySlipList.length);
+    //
+    //  payListModel=[];
+    //
+    //   for (int i = 0; i <fields.length; i++) {
+    //
+    //
+    //       payListModel.add(PaySlipModel(
+    //           code: fields[i][0].toString().trim(),
+    //           name: fields[i][1].toString().trim(),
+    //           job_position: fields[i][2].toString().trim(),
+    //           basic: fields[i][3].toString().trim(),
+    //           // Variable: fields[i][4].toString().trim(),
+    //           // Clothing_Allow: fields[i][5].toString().trim(),
+    //          Meal_Allow: fields[i][4].toString().trim(),
+    //           Transportation: fields[i][5].toString().trim(),
+    //           Productivity_Allow: fields[i][6].toString().trim(),
+    //           Att_Bonus: fields[i][7].toString().trim(),
+    //           Activity_Allow: fields[i][8].toString().trim(),
+    //           Bonus: fields[i][9].toString().trim(),
+    //           Overtime: fields[i][10].toString().trim(),
+    //           Vacation_Balance: fields[i][11].toString().trim(),
+    //           Other_Dues: fields[i][12].toString().trim(),
+    //           Total_Dues: fields[i][13].toString().trim(),
+    //         net_salary:  fields[i][14].toString().trim(),
+    //           EmpSocial_Ins: fields[i][15].toString().trim(),
+    //           Tax: fields[i][16].toString().trim(),
+    //           Absent: fields[i][17].toString().trim(),
+    //           Penalty: fields[i][18].toString().trim(),
+    //          Sick: fields[i][19].toString().trim(),
+    //           WI: fields[i][20].toString().trim(),
+    //          Bonus_Deduction: fields[i][21].toString().trim(),
+    //           Other_Deduction: fields[i][22].toString().trim(),
+    //
+    //         total_Deduction: fields[i][23].toString().trim(),
+    //         regular: fields[i][24].toString().trim(),
+    //         casual: fields[i][25].toString().trim(),
+    //         day_absent: fields[i][26].toString().trim(),
+    //         day_Work: fields[i][27].toString().trim(),
+    //
+    //
+    //
+    //
+    //
+    //       ));
+    //
+    //
+    //
+    //   }
+    //
+    //   emit(FetchStateSuccess());
+    //   // print(pomList);
+    //   PlatformFile file = result.files.first;
+    //   print(paySlipList.length);
+    //
+    //   print(file.name);
+    //
+    //   print(file.size);
+    //   print(file.extension);
+    //   print(file.path);
+    // }
 
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
 
-    if (result != null) {
-      paySlipList = [];
-      print(result.files.first.name);
-      filePathPaySlip = result.files.first.path!;
-
-      final input = File(filePathPaySlip!).openRead();
-      final fields = await input
-          .transform(utf8.decoder)
-          .transform(const CsvToListConverter())
-          .toList();
-     paySlipList  = fields;
-      print(fields.length);
-      print(paySlipList.length);
-
-     payListModel=[];
-
-      for (int i = 0; i <fields.length; i++) {
-
-
-          payListModel.add(PaySlipModel(
-              code: fields[i][0].toString().trim(),
-              name: fields[i][1].toString().trim(),
-              job_position: fields[i][2].toString().trim(),
-              basic: fields[i][3].toString().trim(),
-              // Variable: fields[i][4].toString().trim(),
-              // Clothing_Allow: fields[i][5].toString().trim(),
-             Meal_Allow: fields[i][4].toString().trim(),
-              Transportation: fields[i][5].toString().trim(),
-              Productivity_Allow: fields[i][6].toString().trim(),
-              Att_Bonus: fields[i][7].toString().trim(),
-              Activity_Allow: fields[i][8].toString().trim(),
-              Bonus: fields[i][9].toString().trim(),
-              Overtime: fields[i][10].toString().trim(),
-              Vacation_Balance: fields[i][11].toString().trim(),
-              Other_Dues: fields[i][12].toString().trim(),
-              Total_Dues: fields[i][13].toString().trim(),
-            net_salary:  fields[i][14].toString().trim(),
-              EmpSocial_Ins: fields[i][15].toString().trim(),
-              Tax: fields[i][16].toString().trim(),
-              Absent: fields[i][17].toString().trim(),
-              Penalty: fields[i][18].toString().trim(),
-             Sick: fields[i][19].toString().trim(),
-              WI: fields[i][20].toString().trim(),
-             Bonus_Deduction: fields[i][21].toString().trim(),
-              Other_Deduction: fields[i][22].toString().trim(),
-
-            total_Deduction: fields[i][23].toString().trim(),
-            regular: fields[i][24].toString().trim(),
-            casual: fields[i][25].toString().trim(),
-            day_absent: fields[i][26].toString().trim(),
-            day_Work: fields[i][27].toString().trim(),
-
-
-
-
-
-          ));
-
-
-
-      }
-
-      emit(FetchStateSuccess());
-      // print(pomList);
-      PlatformFile file = result.files.first;
-      print(paySlipList.length);
-
-      print(file.name);
-
-      print(file.size);
-      print(file.extension);
-      print(file.path);
-    }
-
-
-    else {
-// User canceled the picker
-    }
+//     else {
+// // User canceled the picker
+//     }
 
 
   }
@@ -309,6 +313,39 @@ class AttendCubit extends Cubit< AttendStates> {
       // paySlipList.clear();
       // emit(AddAttendStateSuccess());
     }
+    insertPaySlipSql(){
+      var url=Uri.parse('https://sjeg.seongji-eg.com/insertSlip.php');
+      payListModel.forEach((element) {
+        element.month=monthindex;
+        http.post(url,headers: {'Accept':'application/json',} ,body:element.toMap() ).then((value) {
+          //
+          if (value.statusCode == 200 ) {
+            var res=json.decode(value.body);
+            if(res.length>0){
+
+
+
+
+            }
+
+            print(value.statusCode);
+
+          } else {
+
+
+            print('get failed: ${value.body}');
+
+          }
+        }).catchError((onError){
+          //emit(LoginErrorState(error: "Login onError"));
+
+          print('payslip onError: ${onError.toString()}');
+          print(onError);
+        });
+      });
+      // FirebaseFirestore.instance
+
+    }
   
     void addUser({context, bool  fromdialog = false , int indexx =1}){
 
@@ -320,7 +357,7 @@ class AttendCubit extends Cubit< AttendStates> {
 
         Firestore.
         instance.
-        collection("userAttend").document("${paySlipList[index-1][0]}").update({'id':"${paySlipList[index-1][0]}",'name':"${paySlipList[index-1][1]}",'depart':"${paySlipList[index-1][2]}",'password':'123456','controller':false})
+        collection("userAttend").document("${paySlipList[index-1][0]}").update({'id':"${paySlipList[index-1][0]}",'name':"${paySlipList[index-1][1]}",'depart':"${paySlipList[index-1][2]}",'controller':false})
             .then((value) {print(index.toString());}).catchError((onError){
               print(onError.toString()+" int = $index");
         });
@@ -406,19 +443,54 @@ totalPermission=0;
 
   }
   PaySlipModel ?paySlipModel;
-  getPaySlip(){
+  getPaySlip(month){
     paySlipModel=null;
-    Firestore.instance
-        .collection("userAttend")
-        .document("${CacheHelper.getData(key: 'myId')}")
-        .collection('payslip').
-         document("${months[monthindex]}").get()
-        .then((value) {
-          print(value.map);
-          paySlipModel= PaySlipModel.fromJson(value.map);
+    var url=Uri.parse('https://sjeg.seongji-eg.com/getpayslip.php');
+    // FirebaseFirestore.instance
+    http.post(url,headers: {'Accept':'application/json',} ,body:{
+      'code':CacheHelper.getData(key: 'myId'),
+      'month':month
+    } ).then((value) {
+      //
+      if (value.statusCode == 200 ) {
+        var res=json.decode(value.body);
+
+        if(res.length>0){
+        //  print(res);
+          paySlipModel= PaySlipModel.fromJson(res[0]);
+         // print(paySlipModel!.toMap());
+
           emit(GetPaySlipStateSuccess());
 
+
+
+        }
+
+        print(value.statusCode);
+
+      } else {
+
+
+        print('get failed: ${value.body}');
+
+      }
+    }).catchError((onError){
+      //emit(LoginErrorState(error: "Login onError"));
+
+      print('payslip onError: ${onError.toString()}');
+      print(onError);
     });
+    //    Firestore.instance .collection("userAttend")
+    //     .document("${CacheHelper.getData(key: 'myId')}")
+    //     .collection('payslip').
+    //    document("${months[monthindex]}").get()
+    //     .then((value) {
+    //       if(value.map!=null){
+    //       print(value.map);
+    //       paySlipModel= PaySlipModel.fromJson(value.map);
+    //       emit(GetPaySlipStateSuccess());}
+    //
+    // });
 
 
 
@@ -502,9 +574,25 @@ totalPermission=0;
 
       value.forEach((element) {
         listOfAttenduserGl.add(element.map);
+
       });
-      // print(listOfAttendGl);
+       print(listOfAttenduserGl);
       emit(GetAttendUserSuccess());
+    }).catchError((onError){
+      emit(GetAttendUserError());
+      print(onError.toString());
+    });}
+  deletAttendanceUser(id){
+
+    Firestore.instance
+        .collection("userAttend").document(id).delete().then((value) {
+
+      print('++++++++++++++++value her getAttendanceUser ++++++++++++++++++++++');
+
+
+
+
+      emit(DeleteAttendStateSuccess());
     }).catchError((onError){
       emit(GetAttendUserError());
       print(onError.toString());
@@ -513,6 +601,320 @@ totalPermission=0;
 
 
 
+  }
+
+  bool isScure=true;
+  IconData suffix = Icons.visibility_off;
+  void passwordLogin(){
+
+    isScure = !isScure;
+    suffix= isScure?Icons.visibility_off :Icons.visibility;
+    emit(LoginPasswordState());
+
+  }
+  getUserData(id){
+    // FirebaseFirestore.instance
+    //     .collection('users')
+    //     .doc(id).get().then((value) {
+    //
+    //   CacheHelper.putData(key: 'admin', value: value.data()!['isAdmin']);
+    //   if(value.data()!['requestAdmin']!=null) requestAdmin=value.data()!['requestAdmin'];
+    //
+    //   if(value.data()!['superAdmin']!=null) superAdmin=value.data()!['superAdmin'];
+    //
+    //
+    //
+    //   emit(LoginSuccessState( ));
+    //
+    //   print(value.data()!['name']);
+    //
+    // }).catchError((onError){
+    //   emit(GetUserDataErrorState());
+    // });
+  }
+  void login({
+    required String password,
+    required String email,
+
+  }){
+    emit(LoginLoadingState());
+
+    if(Platform.isWindows){
+      Firestore.instance.collection("userAttend")
+          .document(email)
+          .get().then((value) {
+        if (value.map!= null) {
+          if (value.map['id'] == email &&
+              value.map['password'] == password) {
+            CacheHelper.putData(key: 'isLogin', value: true);
+            CacheHelper.putData(key: 'myId', value: value.map['id']);
+            CacheHelper.putData(key: 'isAtt', value: true);
+            CacheHelper.putData(key: 'myname', value: value.map['name']);
+            if (value.map['controller'] != null) {
+              CacheHelper.putData(key: 'control', value: true);
+              CacheHelper.putData(
+                  key: 'depart', value: value.map['depart']);
+            } else
+              CacheHelper.putData(key: 'control', value: false);
+
+            emit(LoginSuccessState());
+          } else
+            emit(LoginErrorState(error: " Password Error"));
+        }
+      }).catchError((onError) {
+        print('from error ====================' + onError.toString());
+        emit(LoginErrorState(error: " Code Error Or Internet Error "));
+      });
+
+    }else {
+      // FirebaseFirestore.instance.collection("userAttend")
+      //     .doc(email)
+      //     .get().then((value) {
+      //   if (value.data() != null) {
+      //     if (value.data()!['id'] == email &&
+      //         value.data()!['password'] == password) {
+      //       CacheHelper.putData(key: 'isLogin', value: true);
+      //       CacheHelper.putData(key: 'myId', value: value.data()!['id']);
+      //       CacheHelper.putData(key: 'isAtt', value: true);
+      //       CacheHelper.putData(key: 'myname', value: value.data()!['name']);
+      //       if (value.data()!['controller'] != null) {
+      //         CacheHelper.putData(key: 'control', value: true);
+      //         CacheHelper.putData(
+      //             key: 'depart', value: value.data()!['depart']);
+      //       } else
+      //         CacheHelper.putData(key: 'control', value: false);
+      //
+      //       emit(LoginSuccessState());
+      //     } else
+      //       emit(LoginErrorState(error: " Password Error"));
+      //   }
+      // }).catchError((onError) {
+      //   print('from error ====================' + onError.toString());
+      //   emit(LoginErrorState(error: " Code Error Or Internet Error "));
+      // });
+    }
+    // listofUsers.forEach((element) {
+    //   if(element.line==email && element.password==password){
+    //     CacheHelper.putData(key: 'isLogin', value: true);
+    //     CacheHelper.putData(key: 'line', value: element.line);
+    //     CacheHelper.putData(key: 'isAdmin', value: element.isAdmin);
+    //     emit(LoginSuccessState());
+    //
+    //   }else{
+    //
+    //   }
+    // });
+    // listOfAttenduserGl.forEach((element) {
+    //   if(element['id']==email && element['password']==password){
+    //     CacheHelper.putData(key: 'isLogin', value: true);
+    //     CacheHelper.putData(key: 'myId', value: element['id']);
+    //     CacheHelper.putData(key: 'isAtt', value: true);
+    //     CacheHelper.putData(key: 'myname', value: element['name']);
+    //     if(element['controller']!= null) {
+    //       CacheHelper.putData(key: 'control', value: true);
+    //       CacheHelper.putData(key: 'depart', value: element['depart']);
+    //     }else CacheHelper.putData(key: 'control', value: false);
+    //
+    //     emit(LoginAttendSuccessState());
+    //
+    //   }else{
+    //    // emit(LoginErrorState(error: "UserName Or Password Error"));
+    //
+    //   }
+    //
+    //
+    // });
+    // if(  CacheHelper.getData(key: 'isLogin')==null)emit(LoginErrorState(error: "UserName Or Password Error"));
+
+
+    // FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password).then((value) {
+    //  getUserData(value.user!.uid);
+    //  uId=value.user!.uid;
+    //   CacheHelper.putData(key: 'uId', value: value.user!.uid);
+    //
+    //   uId=value.user!.uid;
+    //
+    //
+    //
+    //
+    //
+    // }).catchError((error){
+    //   print('error Login'+error.toString());
+    //   emit(LoginErrorState(error: error.toString()));
+    //
+    // });
+
+
+  }
+  List<String>myDepartList=[];
+  void getDepart(){
+    //emit(LoginLoadingState());
+    var url = Uri.parse('https://sjeg.seongji-eg.com/getdepart.php');// Replace with your PHP script URL
+
+    http.post(url,headers: {'Accept':'application/json'} ,body: {
+      'code': CacheHelper.getData(key: 'myId'),
+
+    }).then((value) {
+      myDepartList=[];
+      //
+      if (value.statusCode == 200 ) {
+        var res=json.decode(value.body);
+        if(res.length>0){
+          print(res);
+         res.forEach((element){
+           myDepartList.add(element['depart']);
+         });
+
+         emit(GetDepartSQLSuccess());
+
+        }
+
+        print(value.statusCode);
+
+      } else {
+
+
+        print('Login failed: ${value.body}');
+
+      }
+    }).catchError((onError){
+      emit(LoginErrorState(error: "Login onError"));
+
+      print('Login onError: ${onError.toString()}');
+      print(onError);
+    });
+
+
+  }
+  loginSql(String username, String password)  {
+    emit(LoginLoadingState());
+    var url = Uri.parse('https://sjeg.seongji-eg.com/login.php');// Replace with your PHP script URL
+
+    http.post(url,headers: {'Accept':'application/json'} ,body: {
+      'code': username,
+      'password': password,
+    }).then((value) {
+      //
+      if (value.statusCode == 200 ) {
+        var res=json.decode(value.body);
+        if(res.length>0){
+          print(res);
+          CacheHelper.putData(key: 'isLogin', value: true);
+          CacheHelper.putData(key: 'myId', value: res[0]['code']);
+          CacheHelper.putData(key: 'password', value: res[0]['password']);
+          CacheHelper.putData(key: 'isAtt', value: true);
+          CacheHelper.putData(key: 'myname', value: res[0]['name']);
+          CacheHelper.putData(key: 'depart', value: res[0]['depart']);
+          if (res[0]['controller'] == 'true') {
+            CacheHelper.putData(key: 'control', value: true);
+
+          } else
+            CacheHelper.putData(key: 'control', value: false);
+
+          emit(LoginSuccessState());
+
+        }
+
+        print(value.statusCode);
+
+      } else {
+        emit(LoginErrorState(error: " Error !!!!!!!!! "));
+
+        print('Login failed: ${value.body}');
+
+      }
+    }).catchError((onError){
+      emit(LoginErrorState(error: "Login onError"));
+
+      print('Login onError: ${onError.toString()}');
+      print(onError);
+    });
+
+
+  }
+  void changePassword({code, newPassword, context}){
+    Firestore.instance
+        .collection("userAttend").document("${code}").update({'password':"${newPassword}"})
+        .then((value) {
+      // AddPomCubit.get(context).getAttendanceUser();
+
+
+      emit(ChangePasswordSuccessState());
+      Navigator.pop(context);
+
+
+    })
+        .catchError((onError){});
+  }
+
+  changePasswordSql(String username, String password,context)  {
+    var url = Uri.parse('https://sjeg.seongji-eg.com/updatepassword.php');// Replace with your PHP script URL
+
+    http.post(url,headers: {'Accept':'application/json'} ,body: {
+      'code': username,
+      'password': password,
+    }).then((value) {
+
+      print(value.statusCode);
+      if (value.statusCode == 200 && value.body.trim().contains("success" )) {
+        
+        emit(ChangePasswordSuccessState());
+        CacheHelper.putData(key: 'password', value: password);
+        Navigator.pop(context);
+        // print(value.headers);
+        print(value.body.trim()); // The response from PHP script
+      } else {
+        showToast(text: 'code error', state: ToastState.ERROR);
+        print('Login failed: ${value.body.trim()}');
+
+      }
+    }).catchError((onError){
+      print('Login onError: ${onError.toString()}');
+      print(onError);
+    });
+
+
+  }
+  registerSql(String username, String password,String code, String depart,String controller)  {
+    var url = Uri.parse('https://sjeg.seongji-eg.com/register.php');// Replace with your PHP script URL
+
+    http.post(url,headers: {'Accept':'application/json'} ,body: {
+      'name': username,
+      'code': code,
+      'depart': depart,
+      'password': password,
+      'controller': controller,
+    }).then((value) {
+
+      print('=============done ========Ok======');
+
+      //
+
+
+      print(value.statusCode);
+      if (value.statusCode == 200 ) {
+        emit(RegisterSQLSuccessState());
+        // print(value.headers);
+        print(value.body.trim()); // The response from PHP script
+      } else {
+        print('Login failed: ${value.body}');
+
+      }
+    }).catchError((onError){
+      print('Login onError: ${onError.toString()}');
+      print(onError);
+    });
+
+
+  }
+  testSql()async {
+
+    var u=Uri.parse('https://sjeg.seongji-eg.com/getdata.php');
+
+    var test= await http.get( u ,headers: {'Accept':'application/json'});
+    var res=json.decode(test.body);
+    print(res);
+    return res;
   }
 
 

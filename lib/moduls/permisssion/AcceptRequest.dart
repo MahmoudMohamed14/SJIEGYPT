@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled/componant/componant.dart';
+import 'package:untitled/componant/local/cache_helper.dart';
 import 'package:untitled/model/permissionModel.dart';
 import 'package:untitled/moduls/permisssion/permission_cubit.dart';
 import 'package:untitled/moduls/permisssion/permission_status.dart';
@@ -32,15 +33,15 @@ class LayoutPermission extends StatelessWidget {
             body:TabBarView(
           children: [
           ListView.separated(
-          itemBuilder: (context,index)=> buildItemRequest(context,cubit.listOfPermisPending[index],true),
+          itemBuilder: (context,index)=> buildItemRequest(context,cubit.listOfPermisPending[index],false),
           separatorBuilder:(context,index)=>SizedBox(height: 20),
           itemCount: cubit.listOfPermisPending.length),
           ListView.separated(
-          itemBuilder: (context,index)=> buildItemRequest(context,cubit.listOfPermisAccept[index],false),
+          itemBuilder: (context,index)=> buildItemRequest(context,cubit.listOfPermisAccept[index],true),
           separatorBuilder:(context,index)=>SizedBox(height: 20),
           itemCount: cubit.listOfPermisAccept.length),
           ListView.separated(
-          itemBuilder: (context,index)=> buildItemRequest(context,cubit.listOfPermisNotAccept[index],false),
+          itemBuilder: (context,index)=> buildItemRequest(context,cubit.listOfPermisNotAccept[index],false,isNotAc: true),
           separatorBuilder:(context,index)=>SizedBox(height: 20),
           itemCount: cubit.listOfPermisNotAccept.length),
           ],
@@ -50,7 +51,7 @@ class LayoutPermission extends StatelessWidget {
       } ,
     );
   }
-  Widget buildItemRequest(context,PermissionModel model,bool isPending){
+  Widget buildItemRequest(context,PermissionModel model,bool isPending,{bool isNotAc=false,}){
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Container(
@@ -68,33 +69,40 @@ class LayoutPermission extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
 
           children: [
-            Text('Holiday Request',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,),),
-            SizedBox(height: 10,),
-            Text('${model.name} request holiday for ${model.day} ${model.date}  '),
-            SizedBox(height: 20,),
             Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('Holiday Request',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,),),
+                SizedBox(width: 10,),
+                Text('${model.reason}',),
+              ],
+            ),
+            SizedBox(height: 10,),
+            Text('${model.name} (${model.code}) request holiday for ${model.day} ${model.date}  '),
+            SizedBox(height: 20,),
+          CacheHelper.getData(key: 'depart')=='HR'? SizedBox():Row(
               mainAxisAlignment: MainAxisAlignment.start,
 
               children: [
-               isPending? Expanded(
+             isNotAc? SizedBox() :Expanded(
                   child: defaultButton(onPress: () {
-                    PermissionCubit.get(context).EditPermission(context, model.id!
+                    PermissionCubit.get(context).EditPermissionSql(context, model.code!
                         , model.date!
                         , 'NotAccept');
 
 
                   }, name: 'Deny', width: 80, height: 30,color: Colors.red),
-                ):SizedBox(),
+                ),
                 SizedBox(width: 10,),
 
-                Expanded(
+                isPending?SizedBox() : Expanded(
                   child: defaultButton(onPress: () {
-                    PermissionCubit.get(context).EditPermission(context, model.id!
+                    PermissionCubit.get(context).EditPermissionSql(context, model.code!
                         , model.date!
                         , 'Accept');
 
                   }, name: 'Agree', width: 80, height: 30,color: Colors.green),
-                ),
+                )
               ],
             ),
 

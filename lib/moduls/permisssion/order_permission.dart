@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:untitled/componant/componant.dart';
 import 'package:untitled/componant/local/cache_helper.dart';
+import 'package:untitled/moduls/permisssion/AcceptRequest.dart';
 import 'package:untitled/moduls/permisssion/permission_cubit.dart';
 import 'package:untitled/moduls/permisssion/permission_status.dart';
 import 'package:untitled/shared/constant/color_manager.dart';
@@ -27,16 +28,16 @@ class _MyScreenState extends State<MyScreen> {
 
     final dates = <Widget>[];
 
-    for (int i = 0; i < 5; i++) {
+    for (int i =CacheHelper.getData(key: 'depart')=='HR'?-4: 0; i < 5; i++) {
       final date = _currentDate.add(Duration(days: i + 1));
       int pending=0;
       int accept=0;
       int notAccept=0;
-      if(PermissionCubit.get(context).listofpermis.isNotEmpty) {
+      if(CacheHelper.getData(key: 'depart')!='HR') {
         PermissionCubit.get(context).listofpermis.forEach((element) {
-         if( element.date=="${_dayFormatter.format(date)} ${_monthFormatter.format(date)}"&& element.id==CacheHelper.getData(key: 'myId')&&element.state=='pending') pending=1;
-        else if( element.date=="${_dayFormatter.format(date)} ${_monthFormatter.format(date)}"&& element.id==CacheHelper.getData(key: 'myId')&&element.state=='Accept') accept=1;
-         else if( element.date=="${_dayFormatter.format(date)} ${_monthFormatter.format(date)}"&& element.id==CacheHelper.getData(key: 'myId')&&element.state=='NotAccept') notAccept=1;
+         if( element.date=="${_dayFormatter.format(date)} ${_monthFormatter.format(date)}"&& element.code==CacheHelper.getData(key: 'myId')&&element.state=='pending') pending=1;
+        else if( element.date=="${_dayFormatter.format(date)} ${_monthFormatter.format(date)}"&& element.code==CacheHelper.getData(key: 'myId')&&element.state=='Accept') accept=1;
+         else if( element.date=="${_dayFormatter.format(date)} ${_monthFormatter.format(date)}"&& element.code==CacheHelper.getData(key: 'myId')&&element.state=='NotAccept') notAccept=1;
         });
         if(pending==1) dates.add(Padding(
           padding: const EdgeInsets.all(8.0),
@@ -93,10 +94,10 @@ class _MyScreenState extends State<MyScreen> {
                                       child: Text('Cancel',
                                         style: TextStyle(color: Colors.red),)),
                                   TextButton(onPressed: () {
-                                    cubit.deletePermission(
+                                    cubit.deletePermissionSql(
                                         context,
 
-                                        CacheHelper.getData(key: 'myId'),
+
 
                                         "${_dayFormatter.format(
                                             date)} ${_monthFormatter.format(
@@ -173,10 +174,10 @@ class _MyScreenState extends State<MyScreen> {
                                       child: Text('Cancel',
                                         style: TextStyle(color: Colors.red),)),
                                   TextButton(onPressed: () {
-                                    cubit.deletePermission(
+                                    cubit.deletePermissionSql(
                                       context,
 
-                                      CacheHelper.getData(key: 'myId'),
+
 
                                       "${_dayFormatter.format(
                                           date)} ${_monthFormatter.format(
@@ -235,40 +236,40 @@ class _MyScreenState extends State<MyScreen> {
                         ),
                         Spacer(),
                         Icon(Icons.cancel_outlined,color: Colors.red,),
-                        SizedBox(width: 10,),
-                        defaultButton(onPress: () {
-                          showDialog(
-
-
-                              barrierDismissible: false,
-                              context: context, builder: (context) =>
-                              AlertDialog(
-
-                                title: Text('حذف طلب الاجازه'),
-
-                                actions: [
-                                  TextButton(onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                      child: Text('Cancel',
-                                        style: TextStyle(color: Colors.red),)),
-                                  TextButton(onPressed: () {
-                                    cubit.deletePermission(
-                                      context,
-
-                                      CacheHelper.getData(key: 'myId'),
-
-                                      "${_dayFormatter.format(
-                                          date)} ${_monthFormatter.format(
-                                          date)}",
-
-                                    );
-                                  }, child: Text('تاكيد')),
-
-                                ],
-
-                              ));
-                        }, name: 'حذف', width: 80, height: 30,color: Colors.red),
+                        // SizedBox(width: 10,),
+                        // defaultButton(onPress: () {
+                        //   showDialog(
+                        //
+                        //
+                        //       barrierDismissible: false,
+                        //       context: context, builder: (context) =>
+                        //       AlertDialog(
+                        //
+                        //         title: Text('حذف طلب الاجازه'),
+                        //
+                        //         actions: [
+                        //           TextButton(onPressed: () {
+                        //             Navigator.pop(context);
+                        //           },
+                        //               child: Text('Cancel',
+                        //                 style: TextStyle(color: Colors.red),)),
+                        //           TextButton(onPressed: () {
+                        //             cubit.deletePermission(
+                        //               context,
+                        //
+                        //               CacheHelper.getData(key: 'myId'),
+                        //
+                        //               "${_dayFormatter.format(
+                        //                   date)} ${_monthFormatter.format(
+                        //                   date)}",
+                        //
+                        //             );
+                        //           }, child: Text('تاكيد')),
+                        //
+                        //         ],
+                        //
+                        //       ));
+                        // }, name: 'حذف', width: 80, height: 30,color: Colors.red),
 
                       ],
                     ),
@@ -369,22 +370,38 @@ class _MyScreenState extends State<MyScreen> {
 
                                                     },
 
-                                                    items: List.generate(
+                                                    items: i==0 || (i==2 && _nameFormatter.format(date)=='Sunday')?List.generate(
                                                         PermissionCubit
                                                             .get(context)
-                                                            .depart
+                                                            .Vaction
                                                             .length, (index) =>
                                                         DropdownMenuItem<
                                                             String>(child: Text(
                                                             PermissionCubit
                                                                 .get(context)
-                                                                .depart[index],
+                                                                .Vaction[index],
                                                             style: getBoldStyle(
                                                               color: ColorManager
                                                                   .primary,)),
                                                           value: PermissionCubit
                                                               .get(context)
-                                                              .depart[index],))
+                                                              .Vaction[index],)):List.generate(
+                                                        PermissionCubit
+                                                            .get(context)
+                                                            .allVaction
+                                                            .length, (index) =>
+                                                        DropdownMenuItem<
+                                                            String>(child: Text(
+                                                            PermissionCubit
+                                                                .get(context)
+                                                                .allVaction[index],
+                                                            style: getBoldStyle(
+                                                              color: ColorManager
+                                                                  .primary,)),
+                                                          value: PermissionCubit
+                                                              .get(context)
+                                                              .allVaction[index],))
+
                                                 ),
                                           ),
 
@@ -398,23 +415,23 @@ class _MyScreenState extends State<MyScreen> {
 
                                     )
                                 ),
-                                actions: state is PermissionLoadingState ? [
-                                  CircularProgressIndicator()
-                                ] : [
+                                actions:[
                                   TextButton(onPressed: () {
                                     Navigator.pop(context);
                                   },
                                       child: Text('Cancel',
                                         style: TextStyle(color: Colors.red),)),
                                   TextButton(onPressed: () {
-                                    cubit.orderPermission(
+                                    if(cubit.valueofdepart.isEmpty){
+                                      showToast(text: 'لم يتم اختيار نوع الاجازة', state: ToastState.ERROR);
+                                    }
+                                   else cubit.orderPermission(
                                         context,
                                         _nameFormatter.format(date),
-                                        'test',
+                                        cubit.valueofdepart,
                                         CacheHelper.getData(key: 'myId'),
                                         CacheHelper.getData(key: 'myname'),
-                                        "${_dayFormatter.format(date)} ${_monthFormatter.format(date)}",
-                                        cubit.valueofdepart,'done','pending');
+                                        "${_dayFormatter.format(date)} ${_monthFormatter.format(date)}",'pending');
                                   }, child: Text('تاكيد')),
 
                                 ],
@@ -433,153 +450,174 @@ class _MyScreenState extends State<MyScreen> {
 
       }else {
         dates.add(Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8),
           child: BlocConsumer<PermissionCubit, PermissionStates>(
               listener: (context, state) {
 
               },
               builder: (context, state) {
                 var cubit = PermissionCubit.get(context);
-                return Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.orangeAccent.withOpacity(.5)),
-                  width: double.infinity,
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
+                return GestureDetector(
+                  onTap: (){
+                    cubit.getOrderPermissionSQLByDepartAndDate('${_dayFormatter.format(date)} ${_monthFormatter
+                        .format(date)}');
+                    navigateTo(context, LayoutPermission());
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: Colors.orangeAccent.withOpacity(.5)),
+                    width: double.infinity,
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                        padding: const EdgeInsets.all(0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
 
 
-                      children: [
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
 
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
 
-                          children: [
-                            Text(_nameFormatter.format(date), style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20),),
-                            Text(
-                                "${_dayFormatter.format(date)} ${_monthFormatter
-                                    .format(date)}"),
+                            children: [
+                              Text(_nameFormatter.format(date), style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20),),
 
-                          ],
-                        ),
-                        Spacer(),
-                         defaultButton(onPress: () {
-                          showDialog(
+                           Text("${_dayFormatter.format(date)} ${_monthFormatter
+                                      .format(date)}"),
 
+                            ],
+                          ),
+                         // Spacer(),
+                          // defaultButton(onPress: () {
+                          //   showDialog(
+                          //
+                          //
+                          //       barrierDismissible: false,
+                          //       context: context, builder: (context) =>
+                          //       AlertDialog(
+                          //
+                          //         title: Text('طلب اجازه'),
+                          //         content: state is PermissionLoadingState
+                          //             ? CircularProgressIndicator()
+                          //             : Form(
+                          //           // key: keyFormpassword,
+                          //             child: Column(
+                          //               mainAxisSize: MainAxisSize.min,
+                          //               children: [
+                          //                 Container(
+                          //                   padding: const EdgeInsets.symmetric(
+                          //                       horizontal: 12, vertical: 4),
+                          //                   width: double.infinity,
+                          //                   height: 60,
+                          //                   decoration: BoxDecoration(
+                          //                       borderRadius: BorderRadius
+                          //                           .circular(10),
+                          //                       border: Border.all(
+                          //                           color: ColorManager.primary)
+                          //
+                          //                   ),
+                          //                   child: BlocConsumer<
+                          //                       PermissionCubit,
+                          //                       PermissionStates>(
+                          //                     listener: (context, state) {},
+                          //                     builder: (context, state) =>
+                          //                         DropdownButton(
+                          //
+                          //                             isExpanded: true,
+                          //                             iconSize: 50,
+                          //
+                          //
+                          //                             value: PermissionCubit
+                          //                                 .get(context)
+                          //                                 .valueofdepart,
+                          //                             //cubit.shift,
+                          //
+                          //
+                          //                             onChanged: (String?value) {
+                          //                               PermissionCubit.get(
+                          //                                   context)
+                          //                                   .onChangeDepart(
+                          //                                   value);
+                          //
+                          //                               //cubit.radioButtonShift(sht: value);
+                          //
+                          //
+                          //                             },
+                          //
+                          //                             items: i==0 || (i==2 && _nameFormatter.format(date)=='Sunday')?List.generate(
+                          //                                 PermissionCubit
+                          //                                     .get(context)
+                          //                                     .Vaction
+                          //                                     .length, (index) =>
+                          //                                 DropdownMenuItem<
+                          //                                     String>(child: Text(
+                          //                                     PermissionCubit
+                          //                                         .get(context)
+                          //                                         .Vaction[index],
+                          //                                     style: getBoldStyle(
+                          //                                       color: ColorManager
+                          //                                           .primary,)),
+                          //                                   value: PermissionCubit
+                          //                                       .get(context)
+                          //                                       .Vaction[index],)):List.generate(
+                          //                                 PermissionCubit
+                          //                                     .get(context)
+                          //                                     .allVaction
+                          //                                     .length, (index) =>
+                          //                                 DropdownMenuItem<
+                          //                                     String>(child: Text(
+                          //                                     PermissionCubit
+                          //                                         .get(context)
+                          //                                         .allVaction[index],
+                          //                                     style: getBoldStyle(
+                          //                                       color: ColorManager
+                          //                                           .primary,)),
+                          //                                   value: PermissionCubit
+                          //                                       .get(context)
+                          //                                       .allVaction[index],))
+                          //
+                          //                         ),
+                          //                   ),
+                          //
+                          //                 ),
+                          //                 SizedBox(height: 20,),
+                          //                 defaultEditText(
+                          //                     label: 'السبب', maxLine: 3)
+                          //
+                          //               ],
+                          //
+                          //
+                          //             )
+                          //         ),
+                          //         actions:[
+                          //           TextButton(onPressed: () {
+                          //             Navigator.pop(context);
+                          //           },
+                          //               child: Text('Cancel',
+                          //                 style: TextStyle(color: Colors.red),)),
+                          //           TextButton(onPressed: () {
+                          //             if(cubit.valueofdepart.isEmpty){
+                          //               showToast(text: 'لم يتم اختيار نوع الاجازة', state: ToastState.ERROR);
+                          //             }
+                          //             else cubit.orderPermission(
+                          //                 context,
+                          //                 _nameFormatter.format(date),
+                          //                 cubit.valueofdepart,
+                          //                 CacheHelper.getData(key: 'myId'),
+                          //                 CacheHelper.getData(key: 'myname'),
+                          //                 "${_dayFormatter.format(date)} ${_monthFormatter.format(date)}",'pending');
+                          //           }, child: Text('تاكيد')),
+                          //
+                          //         ],
+                          //
+                          //       ));
+                          // }, name: 'طلب', width: 80, height: 30),
 
-                              barrierDismissible: false,
-                              context: context, builder: (context) =>
-                              AlertDialog(
-
-                                title: Text('طلب اجازه'),
-                                content: state is PermissionLoadingState
-                                    ? CircularProgressIndicator()
-                                    : Form(
-                                  // key: keyFormpassword,
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 12, vertical: 4),
-                                          width: double.infinity,
-                                          height: 60,
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius
-                                                  .circular(10),
-                                              border: Border.all(
-                                                  color: ColorManager.primary)
-
-                                          ),
-                                          child: BlocConsumer<
-                                              PermissionCubit,
-                                              PermissionStates>(
-                                            listener: (context, state) {},
-                                            builder: (context, state) =>
-                                                DropdownButton(
-
-                                                    isExpanded: true,
-                                                    iconSize: 50,
-
-
-                                                    value: PermissionCubit
-                                                        .get(context)
-                                                        .valueofdepart,
-                                                    //cubit.shift,
-
-
-                                                    onChanged: (String?value) {
-                                                      PermissionCubit.get(
-                                                          context)
-                                                          .onChangeDepart(
-                                                          value);
-
-                                                      //cubit.radioButtonShift(sht: value);
-
-
-                                                    },
-
-                                                    items: List.generate(
-                                                        PermissionCubit
-                                                            .get(context)
-                                                            .depart
-                                                            .length, (index) =>
-                                                        DropdownMenuItem<
-                                                            String>(child: Text(
-                                                            PermissionCubit
-                                                                .get(context)
-                                                                .depart[index],
-                                                            style: getBoldStyle(
-                                                              color: ColorManager
-                                                                  .primary,)),
-                                                          value: PermissionCubit
-                                                              .get(context)
-                                                              .depart[index],))
-                                                ),
-                                          ),
-
-                                        ),
-                                        SizedBox(height: 20,),
-                                        defaultEditText(
-                                            label: 'السبب', maxLine: 3)
-
-                                      ],
-
-
-                                    )
-                                ),
-                                actions: state is PermissionLoadingState ? [
-                                  CircularProgressIndicator()
-                                ] : [
-                                  TextButton(onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                      child: Text('Cancel',
-                                        style: TextStyle(color: Colors.red),)),
-                                  TextButton(onPressed: () {
-                                    cubit.orderPermission(
-                                        context,
-                                        _nameFormatter.format(date),
-                                        'test',
-                                        CacheHelper.getData(key: 'myId'),
-                                        CacheHelper.getData(key: 'myname'),
-                                        "${_dayFormatter.format(
-                                            date)} ${_monthFormatter.format(
-                                            date)}",
-                                        cubit.valueofdepart,'done','pending'
-                                    );
-                                  }, child: Text('تاكيد')),
-
-                                ],
-
-                              ));
-                        }, name: 'طلب', width: 80, height: 30),
-
-                      ],
+                       ],
+                      ),
                     ),
                   ),
                 );
@@ -588,6 +626,7 @@ class _MyScreenState extends State<MyScreen> {
           ),
         ));
       }
+
     }
 
     return BlocConsumer<PermissionCubit,PermissionStates>(
@@ -603,7 +642,7 @@ class _MyScreenState extends State<MyScreen> {
             title: Text('Holiday'),
           ),
           body: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(12),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: dates.map((widget) => Expanded(child: widget)).toList(),

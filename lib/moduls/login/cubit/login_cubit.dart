@@ -1,5 +1,6 @@
 
 import 'package:bloc/bloc.dart';
+
 import 'package:firedart/firestore/firestore.dart';
 
 import 'package:flutter/material.dart';
@@ -52,28 +53,31 @@ class LoginCubit extends Cubit<LoginState> {
 
   }){
     emit(LoginLoadingState());
-    Firestore.instance
-        .collection("userAttend")
-        .document(email)
-        .get().then((value) {
-          if(value.map['id']==email && value.map['password']==password){
-            CacheHelper.putData(key: 'isLogin', value: true);
-            CacheHelper.putData(key: 'myId', value: value.map['id']);
-            CacheHelper.putData(key: 'isAtt', value: true);
-            CacheHelper.putData(key: 'myname', value: value.map['name']);
-            if(value.map['controller']!= null) {
-              CacheHelper.putData(key: 'control', value: true);
-              CacheHelper.putData(key: 'depart', value: value.map['depart']);
-            }else CacheHelper.putData(key: 'control', value: false);
 
-            emit(LoginSuccessState());
-
-          }else emit(LoginErrorState(error: " Password Error"));
-
-    }).catchError((onError){
-      print('from error');
-      emit(LoginErrorState(error: " Code Error Or Internet Error "));
-    });
+    // FirebaseFirestore.instance.collection("userAttend")
+    //     .doc(email)
+    //     .get().then((value) {
+    //       if(value.data() !=null) {
+    //         if (value.data()!['id'] == email &&
+    //             value.data()!['password'] == password) {
+    //           CacheHelper.putData(key: 'isLogin', value: true);
+    //           CacheHelper.putData(key: 'myId', value: value.data()!['id']);
+    //           CacheHelper.putData(key: 'isAtt', value: true);
+    //           CacheHelper.putData(key: 'myname', value: value.data()!['name']);
+    //           if (value.data()!['controller'] != null) {
+    //             CacheHelper.putData(key: 'control', value: true);
+    //             CacheHelper.putData(key: 'depart', value: value.data()!['depart']);
+    //           } else
+    //             CacheHelper.putData(key: 'control', value: false);
+    //
+    //           emit(LoginSuccessState());
+    //         } else
+    //           emit(LoginErrorState(error: " Password Error"));
+    //       }
+    // }).catchError((onError){
+    //   print('from error ===================='+ onError.toString());
+    //   emit(LoginErrorState(error: " Code Error Or Internet Error "));
+    // });
     // listofUsers.forEach((element) {
     //   if(element.line==email && element.password==password){
     //     CacheHelper.putData(key: 'isLogin', value: true);

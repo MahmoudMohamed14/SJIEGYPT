@@ -2,14 +2,14 @@ class PermissionModel{
 
 
 
-  String ?id;
+  String ?code;
   String ? name;
   String ?date;
   String?depart;
   String ?day;
   String ?reason;
   String ?state;
-  String ?done;
+
 
 
 
@@ -22,11 +22,11 @@ class PermissionModel{
         this.day,
         // this.operator,
         this.depart,
-        this.id,
+        this.code,
         this.reason,
         this.date,
         this.state,
-        this.done
+
       });
 
   PermissionModel.fromJson(Map<String,dynamic>  json){
@@ -38,9 +38,9 @@ class PermissionModel{
     //  operator=json['operator'];
     date=json['date'];
     depart=json['depart'];
-    id=json['id'];
+    code=json['code'];
     reason=json['reason'];
-    done=json['done'];
+
     state=json['state'];
 
   }
@@ -55,9 +55,9 @@ class PermissionModel{
 
       "depart":depart,
       "date":date,
-      "id":id,
+      "code":code,
       'state':state,
-      'done':done
+
     };
 
   }

@@ -2,14 +2,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled/componant/componant.dart';
-import 'package:untitled/componant/local/cache_helper.dart';
-import 'package:untitled/moduls/addplan/getplan.dart';
+
+
 import 'package:untitled/moduls/attend/attendCubit/cubitAttend.dart';
-import 'package:untitled/moduls/attend/getHistory.dart';
+
 import 'package:untitled/moduls/homeLayout/homeLayout.dart';
-import 'package:untitled/moduls/login/cubit/login_cubit.dart';
-import 'package:untitled/moduls/login/cubit/login_state.dart';
+
 import 'package:untitled/shared/constant/color_manager.dart';
+
+import '../attend/attendCubit/statusAttend.dart';
 
 
 class LoginScreen extends StatelessWidget {
@@ -56,9 +57,7 @@ class LoginScreen extends StatelessWidget {
     // }
 
 
-    return BlocProvider(
-      create: (BuildContext context)=>LoginCubit(),
-      child: BlocConsumer<LoginCubit,LoginState>(
+    return BlocConsumer<AttendCubit,AttendStates>(
         listener: (context,state){
           if(state is LoginSuccessState){
             navigateAndFinish(context, HomeLayout());
@@ -90,7 +89,7 @@ class LoginScreen extends StatelessWidget {
           // }
         },
         builder: (context,state){
-         var cubit=LoginCubit.get(context);
+         var cubit=AttendCubit.get(context);
           return Scaffold(
 
             body: Padding(
@@ -135,14 +134,14 @@ class LoginScreen extends StatelessWidget {
                               return null;
                             },
                             textType:TextInputType.visiblePassword,
-                            enable: context.read<LoginCubit>().isScure,
+                            enable: cubit.isScure,
 
-                            sufIcon: context.read<LoginCubit>().suffix,
+                            sufIcon: cubit.suffix,
                             label:  "password",
 
                             prefIcon:Icons.password,//Icons.lock,
                             onPressSuffix: (){
-                              context.read<LoginCubit>().passwordLogin();
+                             cubit.passwordLogin();
 
                             }
                         ),
@@ -154,7 +153,7 @@ class LoginScreen extends StatelessWidget {
                             onPress: (){
                               if(keyForm.currentState!.validate()){
 
-                                context.read<LoginCubit>().login(password: password.text, email: email.text);
+                                cubit.loginSql(email.text, password.text);
 
 
 
@@ -166,121 +165,122 @@ class LoginScreen extends StatelessWidget {
                             },
                             name:  "login"),
 
-                        SizedBox(height: 15,),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            TextButton(onPressed: (){
-                              AttendCubit.get(context).getAttendanceUser();
-                              showDialog(
-
-
-                                  barrierDismissible: false,
-                                  context: context, builder:(context )=>AlertDialog(
-
-                                title: Text('Change Password'),
-                                content: Form(
-                                  key: keyFormpassword,
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      defaultEditText(
-                                          control:codeControl,
-                                          validat: ( s){
-                                            if(s!.isEmpty){
-                                              return" code is empty";
-                                            }
-                                            return null;
-                                          },
-                                          label: "code",
-                                          prefIcon: Icons.text_fields,
-                                          textType: TextInputType.number
-                                      ),
-                                      SizedBox(height: 20,),
-                                      defaultEditText(
-                                        control: oldPassword,
-
-
-                                        textType:TextInputType.visiblePassword,
-
-
-
-
-                                        validat: ( s){
-                                          bool isTrue=false;
-
-                                          if(s!.isEmpty){
-                                            return"Empty";
-                                          }else{
-                                            listOfAttenduserGl.forEach((element) {
-                                              if(element['id']==codeControl.text && element['password']==oldPassword.text){
-                                                isTrue=true;
-                                              }
-
-                                            });
-                                            if(!isTrue) return 'password Wrong';
-
-                                          }
-                                          return null;
-                                        },
-                                        label: "Old Password",
-                                        prefIcon: Icons.password,
-
-                                      ),
-                                      SizedBox(height: 20,),
-                                      defaultEditText(
-                                        control: newPasswordControl,
-
-
-                                          textType:TextInputType.visiblePassword,
-
-
-
-
-                                          validat: ( s){
-                                            if(s!.isEmpty){
-                                              return"Empty";
-                                            }
-                                            return null;
-                                          },
-                                          label: "New Password",
-                                          prefIcon: Icons.password,
-
-                                      ),
-                                    ],
-
-
-                                  ),
-                                ),
-                                actions: [
-                                  TextButton(onPressed: (){
-                                    Navigator.pop(context);
-                                    newPasswordControl.clear();
-                                    codeControl.clear();
-                                  }, child: Text('Cancel',style: TextStyle(color: Colors.red),)),
-                                  TextButton(onPressed: (){
-                                if(keyFormpassword.currentState!.validate()){
-                                  cubit.changePassword(
-                                      code: codeControl.text,
-                                      newPassword: newPasswordControl.text,
-                                      context: context
-                                  );
-                                  newPasswordControl.clear();
-                                  oldPassword.clear();
-                                  codeControl.clear();
-                                }
-
-
-                                  }, child: Text('change')),
-
-                                ],
-
-                              ));
-                            }, child: Text('Change password?',style: TextStyle(color: ColorManager.darkPrimary),)),
-                          ],
-
-                        )
+                        // SizedBox(height: 15,),
+                        //change Password
+                        // Row(
+                        //   mainAxisSize: MainAxisSize.min,
+                        //   mainAxisAlignment: MainAxisAlignment.end,
+                        //   children: [
+                        //     TextButton(onPressed: (){
+                        //       AttendCubit.get(context).getAttendanceUser();
+                        //       showDialog(
+                        //
+                        //
+                        //           barrierDismissible: false,
+                        //           context: context, builder:(context )=>AlertDialog(
+                        //
+                        //         title: Text('Change Password'),
+                        //         content: Form(
+                        //           key: keyFormpassword,
+                        //           child: Column(
+                        //             mainAxisSize: MainAxisSize.min,
+                        //             children: [
+                        //               defaultEditText(
+                        //                   control:codeControl,
+                        //                   validat: ( s){
+                        //                     if(s!.isEmpty){
+                        //                       return" code is empty";
+                        //                     }
+                        //                     return null;
+                        //                   },
+                        //                   label: "code",
+                        //                   prefIcon: Icons.text_fields,
+                        //                   textType: TextInputType.number
+                        //               ),
+                        //               SizedBox(height: 20,),
+                        //               defaultEditText(
+                        //                 control: oldPassword,
+                        //
+                        //
+                        //                 textType:TextInputType.visiblePassword,
+                        //
+                        //
+                        //
+                        //
+                        //                 validat: ( s){
+                        //                   bool isTrue=false;
+                        //
+                        //                   if(s!.isEmpty){
+                        //                     return"Empty";
+                        //                   }else{
+                        //                     listOfAttenduserGl.forEach((element) {
+                        //                       if(element['id']==codeControl.text && element['password']==oldPassword.text){
+                        //                         isTrue=true;
+                        //                       }
+                        //
+                        //                     });
+                        //                     if(!isTrue) return 'password Wrong';
+                        //
+                        //                   }
+                        //                   return null;
+                        //                 },
+                        //                 label: "Old Password",
+                        //                 prefIcon: Icons.password,
+                        //
+                        //               ),
+                        //               SizedBox(height: 20,),
+                        //               defaultEditText(
+                        //                 control: newPasswordControl,
+                        //
+                        //
+                        //                   textType:TextInputType.visiblePassword,
+                        //
+                        //
+                        //
+                        //
+                        //                   validat: ( s){
+                        //                     if(s!.isEmpty){
+                        //                       return"Empty";
+                        //                     }
+                        //                     return null;
+                        //                   },
+                        //                   label: "New Password",
+                        //                   prefIcon: Icons.password,
+                        //
+                        //               ),
+                        //             ],
+                        //
+                        //
+                        //           ),
+                        //         ),
+                        //         actions: [
+                        //           TextButton(onPressed: (){
+                        //             Navigator.pop(context);
+                        //             newPasswordControl.clear();
+                        //             codeControl.clear();
+                        //           }, child: Text('Cancel',style: TextStyle(color: Colors.red),)),
+                        //           TextButton(onPressed: (){
+                        //         if(keyFormpassword.currentState!.validate()){
+                        //           cubit.changePassword(
+                        //               code: codeControl.text,
+                        //               newPassword: newPasswordControl.text,
+                        //               context: context
+                        //           );
+                        //           newPasswordControl.clear();
+                        //           oldPassword.clear();
+                        //           codeControl.clear();
+                        //         }
+                        //
+                        //
+                        //           }, child: Text('change')),
+                        //
+                        //         ],
+                        //
+                        //       ));
+                        //     }, child: Text('Change password?',style: TextStyle(color: ColorManager.darkPrimary),)),
+                        //   ],
+                        //
+                        // )
                         // Row(
                         //   mainAxisAlignment: MainAxisAlignment.center,
                         //   children: [
@@ -306,8 +306,8 @@ class LoginScreen extends StatelessWidget {
           );
         },
 
-      ),
-    );
+      )
+    ;
 
 
 

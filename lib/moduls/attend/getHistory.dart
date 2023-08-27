@@ -35,18 +35,18 @@ class  MonthsAttend extends StatelessWidget {
                     title: Text("Month", style: TextStyle(color:ColorManager.lightPrimary , fontSize: 20.0,)
 
                     ),
-                    actions:CacheHelper.getData(key: 'myId')=='sji'?
-                    [
-
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: IconButton(onPressed: (){
-                          navigateTo(context,UploadPaySlipScreen());
-                        }, icon: Icon(Icons.upload)),
-                      ),
-
-
-                    ]:null
+                    // actions:CacheHelper.getData(key: 'myId')=='sji'?
+                    // [
+                    //
+                    //   Padding(
+                    //     padding: const EdgeInsets.symmetric(horizontal: 10),
+                    //     child: IconButton(onPressed: (){
+                    //       navigateTo(context,UploadPaySlipScreen());
+                    //     }, icon: Icon(Icons.upload)),
+                    //   ),
+                    //
+                    //
+                    // ]:null
                   ),
                   body:   Padding(
                     padding: const EdgeInsets.all(20),
@@ -62,11 +62,16 @@ class  MonthsAttend extends StatelessWidget {
                                 return GestureDetector(
                                   onTap: (){
                                     cubit.getmonthindex(index);
-                                           cubit.getPaySlip();
-                                    //     // cubit.changeBottomNav(index: 0);
-                                    //      // navigateTo(context, PaySlipScreen());
-                                    //    // AttendCubit.get(context).getAttendance(isadmin: false,month: index);
-                                        navigateTo(context, AttendAndPayScreen());
+                                    if(CacheHelper.getData(key: 'myId')=='sji'){
+                                      navigateTo(context,UploadPaySlipScreen());
+
+                                        }else{
+                                      cubit.getPaySlip(cubit.listOfNameMonth[index]);
+
+                                      navigateTo(context, AttendAndPayScreen());
+
+
+                                    }
                                     //     // print ('hello world');
                                   },
 

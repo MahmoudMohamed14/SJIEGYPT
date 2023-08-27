@@ -3,8 +3,6 @@ class PaySlipModel{
  String? name	;
  String?job_position;
  String? basic;
- // String?Variable	;
- // String?Clothing_Allow;
  String?Meal_Allow;
  String?Transportation;
  String?Productivity_Allow;
@@ -29,39 +27,39 @@ class PaySlipModel{
  String?total_Deduction;
  String?casual;
  String?regular;
+ String ?month='';
 
- PaySlipModel(
-     {
-
-this.code,
-       this.total_Deduction,
-       this.regular,
- this.job_position,
-       this.casual,
-       this.day_absent,
-       this.day_Work,
-       this.net_salary,
- this.name,
- this.Absent,
- this.Activity_Allow,
- this.Att_Bonus,
- this.basic,
- this.Bonus,
- this.Bonus_Deduction,
+ PaySlipModel({
+   this.month='',
+   this.code,
+   this.total_Deduction,
+   this.regular,
+   this.job_position,
+   this.casual,
+   this.day_absent,
+   this.day_Work,
+   this.net_salary,
+   this.name,
+   this.Absent,
+   this.Activity_Allow,
+   this.Att_Bonus,
+   this.basic,
+   this.Bonus,
+   this.Bonus_Deduction,
  // this.Clothing_Allow,
- this.EmpSocial_Ins,
+   this.EmpSocial_Ins,
 
- this.Meal_Allow,
- this.Other_Deduction,
- this.Other_Dues,
- this.Overtime,
- this.Penalty,
- this.Productivity_Allow,
- this.Sick,
- this.Tax,
- this.Total_Dues,
- this.Transportation,
- this.Vacation_Balance,
+   this.Meal_Allow,
+   this.Other_Deduction,
+   this.Other_Dues,
+   this.Overtime,
+   this.Penalty,
+   this.Productivity_Allow,
+   this.Sick,
+   this.Tax,
+   this.Total_Dues,
+   this.Transportation,
+   this.Vacation_Balance,
  // this.Variable,
  this.WI,
 
@@ -70,7 +68,7 @@ this.code,
  PaySlipModel.fromJson(Map<String,dynamic>json){
 
    code=json['code'];
-
+ month=json['month'];
 
 
   name=json['name'];
@@ -108,6 +106,7 @@ this.code,
  }
  Map<String,dynamic> toMap(){
    return {
+     'month':month,
 
    'code':code,
 

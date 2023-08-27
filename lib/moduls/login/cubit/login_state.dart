@@ -7,9 +7,7 @@ class LoginSuccessState extends LoginState{
 
   LoginSuccessState({this.uId});
 }
-class LoginAttendSuccessState extends LoginState{
 
-}
 class LoginErrorState extends LoginState{
   String?error;
   LoginErrorState({this.error});
