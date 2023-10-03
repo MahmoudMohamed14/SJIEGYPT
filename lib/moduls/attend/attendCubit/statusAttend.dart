@@ -27,5 +27,7 @@ class LoginErrorState extends AttendStates{
 class ChangePasswordSuccessState extends AttendStates{}
 class RegisterSQLSuccessState extends AttendStates{}
 class GetDepartSQLSuccess extends  AttendStates{}
+class InsetSQLSuccess extends  AttendStates{}
+class GetPayOrReviewState extends  AttendStates{}
 
 

@@ -39,6 +39,7 @@ class _MyScreenState extends State<MyScreen> {
         else if( element.date=="${_dayFormatter.format(date)} ${_monthFormatter.format(date)}"&& element.code==CacheHelper.getData(key: 'myId')&&element.state=='Accept') accept=1;
          else if( element.date=="${_dayFormatter.format(date)} ${_monthFormatter.format(date)}"&& element.code==CacheHelper.getData(key: 'myId')&&element.state=='NotAccept') notAccept=1;
         });
+
         if(pending==1) dates.add(Padding(
           padding: const EdgeInsets.all(8.0),
           child: BlocConsumer<PermissionCubit, PermissionStates>(
@@ -51,7 +52,7 @@ class _MyScreenState extends State<MyScreen> {
                 return Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: Colors.orangeAccent.withOpacity(.5)),
+                      color: ColorManager.primary),
                   width: double.infinity,
                   alignment: Alignment.centerLeft,
                   child: Padding(
@@ -67,10 +68,10 @@ class _MyScreenState extends State<MyScreen> {
 
                           children: [
                             Text(_nameFormatter.format(date), style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20),),
+                                fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white,),),
                             Text(
                                 "${_dayFormatter.format(date)} ${_monthFormatter
-                                    .format(date)}"),
+                                    .format(date)}",style: TextStyle( color: Colors.white,),),
 
                           ],
                         ),
@@ -94,14 +95,7 @@ class _MyScreenState extends State<MyScreen> {
                                       child: Text('Cancel',
                                         style: TextStyle(color: Colors.red),)),
                                   TextButton(onPressed: () {
-                                    cubit.deletePermissionSql(
-                                        context,
-
-
-
-                                        "${_dayFormatter.format(
-                                            date)} ${_monthFormatter.format(
-                                            date)}",
+                                    cubit.deletePermissionSql(context, "${_dayFormatter.format(date)} ${_monthFormatter.format(date)}",
 
                                     );
                                   }, child: Text('تاكيد')),
@@ -127,11 +121,11 @@ class _MyScreenState extends State<MyScreen> {
 
               },
               builder: (context, state) {
-                var cubit = PermissionCubit.get(context);
+              //  var cubit = PermissionCubit.get(context);
                 return Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: Colors.orangeAccent.withOpacity(.5)),
+                      color:  ColorManager.primary),
                   width: double.infinity,
                   alignment: Alignment.centerLeft,
                   child: Padding(
@@ -147,49 +141,49 @@ class _MyScreenState extends State<MyScreen> {
 
                           children: [
                             Text(_nameFormatter.format(date), style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20),),
+                                fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white,),),
                             Text(
                                 "${_dayFormatter.format(date)} ${_monthFormatter
-                                    .format(date)}"),
+                                    .format(date)}",style: TextStyle( color: Colors.white,),),
 
                           ],
                         ),
                         Spacer(),
                         Icon(Icons.done_outline,color: Colors.green,),
-                        SizedBox(width: 10,),
-                        defaultButton(onPress: () {
-                          showDialog(
-
-
-                              barrierDismissible: false,
-                              context: context, builder: (context) =>
-                              AlertDialog(
-
-                                title: Text('حذف طلب الاجازه'),
-
-                                actions: [
-                                  TextButton(onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                      child: Text('Cancel',
-                                        style: TextStyle(color: Colors.red),)),
-                                  TextButton(onPressed: () {
-                                    cubit.deletePermissionSql(
-                                      context,
-
-
-
-                                      "${_dayFormatter.format(
-                                          date)} ${_monthFormatter.format(
-                                          date)}",
-
-                                    );
-                                  }, child: Text('تاكيد')),
-
-                                ],
-
-                              ));
-                        }, name: 'حذف', width: 80, height: 30,color: Colors.red),
+                        // SizedBox(width: 10,),
+                        // defaultButton(onPress: () {
+                        //   showDialog(
+                        //
+                        //
+                        //       barrierDismissible: false,
+                        //       context: context, builder: (context) =>
+                        //       AlertDialog(
+                        //
+                        //         title: Text('حذف طلب الاجازه'),
+                        //
+                        //         actions: [
+                        //           TextButton(onPressed: () {
+                        //             Navigator.pop(context);
+                        //           },
+                        //               child: Text('Cancel',
+                        //                 style: TextStyle(color: Colors.red),)),
+                        //           TextButton(onPressed: () {
+                        //             cubit.deletePermissionSql(
+                        //               context,
+                        //
+                        //
+                        //
+                        //               "${_dayFormatter.format(
+                        //                   date)} ${_monthFormatter.format(
+                        //                   date)}",
+                        //
+                        //             );
+                        //           }, child: Text('تاكيد')),
+                        //
+                        //         ],
+                        //
+                        //       ));
+                        // }, name: 'حذف', width: 80, height: 30,color: Colors.red),
 
                       ],
                     ),
@@ -207,11 +201,11 @@ class _MyScreenState extends State<MyScreen> {
 
               },
               builder: (context, state) {
-                var cubit = PermissionCubit.get(context);
+               // var cubit = PermissionCubit.get(context);
                 return Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: Colors.orangeAccent.withOpacity(.5)),
+                      color:  ColorManager.primary),
                   width: double.infinity,
                   alignment: Alignment.centerLeft,
                   child: Padding(
@@ -227,10 +221,10 @@ class _MyScreenState extends State<MyScreen> {
 
                           children: [
                             Text(_nameFormatter.format(date), style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20),),
+                                fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white,),),
                             Text(
                                 "${_dayFormatter.format(date)} ${_monthFormatter
-                                    .format(date)}"),
+                                    .format(date)}",style: TextStyle( color: Colors.white,),),
 
                           ],
                         ),
@@ -290,7 +284,7 @@ class _MyScreenState extends State<MyScreen> {
                 return Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: Colors.orangeAccent.withOpacity(.5)),
+                      color:  ColorManager.primary),
                   width: double.infinity,
                   alignment: Alignment.centerLeft,
                   child: Padding(
@@ -306,15 +300,16 @@ class _MyScreenState extends State<MyScreen> {
 
                           children: [
                             Text(_nameFormatter.format(date), style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20),),
+                                fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white,),),
                             Text(
                                 "${_dayFormatter.format(date)} ${_monthFormatter
-                                    .format(date)}"),
+                                    .format(date)}",style: TextStyle( color: Colors.white,),),
 
                           ],
                         ),
                         Spacer(),
                          defaultButton(onPress: () {
+                           cubit.valueofdepart='';
                           showDialog(
 
 
@@ -466,7 +461,7 @@ class _MyScreenState extends State<MyScreen> {
                   child: Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
-                        color: Colors.orangeAccent.withOpacity(.5)),
+                        color:  ColorManager.primary),
                     width: double.infinity,
                     alignment: Alignment.centerLeft,
                     child: Padding(
@@ -482,11 +477,16 @@ class _MyScreenState extends State<MyScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
 
                             children: [
-                              Text(_nameFormatter.format(date), style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 20),),
+                              Expanded(
+                                child: Text(_nameFormatter.format(date), style: TextStyle(
+                                  color: Colors.white,
+                                    fontWeight: FontWeight.bold, fontSize: 20),),
+                              ),
 
-                           Text("${_dayFormatter.format(date)} ${_monthFormatter
-                                      .format(date)}"),
+                           Expanded(
+                             child: Text("${_dayFormatter.format(date)} ${_monthFormatter
+                                        .format(date)}",style: TextStyle( color: Colors.white,),),
+                           ),
 
                             ],
                           ),
@@ -631,7 +631,7 @@ class _MyScreenState extends State<MyScreen> {
 
     return BlocConsumer<PermissionCubit,PermissionStates>(
       listener: (context,state){
-        if(state is PermissionGetSuccessState ) setState(() {
+        if(state is PermissionGetSuccessState ||state is PermissionErrorState) setState(() {
           print('ok rebuild');
 
         });

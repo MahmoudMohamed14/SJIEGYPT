@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:firedart/firedart.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled/componant/componant.dart';
@@ -138,25 +138,25 @@ void getCodeForLine({value}) {
     emit(ShiftState());
   }
   getplan({date,shift}){
-    listofPlan=[];
-    Firestore.instance
-        .collection("plan")
-        .document("${date}")
-        .collection("DalyPlan")
-        .document("${shift}")
-        .get().then((value) {
-
-          value.map['$shift'].forEach(( value) {
-            listofPlan.add(PlanModel.fromJson(value));
-
-          });
-          print(listofPlan[1].operator);
-          getlistofLine();
-          emit(GetSuccessPlan());
-
-
-
-    }).catchError((onError){});
+    // listofPlan=[];
+    // Firestore.instance
+    //     .collection("plan")
+    //     .document("${date}")
+    //     .collection("DalyPlan")
+    //     .document("${shift}")
+    //     .get().then((value) {
+    //
+    //       value.map['$shift'].forEach(( value) {
+    //         listofPlan.add(PlanModel.fromJson(value));
+    //
+    //       });
+    //       print(listofPlan[1].operator);
+    //       getlistofLine();
+    //       emit(GetSuccessPlan());
+    //
+    //
+    //
+    // }).catchError((onError){});
 
   }
   List<KittingComponant>listMonitorCode=[];
@@ -167,22 +167,22 @@ void getCodeForLine({value}) {
     liststringcodeMonitor=[];
     liststringlineMonitor=[];
 
-    Firestore.instance
-        .collection("plan")
-        .document("${date}")
-
-        .collection("${shift}").get().then((value) {
-          value.forEach((element) {
-          print("code=  "+element.id.substring(0,11));
-          liststringcodeMonitor.add(element.id.substring(0,11));
-          liststringlineMonitor.add(element.id.substring(11));
-
-            listMonitorCode.add(KittingComponant.fromJson(element.map));
-
-          });
-          emit(GetKittingComponentListSuccess());
-
-    }).catchError((onError){});
+    // Firestore.instance
+    //     .collection("plan")
+    //     .document("${date}")
+    //
+    //     .collection("${shift}").get().then((value) {
+    //       value.forEach((element) {
+    //       print("code=  "+element.id.substring(0,11));
+    //       liststringcodeMonitor.add(element.id.substring(0,11));
+    //       liststringlineMonitor.add(element.id.substring(11));
+    //
+    //         listMonitorCode.add(KittingComponant.fromJson(element.map));
+    //
+    //       });
+    //       emit(GetKittingComponentListSuccess());
+    //
+    // }).catchError((onError){});
 
   }
 
@@ -264,14 +264,14 @@ void getCodeForLine({value}) {
   }
 
   setKittingComponant({date,shift,code, kitting}){
-    Firestore.instance
-        .collection("plan")
-        .document("${date}")
-        .collection("${shift}")
-        .document("${code}").create(kitting).then((value) {
-          emit(SetKittingComponantSuccess ());
-
-    }).catchError((onError){});
+    // Firestore.instance
+    //     .collection("plan")
+    //     .document("${date}")
+    //     .collection("${shift}")
+    //     .document("${code}").create(kitting).then((value) {
+    //       emit(SetKittingComponantSuccess ());
+    //
+    // }).catchError((onError){});
 
 
   }
@@ -286,80 +286,80 @@ void getCodeForLine({value}) {
   getKittingComponant({date,shift,code}){
     check1=0;
     check2=0;
-    Firestore.instance
-        .collection("plan")
-        .document("${date}")
-        .collection("${shift}").document('${code}'+'${line}').get().then((value) {
-      kittingComponant=KittingComponant.fromJson(value.map);
-      value.map["listCheck1"].forEach((value) {
-        if(value){}
-        else{
-          check1=1;
-
-
-        }
-
-
-
-      });
-      value["listCheck2"].forEach((value) {
-        if(value){}
-        else{
-          check2=1;
-        }
-
-
-
-      });
-      print("#########################################");
-      print(kittingComponant.toMap());
-      print("#########################################");
-
-      emit(GetKittingComponantSuccess());
-    }).catchError((onError){
-      print('getKittingComponant');
-      print(onError.toString());
-      emit(GetKittingComponantFailed());
-    });
+    // Firestore.instance
+    //     .collection("plan")
+    //     .document("${date}")
+    //     .collection("${shift}").document('${code}'+'${line}').get().then((value) {
+    //   kittingComponant=KittingComponant.fromJson(value.map);
+    //   value.map["listCheck1"].forEach((value) {
+    //     if(value){}
+    //     else{
+    //       check1=1;
+    //
+    //
+    //     }
+    //
+    //
+    //
+    //   });
+    //   value["listCheck2"].forEach((value) {
+    //     if(value){}
+    //     else{
+    //       check2=1;
+    //     }
+    //
+    //
+    //
+    //   });
+    //   print("#########################################");
+    //   print(kittingComponant.toMap());
+    //   print("#########################################");
+    //
+    //   emit(GetKittingComponantSuccess());
+    // }).catchError((onError){
+    //   print('getKittingComponant');
+    //   print(onError.toString());
+    //   emit(GetKittingComponantFailed());
+    // });
 
 
 
   }
-  CollectionReference ?groceryCollection=  Firestore.instance.collection("plan");
+  // CollectionReference ?groceryCollection=  Firestore.instance.collection("plan");
   updateKittingComponent({date,cod,shift,listco,fdate,ldate,check1,check2,listch1,listch2}){
 
-   groceryCollection!.document("${date}")
-        .collection("${shift}")
-        .document("${cod}${line}").update({
-     "listComment": listco,
-     "listCheck1":listch1,
-     "listCheck2":listch2,
-     "check1":check1,
-     "check2":check2,
-     "startTime":fdate,
-     "endTime":ldate
-
-   }).then((value) {
-     anyChange=0;
-     print("${date}");
-     print("${shift}");
-     print("${cod}");
-   //  print("${key}");
-   //  print("${valu}");
-     getKittingComponant(date: date,shift: shift,code: cod);
-     emit(UpdateKittingComponantSuccess ());
-
-
-
-       //  getKittingComponant(date: date,shift: shift,code: cod);
-
-
-
-    }).catchError((onError){});
-
-
-  }
-
+  //  groceryCollection!.document("${date}")
+  //       .collection("${shift}")
+  //       .document("${cod}${line}").update({
+  //    "listComment": listco,
+  //    "listCheck1":listch1,
+  //    "listCheck2":listch2,
+  //    "check1":check1,
+  //    "check2":check2,
+  //    "startTime":fdate,
+  //    "endTime":ldate
+  //
+  //  }).then((value) {
+  //    anyChange=0;
+  //    print("${date}");
+  //    print("${shift}");
+  //    print("${cod}");
+  //  //  print("${key}");
+  //  //  print("${valu}");
+  //    getKittingComponant(date: date,shift: shift,code: cod);
+  //    emit(UpdateKittingComponantSuccess ());
+  //
+  //
+  //
+  //      //  getKittingComponant(date: date,shift: shift,code: cod);
+  //
+  //
+  //
+  //   }).catchError((onError){});
+  //
+  //
+   }
+  //
 
 
 }

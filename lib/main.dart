@@ -6,12 +6,13 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 //import 'package:firebase_core/firebase_core.dart';
 
-import 'package:firedart/firedart.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:untitled/componant/componant.dart';
 import 'package:untitled/componant/local/cache_helper.dart';
+import 'package:untitled/componant/remote/dioHelper.dart';
 
 import 'package:untitled/moduls/attend/attendCubit/cubitAttend.dart';
 import 'package:untitled/moduls/attend/attendCubit/statusAttend.dart';
@@ -25,14 +26,15 @@ import 'package:untitled/shared/constant/theme_manager.dart';
 
 import 'bloc_observer.dart';
 import 'package:http/http.dart' as http;
-testSql()async {
+void getHttp() async {
+ // final response = await DioHelper.dio.post('register.php',queryParameters: {'name':'dio','code':'dmm','password':'dai','depart':'dio','controller':'dai'});
 
-  var u=Uri.parse('https://sjeg.seongji-eg.com/getdata.php');
+// final response = await DioHelper.dio.get('getpayslip.php',queryParameters: {'code':'1021','month':'August'});
+//   print(response);
+//   print(response.statusMessage);
+//   print(response.realUri);
+//   print(response.statusCode);
 
-  var test= await http.get( u ,headers: {'Accept':'application/json'});
-  var res=json.decode(test.body);
-
-  return res;
 }
 
 
@@ -47,33 +49,34 @@ void main()async  {
 
 
  // FirebaseAuth.initialize(apiKey, VolatileStore());
-
+  DioHelper.init();
   await CacheHelper.init();
-  if (Platform.isWindows){
-
-    Firestore.initialize(projectId);
-    // await Firebase.initializeApp(
-    //
-    //
-    //     options: FirebaseOptions(
-    //       apiKey: "AIzaSyCH1ep_lNnDmSE0SJ8_WUOLD3IWMuF69I4",
-    //       appId: '1:699991408348:android:77ea5bf9029055992a7e19',
-    //       messagingSenderId: "699991408348",
-    //       projectId: "seongjiproject-d3742",
-    //     )
-    // );
-  }else{
-    // await Firebase.initializeApp(
-    //
-    //
-    //     options: FirebaseOptions(
-    //       apiKey: "AIzaSyCH1ep_lNnDmSE0SJ8_WUOLD3IWMuF69I4",
-    //       appId: '1:699991408348:android:77ea5bf9029055992a7e19',
-    //       messagingSenderId: "699991408348",
-    //       projectId: "seongjiproject-d3742",
-    //     )
-    // );
-  }
+  getHttp();
+  // if (Platform.isWindows){
+  //
+  //   //Firestore.initialize(projectId);
+  //   // await Firebase.initializeApp(
+  //   //
+  //   //
+  //   //     options: FirebaseOptions(
+  //   //       apiKey: "AIzaSyCH1ep_lNnDmSE0SJ8_WUOLD3IWMuF69I4",
+  //   //       appId: '1:699991408348:android:77ea5bf9029055992a7e19',
+  //   //       messagingSenderId: "699991408348",
+  //   //       projectId: "seongjiproject-d3742",
+  //   //     )
+  //   // );
+  // }else{
+  //   // await Firebase.initializeApp(
+  //   //
+  //   //
+  //   //     options: FirebaseOptions(
+  //   //       apiKey: "AIzaSyCH1ep_lNnDmSE0SJ8_WUOLD3IWMuF69I4",
+  //   //       appId: '1:699991408348:android:77ea5bf9029055992a7e19',
+  //   //       messagingSenderId: "699991408348",
+  //   //       projectId: "seongjiproject-d3742",
+  //   //     )
+  //   // );
+  // }
 
 
 

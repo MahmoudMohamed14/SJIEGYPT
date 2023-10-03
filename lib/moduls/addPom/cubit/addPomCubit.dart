@@ -3,14 +3,10 @@ import 'dart:io';
 
 // import 'package:csv/csv.dart';
 // import 'package:file_picker/file_picker.dart';
-import 'package:firedart/firedart.dart';
+//import 'package:firedart/firedart.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled/componant/componant.dart';
-import 'package:untitled/model/attendModel.dart';
-import 'package:untitled/model/codeModel.dart';
-import 'package:untitled/model/pomModel.dart';
-import 'package:untitled/model/qtyBoxModel.dart';
-import 'package:untitled/model/userModel.dart';
+
 import 'package:untitled/moduls/addPom/cubit/addPomStates.dart';
 
 
@@ -186,17 +182,17 @@ class AddPomCubit extends Cubit<AddPomStates> {
      //  pomMap.add(listofPom[i].toMap());
     // }
 
-      Firestore.instance
-          .collection("Pom").add({"map": pomMap1}).then((value) {
-        Firestore.instance
-            .collection("Pom").add({"map": pomMap2}).then((value) {
-
-          pomList=[];
-          emit(UploadPomSuccess());
-          getPom();
-        }).catchError((onError){});
-
-      }).catchError((onError){});
+      // Firestore.instance
+      //     .collection("Pom").add({"map": pomMap1}).then((value) {
+      //   Firestore.instance
+      //       .collection("Pom").add({"map": pomMap2}).then((value) {
+      //
+      //     pomList=[];
+      //     emit(UploadPomSuccess());
+      //     getPom();
+      //   }).catchError((onError){});
+      //
+      // }).catchError((onError){});
 
 
 
@@ -224,17 +220,17 @@ class AddPomCubit extends Cubit<AddPomStates> {
     });
 
 
-    Firestore.instance
-        .collection("code").document('newCode').update({'code': listCodeMasterMap}).then((value) {
-      print("######conte###########");
-      listcodeMaster=[];
-      listCodeMasterMap=[];
-      emit(UploadCodeSuccess());
-      getcode();
-
-
-    }).catchError((onError){});
-
+    // Firestore.instance
+    //     .collection("code").document('newCode').update({'code': listCodeMasterMap}).then((value) {
+    //   print("######conte###########");
+    //   listcodeMaster=[];
+    //   listCodeMasterMap=[];
+    //   emit(UploadCodeSuccess());
+    //   getcode();
+    //
+    //
+    // }).catchError((onError){});
+    //
 
   }
   void addBox(){
@@ -244,51 +240,51 @@ class AddPomCubit extends Cubit<AddPomStates> {
     });
 
 
-    Firestore.instance
-        .collection("Box").document('newBox').update({'Box': listBoxMab}).then((value) {
-      print("######conte###########");
-      listBox=[];
-      listBoxMab=[];
-      emit(UploadBoxSuccess());
-      getBox();
-
-
-    }).catchError((onError){});
+    // Firestore.instance
+    //     .collection("Box").document('newBox').update({'Box': listBoxMab}).then((value) {
+    //   print("######conte###########");
+    //   listBox=[];
+    //   listBoxMab=[];
+    //   emit(UploadBoxSuccess());
+    //   getBox();
+    //
+    //
+    // }).catchError((onError){});
 
 
   }
 
   getPom(){
     listofPom=[];
-    Firestore.instance
-        .collection("Pom")
-
-        .get().then((value) {
-      print("**********getPom value");
-     // print( value.map["map"].length);
-      value.forEach((element) {
-        element.map["map"].forEach((element) {
-
-          listofPom.add(PomModel.fromJson(element));
-
-        });
-      });
-
-      print("**********getPom listofPom");
-      print(listofPom.length);
-
-      emit(GetPomSuccessState());
-     // getPom();
-
-        // value.map["pom"].forEach(( value) {
-        //   listofPom.add(PomModel.fromJson(value));
-        //
-        // });
-
-
-    }).catchError((onError){
-
-    });
+    // Firestore.instance
+    //     .collection("Pom")
+    //
+    //     .get().then((value) {
+    //   print("**********getPom value");
+    //  // print( value.map["map"].length);
+    //   value.forEach((element) {
+    //     element.map["map"].forEach((element) {
+    //
+    //       listofPom.add(PomModel.fromJson(element));
+    //
+    //     });
+    //   });
+    //
+    //   print("**********getPom listofPom");
+    //   print(listofPom.length);
+    //
+    //   emit(GetPomSuccessState());
+    //  // getPom();
+    //
+    //     // value.map["pom"].forEach(( value) {
+    //     //   listofPom.add(PomModel.fromJson(value));
+    //     //
+    //     // });
+    //
+    //
+    // }).catchError((onError){
+    //
+    // });
   }
 
   String shift='Day1';
@@ -303,72 +299,72 @@ class AddPomCubit extends Cubit<AddPomStates> {
   }
 
   getUsers(){
-    listofUsers=[];
-    Firestore.instance
-        .collection("user").get().then((value) {
-          value.forEach((element) {
-            listofUsers.add(UsersModel.fromJson(json:element.map));
-          //  print();
-
-          });
-          emit(GetUsersSuccess());
-
-    }).catchError((onError){});
+    // listofUsers=[];
+    // Firestore.instance
+    //     .collection("user").get().then((value) {
+    //       value.forEach((element) {
+    //         listofUsers.add(UsersModel.fromJson(json:element.map));
+    //       //  print();
+    //
+    //       });
+    //       emit(GetUsersSuccess());
+    //
+    // }).catchError((onError){});
 
   }
 
   getcode(){
-    listOfCodeMasterGl=[];
-    Firestore.instance
-        .collection("code").document('newCode').get().then((value) {
-
-
-          value.map["code"].forEach((element) {
-
-            listOfCodeMasterGl.add(CodeModel.fromJson(element));
-
-      });
-          emit(GetCodeSuccessState());
-      print('###########getcode&&&&&&&&&&&&&&&&');
-      print(value.map["code"].length);
-      print(listOfCodeMasterGl.length);
-      print('###########getcode&&&&&&&&&&&&&&&&');
-
-    }).catchError((onError){});
+    // listOfCodeMasterGl=[];
+    // Firestore.instance
+    //     .collection("code").document('newCode').get().then((value) {
+    //
+    //
+    //       value.map["code"].forEach((element) {
+    //
+    //         listOfCodeMasterGl.add(CodeModel.fromJson(element));
+    //
+    //   });
+    //       emit(GetCodeSuccessState());
+    //   print('###########getcode&&&&&&&&&&&&&&&&');
+    //   print(value.map["code"].length);
+    //   print(listOfCodeMasterGl.length);
+    //   print('###########getcode&&&&&&&&&&&&&&&&');
+    //
+    // }).catchError((onError){});
 
   }
   getBox(){
-    listOfBoxGl=[];
-    Firestore.instance
-        .collection("Box").document('newBox').get().then((value) {
-
-
-      value.map["Box"].forEach((element) {
-        listOfBoxGl.add(CodeBoxModel.fromJson(element));
-
-      });
-      emit(GetBoxSuccessState());
-      print('###########getBox&&&&&&&&&&&&&&&&');
-      print(value.map["Box"].length);
-      print(listOfBoxGl.length);
-      print('###########getBox&&&&&&&&&&&&&&&&');
-
-    }).catchError((onError){});
+    // listOfBoxGl=[];
+    // Firestore.instance
+    //     .collection("Box").document('newBox').get().then((value) {
+    //
+    //
+    //   value.map["Box"].forEach((element) {
+    //     listOfBoxGl.add(CodeBoxModel.fromJson(element));
+    //
+    //   });
+    //   emit(GetBoxSuccessState());
+    //   print('###########getBox&&&&&&&&&&&&&&&&');
+    //   print(value.map["Box"].length);
+    //   print(listOfBoxGl.length);
+    //   print('###########getBox&&&&&&&&&&&&&&&&');
+    //
+    // }).catchError((onError){});
 
   }
   getAttendanceUser(){
     listOfAttenduserGl=[];
-    Firestore.instance
-        .collection("userAttend").get().then((value) {
-          print(value);
-      value.forEach((element) {
-        listOfAttenduserGl.add(element.map);
-      });
-     // print(listOfAttendGl);
-      emit(GetAttendUserStateSuccess());
-    }).catchError((onError){
-      print(onError.toString());
-    });
+    // Firestore.instance
+    //     .collection("userAttend").get().then((value) {
+    //       print(value);
+    //   value.forEach((element) {
+    //     listOfAttenduserGl.add(element.map);
+    //   });
+    //  // print(listOfAttendGl);
+    //   emit(GetAttendUserStateSuccess());
+    // }).catchError((onError){
+    //   print(onError.toString());
+    // });
 
 
 

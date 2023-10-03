@@ -1,7 +1,7 @@
 
 import 'package:bloc/bloc.dart';
 
-import 'package:firedart/firestore/firestore.dart';
+//import 'package:firedart/firestore/firestore.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -131,20 +131,20 @@ class LoginCubit extends Cubit<LoginState> {
 
 
   }
-  void changePassword({code, newPassword, context}){
-     Firestore.instance
-        .collection("userAttend").document("${code}").update({'password':"${newPassword}"})
-         .then((value) {
-            // AddPomCubit.get(context).getAttendanceUser();
-
-
-           emit(ChangePasswordSuccessState());
-             Navigator.pop(context);
-
-
-     })
-         .catchError((onError){});
-  }
+  void changePassword({code, newPassword, context}){}
+  //    Firestore.instance
+  //       .collection("userAttend").document("${code}").update({'password':"${newPassword}"})
+  //        .then((value) {
+  //           // AddPomCubit.get(context).getAttendanceUser();
+  //
+  //
+  //          emit(ChangePasswordSuccessState());
+  //            Navigator.pop(context);
+  //
+  //
+  //    })
+  //        .catchError((onError){});
+  // }
 
 
 }

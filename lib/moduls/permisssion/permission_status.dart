@@ -14,3 +14,4 @@ class PermissionDeleteSuccessState extends  PermissionStates{}
 class PermissionUpdateLoadingState extends  PermissionStates{}
 class PermissionUpdateErrorState extends  PermissionStates{}
 class PermissionUpdateSuccessState extends  PermissionStates{}
+class FetchStateSuccess extends  PermissionStates{}

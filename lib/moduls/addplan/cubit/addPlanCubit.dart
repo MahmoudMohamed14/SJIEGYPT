@@ -4,7 +4,7 @@ import 'dart:io';
 
 // import 'package:csv/csv.dart';
 // import 'package:file_picker/file_picker.dart';
-import 'package:firedart/firedart.dart';
+//import 'package:firedart/firedart.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled/componant/componant.dart';
 import 'package:untitled/model/kittingcomponanat.dart';
@@ -57,18 +57,18 @@ class AddPlanCubit extends Cubit<AddPlanStates> {
     }
 
 
-   Firestore.instance
-       .collection("plan")
-       .document("${date}")
-       .collection("DalyPlan")
-       .document("${shift}")
-       .set({"${shift}": datamap})
-       .then((value) {
-     setKittingComponant(date: date,shift: shift);
-
-
-           emit(UploadPlanSuccess());
-   }).catchError((onError){});
+   // Firestore.instance
+   //     .collection("plan")
+   //     .document("${date}")
+   //     .collection("DalyPlan")
+   //     .document("${shift}")
+   //     .set({"${shift}": datamap})
+   //     .then((value) {
+   //   setKittingComponant(date: date,shift: shift);
+   //
+   //
+   //         emit(UploadPlanSuccess());
+   // }).catchError((onError){});
 
 
 
@@ -90,17 +90,17 @@ class AddPlanCubit extends Cubit<AddPlanStates> {
 
       }
       });
-      if(element1[2]!='Code') {
-        Firestore.instance
-            .collection("plan")
-            .document("${date}")
-            .collection("${shift}")
-            .document("${element1[2]}" + "${element1[0]}").set(KittingComponant(
-            comment: "", startTime: " ", endTime: " ", listComment: commentList1,listCheck1: checkList1,listCheck2: checkList2)
-            .toMap()).then((value) {
-          emit(SetKittingComponantSuccessAdd());
-        }).catchError((onError) {});
-      }
+      // if(element1[2]!='Code') {
+      //   Firestore.instance
+      //       .collection("plan")
+      //       .document("${date}")
+      //       .collection("${shift}")
+      //       .document("${element1[2]}" + "${element1[0]}").set(KittingComponant(
+      //       comment: "", startTime: " ", endTime: " ", listComment: commentList1,listCheck1: checkList1,listCheck2: checkList2)
+      //       .toMap()).then((value) {
+      //     emit(SetKittingComponantSuccessAdd());
+      //   }).catchError((onError) {});
+      // }
 
     });
 
@@ -116,30 +116,30 @@ data.clear();
     emit(ShiftSuccessState());
   }
   edit({date,shift}){
-    Firestore.instance
-        .collection("plan")
-        .document("${date}")
-        .collection("DalyPlan")
-        .document("${shift}")
-        .update({"$shift.0.code":"test"})
-        .then((value) {
-          
-    })
-        .catchError((onError){});
+    // Firestore.instance
+    //     .collection("plan")
+    //     .document("${date}")
+    //     .collection("DalyPlan")
+    //     .document("${shift}")
+    //     .update({"$shift.0.code":"test"})
+    //     .then((value) {
+    //
+    // })
+    //     .catchError((onError){});
   }
   void emitstate(){
     emit(EmitState());
   }
   getkittingplan({date,shift}){
-    Firestore.instance
-        .collection("plan")
-        .document("${date}")
-        .collection("DalyPlan")
-        .document("${shift}")
-        .get().then((value) {
-
-
-    }).catchError((onError){});
+    // Firestore.instance
+    //     .collection("plan")
+    //     .document("${date}")
+    //     .collection("DalyPlan")
+    //     .document("${shift}")
+    //     .get().then((value) {
+    //
+    //
+    // }).catchError((onError){});
 
   }
 }

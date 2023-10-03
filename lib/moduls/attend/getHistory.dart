@@ -32,7 +32,7 @@ class  MonthsAttend extends StatelessWidget {
 
 
 
-                    title: Text("Month", style: TextStyle(color:ColorManager.lightPrimary , fontSize: 20.0,)
+                    title: Text( cubit.isPayORreview=='pay'?"Month PaySlip":"Month Review", style: TextStyle(color:ColorManager.primary , fontSize: 20.0,)
 
                     ),
                     // actions:CacheHelper.getData(key: 'myId')=='sji'?
@@ -66,7 +66,7 @@ class  MonthsAttend extends StatelessWidget {
                                       navigateTo(context,UploadPaySlipScreen());
 
                                         }else{
-                                      cubit.getPaySlip(cubit.listOfNameMonth[index]);
+                                      cubit.isPayORreview=='pay'?cubit.getPaySlip(cubit.listOfNameMonth[index]):cubit.getReview(cubit.listOfNameMonth[index]);
 
                                       navigateTo(context, AttendAndPayScreen());
 
@@ -78,16 +78,16 @@ class  MonthsAttend extends StatelessWidget {
                                   child: Container(
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(
-                                      color:  Colors.orangeAccent.withOpacity(.5),
+                                      color:  ColorManager.primary,
                                         borderRadius: BorderRadius.circular(10)),
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
-                                        Text('${cubit.listOfNameMonth[index]}',style: getBoldStyle(color: Colors.black,fontSize: 20),),
+                                        Text('${cubit.listOfNameMonth[index]}',style: getBoldStyle(color: Colors.white,fontSize: 20),),
                                         SizedBox(height: 5,),
-                                        Text('${cubit.listOfNameMonthArabic[index]}',style: getBoldStyle(color: Colors.black,fontSize: 17),),
+                                        Text('${cubit.listOfNameMonthArabic[index]}',style: getBoldStyle(color: Colors.white,fontSize: 17),),
                                       ],
                                     ),
                                   ),
