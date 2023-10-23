@@ -10,11 +10,8 @@ import 'package:untitled/model/pomModel.dart';
 import 'package:untitled/model/qtyBoxModel.dart';
 import 'package:untitled/model/userModel.dart';
 import 'package:untitled/moduls/addplan/getplan.dart';
-import 'package:untitled/moduls/attend/attend_Sceen.dart';
-import 'package:untitled/moduls/attend/getHistory.dart';
-
 import '../model/payroll.dart';
-import '../moduls/attend/useerAttend.dart';
+
 import '../shared/constant/color_manager.dart';
 import '../shared/constant/test_styles_manager.dart';
 
@@ -72,6 +69,7 @@ Widget defaultButton(
 );
 Widget defaultEditText(
     {
+      String? textDirection='',
       TextEditingController?   control,
       required String label,
       IconData? prefIcon,
@@ -84,13 +82,15 @@ Widget defaultEditText(
       FormFieldValidator? validat,
       bool enable=false,
       bool enableText=true,
-      TextInputType ?textType
+      TextInputType ?textType,
+      int?maxlength
     }
     )
 {
 
   return TextFormField(
-
+maxLength:maxlength ,
+      textDirection: textDirection!.isEmpty ?TextDirection.ltr:TextDirection.rtl,
 
       validator: validat,
       obscureText: enable,

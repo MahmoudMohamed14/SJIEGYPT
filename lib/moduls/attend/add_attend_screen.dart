@@ -71,7 +71,7 @@ UploadAttendScreen({required this.isEdi,required this.delet});
                         child:  Text(delet ?"Delete":"Upload"),
                         onPressed:(){
 
-                          cubit.addAttendance(edit: isEdi,day: day.text,del: delet);
+                      //    cubit.addAttendance(edit: isEdi,day: day.text,del: delet);
 
 
 
@@ -137,7 +137,7 @@ UploadAttendScreen({required this.isEdi,required this.delet});
                                 child:  Text(delet ?"Delete":"Upload"),
                                 onPressed:(){
 
-                                  cubit.addAttendance(edit: isEdi,day: day.text,del: delet);
+                              //    cubit.addAttendance(edit: isEdi,day: day.text,del: delet);
 
 
 

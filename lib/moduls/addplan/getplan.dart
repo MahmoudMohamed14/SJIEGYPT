@@ -23,7 +23,7 @@ class GetPlan extends StatelessWidget {
       listener: (context,state){
       if( state is GetSuccessPlan ){
         PlanCubit.get(context).getlistofLine();
-        navigateTo(context, AddKitting(date: date.text,shift: PlanCubit.get(context).shift,));
+       // navigateTo(context, AddKitting(date: date.text,shift: PlanCubit.get(context).shift,));
         PlanCubit.get(context).radioButtonLine(linev: " ");
 
       }else if(state is GetKittingComponentListSuccess ){

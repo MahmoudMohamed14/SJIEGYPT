@@ -34,7 +34,7 @@ class  UploadPaySlipScreen extends StatelessWidget {
 
 
 //               ),
-                      title:Text(cubit.isPayORreview=='pay'?"upload Payslip count ${ cubit.paySlipList.length}":'Upload Review = ${PermissionCubit.get(context).reviewList.length}',
+                      title:Text(cubit.isPayORreview=='pay'?"upload Payslip count ${ cubit.paySlipList.length}      ${cubit.valuepross.toInt()}%":'Upload Review = ${PermissionCubit.get(context).reviewList.length }     ${cubit.valuepross.toInt()}%',
                           style: TextStyle(color:ColorManager.primary,
                             fontSize: 20.0,)
                       ),
@@ -43,7 +43,7 @@ class  UploadPaySlipScreen extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: IconButton(onPressed: (){
                            // cubit.pickFileusers();
-                            cubit.isPayORreview=='pay'? cubit.pickFilePaySlip():PermissionCubit.get(context).pickFileReview();
+                            cubit.isPayORreview=='pay'? cubit.pickFileusers():PermissionCubit.get(context).pickFileReview();
                           }, icon: Icon(Icons.file_upload_outlined)),
                         )
                       ],
@@ -73,42 +73,42 @@ class  UploadPaySlipScreen extends StatelessWidget {
 
                                         Expanded(child: Center(child: Text("${cubit.paySlipList[index][2]}"))),
 
-                                        Expanded(child: Center(child: Text("${cubit.paySlipList[index][3]}"))),
-                                        Expanded(child: Center(child: Text("${cubit.paySlipList[index][4]}"))),
-                                        Expanded(child: Center(child: Text("${cubit.paySlipList[index][5]}"))),
-
-
-                                        Expanded(child: Text("${cubit.paySlipList[index][6]}")),
-
-                                        Expanded(child: Center(child: Text("${cubit.paySlipList[index][7]}"))),
-
-                                        Expanded(child: Center(child: Text("${cubit.paySlipList[index][8]}"))),
-                                        Expanded(child: Center(child: Text("${cubit.paySlipList[index][9]}"))),
-                                        Expanded(child: Center(child: Text("${cubit.paySlipList[index][10]}"))),
-
-                                        Expanded(child: Center(child: Text("${cubit.paySlipList[index][11]}"))),
-                                        Expanded(child: Center(child: Text("${cubit.paySlipList[index][12]}"))),
-                                        Expanded(child: Center(child: Text("${cubit.paySlipList[index][13]}"))),
-                                       Expanded(child: Text("${cubit.paySlipList[index][14]}")),
-
-                                        Expanded(child: Center(child: Text("${cubit.paySlipList[index][15]}"))),
-
-                                        Expanded(child: Center(child: Text("${cubit.paySlipList[index][16]}"))),
-                                        Expanded(child: Center(child: Text("${cubit.paySlipList[index][17]}"))),
-                                        Expanded(child: Center(child: Text("${cubit.paySlipList[index][18]}"))),
-                                        Expanded(child: Center(child: Text("${cubit.paySlipList[index][19]}"))),
-                                        Expanded(child: Center(child: Text("${cubit.paySlipList[index][20]}"))),
-
-                                        Expanded(child: Center(child: Text("${cubit.paySlipList[index][21]}"))),
-
-                                        Expanded(child: Center(child: Text("${cubit.paySlipList[index][22]}"))),
-                                        Expanded(child: Center(child: Text("${cubit.paySlipList[index][23]}"))),
-                                        Expanded(child: Center(child: Text("${cubit.paySlipList[index][24]}"))),
-
-                                        Expanded(child: Center(child: Text("${cubit.paySlipList[index][25]}"))),
-
-                                        Expanded(child: Center(child: Text("${cubit.paySlipList[index][26]}"))),
-                                        Expanded(child: Center(child: Text("${cubit.paySlipList[index][27]}"))),
+                                       //  Expanded(child: Center(child: Text("${cubit.paySlipList[index][3]}"))),
+                                       //  Expanded(child: Center(child: Text("${cubit.paySlipList[index][4]}"))),
+                                       //  Expanded(child: Center(child: Text("${cubit.paySlipList[index][5]}"))),
+                                       //
+                                       //
+                                       //  Expanded(child: Text("${cubit.paySlipList[index][6]}")),
+                                       //
+                                       //  Expanded(child: Center(child: Text("${cubit.paySlipList[index][7]}"))),
+                                       //
+                                       //  Expanded(child: Center(child: Text("${cubit.paySlipList[index][8]}"))),
+                                       //  Expanded(child: Center(child: Text("${cubit.paySlipList[index][9]}"))),
+                                       //  Expanded(child: Center(child: Text("${cubit.paySlipList[index][10]}"))),
+                                       //
+                                       //  Expanded(child: Center(child: Text("${cubit.paySlipList[index][11]}"))),
+                                       //  Expanded(child: Center(child: Text("${cubit.paySlipList[index][12]}"))),
+                                       //  Expanded(child: Center(child: Text("${cubit.paySlipList[index][13]}"))),
+                                       // Expanded(child: Text("${cubit.paySlipList[index][14]}")),
+                                       //
+                                       //  Expanded(child: Center(child: Text("${cubit.paySlipList[index][15]}"))),
+                                       //
+                                       //  Expanded(child: Center(child: Text("${cubit.paySlipList[index][16]}"))),
+                                       //  Expanded(child: Center(child: Text("${cubit.paySlipList[index][17]}"))),
+                                       //  Expanded(child: Center(child: Text("${cubit.paySlipList[index][18]}"))),
+                                       //  Expanded(child: Center(child: Text("${cubit.paySlipList[index][19]}"))),
+                                       //  Expanded(child: Center(child: Text("${cubit.paySlipList[index][20]}"))),
+                                       //
+                                       //  Expanded(child: Center(child: Text("${cubit.paySlipList[index][21]}"))),
+                                       //
+                                       //  Expanded(child: Center(child: Text("${cubit.paySlipList[index][22]}"))),
+                                       //  Expanded(child: Center(child: Text("${cubit.paySlipList[index][23]}"))),
+                                       //  Expanded(child: Center(child: Text("${cubit.paySlipList[index][24]}"))),
+                                       //
+                                       //  Expanded(child: Center(child: Text("${cubit.paySlipList[index][25]}"))),
+                                       //
+                                       //  Expanded(child: Center(child: Text("${cubit.paySlipList[index][26]}"))),
+                                       //  Expanded(child: Center(child: Text("${cubit.paySlipList[index][27]}"))),
 
 
                                       ],
@@ -140,8 +140,8 @@ class  UploadPaySlipScreen extends StatelessWidget {
 
                                   child:  Text("Upload"),
                                   onPressed:() async {
-                                   // cubit.registerSql('username',' password', 'code', 'depart', 'controller');
-                                    await cubit.insertPaySlipSql();
+                                  await cubit.registerSql();
+                                   // await cubit.insertPaySlipSql();
               // if(keyForm.currentState!.validate()){
               //  cubit.addPaySlip(context,moth: day.text);
               //
@@ -160,8 +160,7 @@ class  UploadPaySlipScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                    ):SizedBox():PermissionCubit.get(context).reviewList.isNotEmpty?SingleChildScrollView(
-                      child: Padding(
+                    ):SizedBox():PermissionCubit.get(context).reviewList.isNotEmpty?SingleChildScrollView(child: Padding(
                         padding: const EdgeInsets.all(20),
                         child: Column(
                           children: [
@@ -252,8 +251,8 @@ class  UploadPaySlipScreen extends StatelessWidget {
 
                                   child:  Text("Upload"),
                                   onPressed:() async {
-                                    // cubit.registerSql('username',' password', 'code', 'depart', 'controller');
-                                    cubit.isPayORreview=='pay'? await cubit.insertPaySlipSql():await cubit.insertReviewSql(context: context);
+
+                                    await cubit.insertReviewSql(context: context);
                                     // if(keyForm.currentState!.validate()){
                                     //  cubit.addPaySlip(context,moth: day.text);
                                     //
@@ -271,8 +270,7 @@ class  UploadPaySlipScreen extends StatelessWidget {
                             ): const SizedBox(),
                           ],
                         ),
-                      ),
-                    ):SizedBox()
+                      ),):SizedBox()
                 ),
               );
             } ,

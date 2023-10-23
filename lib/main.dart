@@ -1,10 +1,8 @@
 
 
-import 'dart:convert';
-import 'dart:io';
 
 import 'package:bloc/bloc.dart';
-//import 'package:firebase_core/firebase_core.dart';
+
 
 
 import 'package:flutter/material.dart';
@@ -16,26 +14,20 @@ import 'package:untitled/componant/remote/dioHelper.dart';
 
 import 'package:untitled/moduls/attend/attendCubit/cubitAttend.dart';
 import 'package:untitled/moduls/attend/attendCubit/statusAttend.dart';
+import 'package:untitled/moduls/hiring/cubit/hiringCubit.dart';
+import 'package:untitled/moduls/hiring/inser_hiring.dart';
+import 'package:untitled/moduls/hiring/insertInformation.dart';
 
 import 'package:untitled/moduls/homeLayout/homeLayout.dart';
 import 'package:untitled/moduls/login/login_screen.dart';
 import 'package:untitled/moduls/permisssion/permission_cubit.dart';
 
 import 'package:untitled/shared/constant/theme_manager.dart';
+import 'package:upgrader/upgrader.dart';
 
 
 import 'bloc_observer.dart';
-import 'package:http/http.dart' as http;
-void getHttp() async {
- // final response = await DioHelper.dio.post('register.php',queryParameters: {'name':'dio','code':'dmm','password':'dai','depart':'dio','controller':'dai'});
 
-// final response = await DioHelper.dio.get('getpayslip.php',queryParameters: {'code':'1021','month':'August'});
-//   print(response);
-//   print(response.statusMessage);
-//   print(response.realUri);
-//   print(response.statusCode);
-
-}
 
 
 void main()async  {
@@ -47,11 +39,12 @@ void main()async  {
 
 
 
-
+  await Upgrader.clearSavedSettings();
  // FirebaseAuth.initialize(apiKey, VolatileStore());
   DioHelper.init();
   await CacheHelper.init();
-  getHttp();
+  //getHttp();
+
   // if (Platform.isWindows){
   //
   //   //Firestore.initialize(projectId);
@@ -98,8 +91,9 @@ class MyApp extends StatelessWidget {
        // CacheHelper.getData(key: 'isAtt')==null? BlocProvider<AddPomCubit>(create: (context)=>AddPomCubit()..getPom()..getUsers()..getcode()..getBox()..getAttendanceUser()):BlocProvider<AddPomCubit>(create: (context)=>AddPomCubit()..getAttendanceUser()..getUsers()),
       //  BlocProvider<AddPomCubit>(create: (context)=>AddPomCubit()..getAttendanceUser()),
       //  BlocProvider<PlanCubit>(create: (context)=>PlanCubit()),
-        BlocProvider<AttendCubit>(create: (context)=>AttendCubit()),
-        BlocProvider<PermissionCubit>(create: (context)=>PermissionCubit())
+        BlocProvider<AttendCubit>(create: (context)=>AttendCubit()..changeHomeButton(1, context)..loginSql(CacheHelper.getData(key: 'myId')??'', CacheHelper.getData(key: 'password')??'',notLogin: true)),
+        BlocProvider<PermissionCubit>(create: (context)=>PermissionCubit()),
+        BlocProvider<HiringCubit>(create: (context)=>HiringCubit())
      // CacheHelper.getData(key: 'isLogin')!=null? BlocProvider<PermissionCubit>(create: (context)=>PermissionCubit()..getOrderPermission()):BlocProvider<PermissionCubit>(create: (context)=>PermissionCubit()),
       ],
 
@@ -134,8 +128,12 @@ class MyApp extends StatelessWidget {
              // title: 'Flutter Demo',
               debugShowCheckedModeBanner: false,
               theme: getApplicationTheme(context),
-
-              home:  launcherScreen(loginScreen: LoginScreen(),homeScreen:HomeLayout (),iscurrentuser: CacheHelper.getData(key: "isLogin")??false ),//const MyHomePage(title: 'Flutter Demo Home Page'),
+              home:  UpgradeAlert(
+                upgrader:  Upgrader(
+                 showIgnore: false,
+                    showLater:  false,
+                    dialogStyle: UpgradeDialogStyle.material),
+                  child:InsertHiring ()),// launcherScreen(loginScreen: LoginScreen(),homeScreen:HomeLayout (),iscurrentuser: CacheHelper.getData(key: "isLogin")??false )),//InsetInfoHiring ()) ,
             );
               },
 

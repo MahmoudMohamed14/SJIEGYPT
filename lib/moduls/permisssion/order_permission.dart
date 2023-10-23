@@ -637,18 +637,31 @@ class _MyScreenState extends State<MyScreen> {
         });
       },
       builder:(context,state){
-        return Scaffold(
-          appBar: AppBar(
-            title: Text('Holiday'),
-          ),
-          body: Padding(
-            padding: const EdgeInsets.all(12),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: dates.map((widget) => Expanded(child: widget)).toList(),
-            ),
-          ),
+        return  Builder(
+          builder: (context) {
+            if(CacheHelper.getData(key: 'control')) return Scaffold(
+              appBar: AppBar(
+                title: Text('Holiday'),
+              ),
+              body:Padding(
+                padding: const EdgeInsets.all(12),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: dates.map((widget) => Expanded(child: widget)).toList(),
+                ),
+              ),
+            );
+            else return Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: dates.map((widget) => Expanded(child: widget)).toList(),
+              ),
+            );
+
+          }
         );
+
       } ,
 
     );

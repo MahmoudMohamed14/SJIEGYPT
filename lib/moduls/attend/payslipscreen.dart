@@ -20,7 +20,7 @@ class  PaySlipScreen extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         child:SingleChildScrollView(
 
-          child:cubit.isPayORreview=='pay' ?cubit.paySlipModel==null ? Center(child: Text('NO PaySlip')):Column(
+          child:cubit.isPayORreview=='pay' ?state is LoadPaySlipStateSuccess? Center(child: CircularProgressIndicator()):cubit.paySlipModel==null ? Center(child: Text('NO PaySlip')):Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
@@ -95,7 +95,7 @@ class  PaySlipScreen extends StatelessWidget {
 
 
             ],
-          ):cubit.reviewModel==null ? Center(child: Text('Not Uploaded')):Column(
+          ):state is LoadReviewStateSuccess? Center(child: CircularProgressIndicator()):cubit.reviewModel==null ? Center(child: Text('Not Uploaded')):Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(

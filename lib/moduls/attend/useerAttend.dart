@@ -73,7 +73,7 @@ class  UserAttendScreen extends StatelessWidget {
                         onTap: (){
                           navigateTo(context, AttendScreen());
 
-                          cubit.getAttendance(isadmin: true,id: listOfAttenduserGl[index]['id'],month: cubit.monthindex);
+                       //   cubit.getAttendance(isadmin: true,id: listOfAttenduserGl[index]['id'],month: cubit.monthindex);
                         },
                         child: Container(
                           decoration: BoxDecoration(
