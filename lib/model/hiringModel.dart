@@ -18,6 +18,7 @@ class HiringModel{
   String?importdate;
   String?exportdate;
   String?gencode;
+  String?code;
   String?group;
   String?service;
   String?project;
@@ -49,6 +50,7 @@ class HiringModel{
     this.importdate,
     this.exportdate,
     this.gencode,
+    this.code,
     this.group,
     this.locatwork,
     this.project,

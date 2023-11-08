@@ -9,7 +9,7 @@ import 'package:untitled/model/planmodel.dart';
 import 'package:untitled/model/pomModel.dart';
 import 'package:untitled/model/qtyBoxModel.dart';
 import 'package:untitled/model/userModel.dart';
-import 'package:untitled/moduls/addplan/getplan.dart';
+
 import 'package:untitled/moduls/hiring/process_hiring.dart';
 import '../model/payroll.dart';
 

@@ -41,7 +41,7 @@ class EditHiring extends StatelessWidget {
         var cubit=HiringCubit.get(context);
         return Scaffold(
           appBar: AppBar(),
-             body: Padding(
+          body: Padding(
             padding: const EdgeInsets.all(20),
             child: Form(
               key: keyForm,
@@ -129,12 +129,12 @@ class EditHiring extends StatelessWidget {
                     Expanded(child: defaultEditText(label: 'Note',control: noteControl,)),
                     SizedBox(width: 20,),
                     Expanded(child: defaultEditText(label: 'CallStatus',control: callControl,validat: ( s){
-                    if(s!.toString().toLowerCase().trim() =='ok') {return null;}
-                    else if(s!.toString().toLowerCase().trim() =='no'){return null;}
-                    else if(s!.toString().toLowerCase().trim() =='no'){return null;}
-                    else if(s!.toString().toLowerCase().trim() ==''){return null;}
-                    else return 'You Must Type "ok" or "no" ';
-                   // return n ull;
+                      if(s!.toString().toLowerCase().trim() =='ok') {return null;}
+                      else if(s!.toString().toLowerCase().trim() =='no'){return null;}
+                      else if(s!.toString().toLowerCase().trim() =='no'){return null;}
+                      else if(s!.toString().toLowerCase().trim() ==''){return null;}
+                      else return 'You Must Type "ok" or "no" ';
+                      // return n ull;
                     })),
                     SizedBox(width: 20,),
                     Expanded(child: defaultEditText(label: 'StartDate',control: sDateControl,)),
@@ -145,7 +145,7 @@ class EditHiring extends StatelessWidget {
                 // Visibility(child: child)
                 defaultButton(onPress: (){
                   if(keyForm.currentState!.validate()) {
-                        cubit.insertHiringSql(HiringModel(name: nameControl.text,
+                    cubit.insertHiringSql(HiringModel(name: nameControl.text,
                         nId: nIdControl.text,
                         center: centerControl.text,
                         city: cityControl.text,

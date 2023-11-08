@@ -354,6 +354,7 @@ class HiringCubit extends Cubit< HiringStates> {
         sheet.getRangeByName('F${i+1}').setText('${listOfSearch[i-1].phoneno}');
         sheet.getRangeByName('G${i+1}').setText('${listOfSearch[i-1].confirm}');
         sheet.getRangeByName('H${i+1}').setText('${listOfSearch[i-1].date}');
+
       }
 
     }}else{

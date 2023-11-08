@@ -17,7 +17,7 @@ class  UploadPaySlipScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController? day=new TextEditingController();
+    TextEditingController? locatControl=new TextEditingController();
     var keyForm=GlobalKey<FormState>();
 
     return Builder(
@@ -147,6 +147,8 @@ class  UploadPaySlipScreen extends StatelessWidget {
 
                             ),
                             const  SizedBox(height: 20,),
+
+
                             cubit.paySlipList.isNotEmpty ? ElevatedButton(
 
                               child:  Text("Upload"),
@@ -196,29 +198,7 @@ class  UploadPaySlipScreen extends StatelessWidget {
                                         Expanded(child: Center(child: Text("${PermissionCubit.get(context).reviewList[index][9]}"))),
                                         Expanded(child: Center(child: Text("${PermissionCubit.get(context).reviewList[index][10]}"))),
 
-                                        // Expanded(child: Center(child: Text("${PermissionCubit.get(context).reviewList[index][11]}"))),
-                                        // Expanded(child: Center(child: Text("${cubit.paySlipList[index][12]}"))),
-                                        // Expanded(child: Center(child: Text("${cubit.paySlipList[index][13]}"))),
-                                        // Expanded(child: Text("${cubit.paySlipList[index][14]}")),
-                                        //
-                                        // Expanded(child: Center(child: Text("${cubit.paySlipList[index][15]}"))),
-                                        //
-                                        // Expanded(child: Center(child: Text("${cubit.paySlipList[index][16]}"))),
-                                        // Expanded(child: Center(child: Text("${cubit.paySlipList[index][17]}"))),
-                                        // Expanded(child: Center(child: Text("${cubit.paySlipList[index][18]}"))),
-                                        // Expanded(child: Center(child: Text("${cubit.paySlipList[index][19]}"))),
-                                        // Expanded(child: Center(child: Text("${cubit.paySlipList[index][20]}"))),
-                                        //
-                                        // Expanded(child: Center(child: Text("${cubit.paySlipList[index][21]}"))),
-                                        //
-                                        // Expanded(child: Center(child: Text("${cubit.paySlipList[index][22]}"))),
-                                        // Expanded(child: Center(child: Text("${cubit.paySlipList[index][23]}"))),
-                                        // Expanded(child: Center(child: Text("${cubit.paySlipList[index][24]}"))),
-                                        //
-                                        // Expanded(child: Center(child: Text("${cubit.paySlipList[index][25]}"))),
-                                        //
-                                        // Expanded(child: Center(child: Text("${cubit.paySlipList[index][26]}"))),
-                                        // Expanded(child: Center(child: Text("${cubit.paySlipList[index][27]}"))),
+
 
 
                                       ],
