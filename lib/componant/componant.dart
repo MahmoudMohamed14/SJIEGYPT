@@ -10,6 +10,7 @@ import 'package:untitled/model/pomModel.dart';
 import 'package:untitled/model/qtyBoxModel.dart';
 import 'package:untitled/model/userModel.dart';
 import 'package:untitled/moduls/addplan/getplan.dart';
+import 'package:untitled/moduls/hiring/process_hiring.dart';
 import '../model/payroll.dart';
 
 import '../shared/constant/color_manager.dart';
@@ -69,6 +70,7 @@ Widget defaultButton(
 );
 Widget defaultEditText(
     {
+      bool isSuffix=false,
       String? textDirection='',
       TextEditingController?   control,
       required String label,
@@ -132,14 +134,12 @@ maxLength:maxlength ,
           labelText: label,
           prefixIcon: Icon(prefIcon,color: ColorManager.primary,),
 
-          suffixIcon: IconButton(onPressed:(){
+          suffixIcon: isSuffix?IconButton(onPressed:(){
 
             if(onPressSuffix!=null){
               onPressSuffix();
             }
-          }
-            ,icon: Icon(sufIcon,),
-          )
+          },icon: Icon(sufIcon,),):null
 
 
       ) ,
@@ -220,12 +220,12 @@ void signOut( context,widget) {
 Widget launcherScreen({bool? iscurrentuser,required Widget loginScreen ,required Widget homeScreen }){
   Widget launch=loginScreen;
   if(iscurrentuser!){
-  if(CacheHelper.getData(key: 'isAdmin')!=null)  {
+  if(CacheHelper.getData(key: 'depart')!=null)  {
 
-        if (CacheHelper.getData(key: 'isAdmin'))
+        if (CacheHelper.getData(key: 'depart')!='ehiring')
           launch = homeScreen;
         else
-          launch = GetPlan();
+          launch = ProcessHiring();
 
     }else {
   // CacheHelper.getData(key: 'myId')=='sji'? launch = UserAttendScreen():launch = AttendScreen();

@@ -10,3 +10,9 @@ class HiringGetErrorState extends  HiringStates{}
 class HiringDeleteSuccessState extends  HiringStates{}
 class HiringDeleteLoadingState extends  HiringStates{}
 class HiringDeleteErrorState extends  HiringStates{}
+class HiringConfirmAndRejectSuccessState extends  HiringStates{}
+class HiringConfirmAndRejectLoadingState extends  HiringStates{}
+class HiringConfirmAndRejectErrorState extends  HiringStates{}
+class HiringCallSuccessState extends  HiringStates{}
+class HiringCallLoadingState extends  HiringStates{}
+class HiringCallErrorState extends  HiringStates{}

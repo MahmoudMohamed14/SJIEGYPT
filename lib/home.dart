@@ -16,7 +16,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CacheHelper.getData(key: 'myId')=='sji'? Padding(
+    return CacheHelper.getData(key: 'myId')=='sji'?
+    Padding(
       padding: const EdgeInsets.all(1),
       child: Center(
         child: Column(

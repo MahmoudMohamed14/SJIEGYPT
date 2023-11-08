@@ -1,11 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.sjiegypt.sji">
+    package="com.sji_eg.sji_eg">
    <application
-        android:label="SJI"
+        android:label="SJIEG"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity
-            android:name="com.sjiegypt.sji.MainActivity"
+            android:name="com.sji_eg.sji_eg.MainActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"

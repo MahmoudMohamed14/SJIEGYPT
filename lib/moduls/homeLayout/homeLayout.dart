@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled/componant/componant.dart';
 import 'package:untitled/componant/local/cache_helper.dart';
+import 'package:untitled/moduls/attend/add_suddenNormal_screen.dart';
 import 'package:untitled/moduls/attend/attendCubit/cubitAttend.dart';
 import 'package:untitled/moduls/attend/attendCubit/statusAttend.dart';
 import 'package:untitled/moduls/attend/getHistory.dart';
@@ -196,8 +197,303 @@ class HomeLayout extends StatelessWidget {
 
               ],
             ),
-            body: cubit.listScreenHome[cubit.indexHomeButton],
-            bottomNavigationBar: BottomNavigationBar(
+            body:  CacheHelper.getData(key: 'myId')=='sji'?
+            Padding(
+              padding: const EdgeInsets.all(1),
+              child: Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+
+                    Expanded(
+                      child:  GestureDetector(
+                        onTap: (){
+                          // AttendCubit.get(context).getPayOrReview('pay');
+
+                          navigateTo(context, UploadSuddenNormalScreen ());
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Container(
+                            width: 200,
+
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: ColorManager.primary,),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+
+                                children: [
+                                  Column(
+                                    children: [
+                                      Icon(Icons.add,size: 50,color: Colors.white,),
+                                    ],
+                                  ),
+                                  Text('Add sudden and normal',style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),)
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+
+
+                    ),
+                    SizedBox(height: 20,),
+                    Expanded(
+                      child:  GestureDetector(
+                        onTap: (){
+                           AttendCubit.get(context).getPayOrReview('pay');
+
+
+                          navigateTo(context, MonthsAttend());
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Container(
+                            width: 200,
+
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: ColorManager.primary,),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+
+                                children: [
+                                  Column(
+                                    children: [
+                                      Icon(Icons.add,size: 50,color: Colors.white,),
+                                    ],
+                                  ),
+                                  Text('Add Payslip',style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),)
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+
+
+                    ),
+                    SizedBox(height: 20,),
+                    Expanded(
+                      child:  GestureDetector(
+                        onTap: (){
+                          AttendCubit.get(context).getPayOrReview('review');
+
+                          navigateTo(context, MonthsAttend());
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Container(
+                            width: 200,
+
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: ColorManager.primary,),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+
+                                children: [
+                                  Column(
+                                    children: [
+                                      Icon(Icons.add,size: 50,color: Colors.white,),
+                                    ],
+                                  ),
+                                  Text('Add Review Attendance',style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),)
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+
+
+                    ),
+                    // SizedBox(height: 20,),
+                    // Expanded(
+                    //   child:  GestureDetector(
+                    //     onTap: (){
+                    //       // AttendCubit.get(context).getPayOrReview('pay');
+                    //
+                    //       navigateTo(context, UploadSuddenNormalScreen ());
+                    //     },
+                    //     child: Padding(
+                    //       padding: const EdgeInsets.all(10),
+                    //       child: Container(
+                    //         width: 200,
+                    //
+                    //         decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: ColorManager.primary,),
+                    //         child: Padding(
+                    //           padding: const EdgeInsets.all(10.0),
+                    //           child: Column(
+                    //             crossAxisAlignment: CrossAxisAlignment.center,
+                    //             mainAxisAlignment: MainAxisAlignment.center,
+                    //
+                    //             children: [
+                    //               Column(
+                    //                 children: [
+                    //                   Icon(Icons.add,size: 100,color: Colors.white,),
+                    //                 ],
+                    //               ),
+                    //               Text('ADD SUDDEN AND NORMAL',style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.bold),)
+                    //             ],
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    //
+                    //
+                    // ),
+                    // Expanded(
+                    //
+                    //   child: GestureDetector(
+                    //     onTap: (){
+                    //       //PermissionCubit.get(context).getOrderPermission();
+                    //       if(CacheHelper.getData(key: 'control')){
+                    //         AttendCubit.get(context).getDepart();
+                    //         navigateTo(context,DepartScreen());
+                    //       }else{
+                    //         PermissionCubit.get(context).getOrderPermissionSQL();
+                    //         // if(CacheHelper.getData(key: 'control'))   navigateTo(context, LayoutPermission());else navigateTo(context,MyScreen());
+                    //         navigateTo(context,MyScreen());}
+                    //     },
+                    //
+                    //     child: Padding(
+                    //         padding: const EdgeInsets.all(10),
+                    //         child:Container(
+                    //           width: 200,
+                    //
+                    //
+                    //           decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: ColorManager.primary,),
+                    //           child: Padding(
+                    //             padding: const EdgeInsets.all(10.0),
+                    //             child: Column(
+                    //               mainAxisAlignment: MainAxisAlignment.center,
+                    //               children: [
+                    //
+                    //                 Expanded(
+                    //                   child: Image(image: AssetImage('assets/holiday.png'),
+                    //                     // height: 90,
+                    //                     // width: 90,
+                    //                   ),
+                    //                 ),
+                    //                 Text('اجازه',style: TextStyle(color: Colors.white,fontSize: 25,fontWeight: FontWeight.bold),)
+                    //               ],
+                    //             ),
+                    //           ),
+                    //         )
+                    //     ),
+                    //   ),
+                    // ),
+                    // Expanded(
+                    //
+                    //   child: GestureDetector(
+                    //     onTap: (){
+                    //       AttendCubit.get(context).getPayOrReview('review');
+                    //
+                    //       navigateTo(context, MonthsAttend());
+                    //     },
+                    //
+                    //
+                    //     child: Padding(
+                    //         padding: const EdgeInsets.all(10),
+                    //         child:Container(
+                    //           width: 200,
+                    //
+                    //
+                    //           decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: ColorManager.primary,),
+                    //           child: Padding(
+                    //             padding: const EdgeInsets.all(10.0),
+                    //             child: Column(
+                    //               mainAxisAlignment: MainAxisAlignment.center,
+                    //               children: [
+                    //
+                    //                 Expanded(
+                    //                   child: Image(image: AssetImage('assets/review.png'),
+                    //                     // height: 90,
+                    //                     // width: 90,
+                    //                   ),
+                    //                 ),
+                    //                 Text('مراجعة الاجازات',style: TextStyle(color: Colors.white,fontSize: 25,fontWeight: FontWeight.bold),)
+                    //               ],
+                    //             ),
+                    //           ),
+                    //         )
+                    //     ),
+                    //   ),
+                    // ),
+
+                    // Expanded(
+                    //
+                    //   child:
+                    //
+                    //
+                    //      GestureDetector(
+                    //
+                    //        onTap: ()async{
+                    //       //   PermissionCubit.get(context).getOrderPermission();
+                    //       //   navigateTo(context, LayoutPermission());
+                    //         // print(  await AttendCubit.get(context).testSql());
+                    //          //
+                    //        },
+                    //       child: Padding(
+                    //         padding: const EdgeInsets.all(10),
+                    //         child: Stack(
+                    //           alignment: AlignmentDirectional.center,
+                    //           children: [Container(
+                    //             width: 200,
+                    //
+                    //             decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color:Colors.orangeAccent.withOpacity(.5),),
+                    //             child: Padding(
+                    //               padding: const EdgeInsets.all(10.0),
+                    //               child: Column(
+                    //
+                    //                 mainAxisSize: MainAxisSize.min,
+                    //
+                    //                 mainAxisAlignment: MainAxisAlignment.center,
+                    //                 children: [
+                    //                   Expanded(
+                    //                     child: Image(image: AssetImage('assets/permission.jpg'),
+                    //                       // height: 90,
+                    //                       // width: 90,
+                    //                     ),
+                    //                   ),
+                    //                   Text('اذن',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),)
+                    //                 ],
+                    //               ),
+                    //             ),
+                    //           ),
+                    //             Container(
+                    //               width: 200,
+                    //
+                    //               decoration:  BoxDecoration(borderRadius: BorderRadius.circular(10),color:Colors.black45.withOpacity(.5),),
+                    //
+                    //             ),
+                    //             Text('قريبا',style: TextStyle( fontSize: 50, color: Colors.white70 ), )
+                    //
+                    //           ]
+                    //         ),
+                    //       ),
+                    //     ),
+                    //
+                    //
+                    // ),
+
+
+
+
+
+                  ],
+                ),
+              ),
+            ):cubit.listScreenHome[cubit.indexHomeButton],
+            bottomNavigationBar:CacheHelper.getData(key: 'myId')=='sji'?null: BottomNavigationBar(
               type: BottomNavigationBarType.fixed,
               elevation: 0,
 

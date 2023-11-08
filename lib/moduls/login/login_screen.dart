@@ -2,9 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled/componant/componant.dart';
+import 'package:untitled/componant/local/cache_helper.dart';
 
 
 import 'package:untitled/moduls/attend/attendCubit/cubitAttend.dart';
+import 'package:untitled/moduls/hiring/process_hiring.dart';
 
 import 'package:untitled/moduls/homeLayout/homeLayout.dart';
 
@@ -22,11 +24,9 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController? email= new TextEditingController();
     TextEditingController? password=new TextEditingController();
-    TextEditingController? codeControl= new TextEditingController();
-    TextEditingController? newPasswordControl=new TextEditingController();
-    TextEditingController? oldPassword=new TextEditingController();
+
     var keyForm=GlobalKey<FormState>();
-    var keyFormpassword=GlobalKey<FormState>();
+
 
 
     // if(state is LoginSuccessState){
@@ -60,8 +60,14 @@ class LoginScreen extends StatelessWidget {
     return BlocConsumer<AttendCubit,AttendStates>(
         listener: (context,state){
           if(state is LoginSuccessState){
-            navigateAndFinish(context, HomeLayout());
-            AttendCubit.get(context).changeHomeButton(1, context);
+            if (CacheHelper.getData(key: 'depart')!='ehiring'){
+              navigateAndFinish(context, HomeLayout());
+              AttendCubit.get(context).changeHomeButton(1, context);
+            }
+
+            else  navigateAndFinish(context , ProcessHiring());
+             // launch = ProcessHiring();
+
 
             // CubitLayout.get(context).getUserData();
             // CubitLayout.get(context).init();
@@ -92,7 +98,7 @@ class LoginScreen extends StatelessWidget {
         builder: (context,state){
          var cubit=AttendCubit.get(context);
           return Scaffold(
-            backgroundColor: ColorManager.primary,
+           // backgroundColor: ColorManager.primary,
             body: Padding(
               padding: const EdgeInsets.all(20),
               child: Center(
@@ -101,19 +107,20 @@ class LoginScreen extends StatelessWidget {
                     key: keyForm,
                     child: Column(
                       children: [
-                        // Container(
-                        //   decoration: BoxDecoration(
-                        //       color: Colors.white,
-                        //       borderRadius: BorderRadius.circular(20)
-                        //   ),
-                        //   child: Image(
-                        //
-                        //       width: 150,
-                        //       height: 150,
-                        //       image: AssetImage('assets/sjilogo.jpg')
-                        //   ),
-                        // ),
-                        Text('Welcome SJI Egypt',style: TextStyle(color: Colors.white,fontWeight: FontWeight.w900,fontSize: 25),),
+                        Container(
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20)
+                          ),
+                          child: Image(
+
+                              width: 150,
+                              height: 150,
+                              image: AssetImage('assets/sjilogo.jpg')
+                          ),
+                        ),
+                        SizedBox(height: 20,),
+                        Text('Welcome SJI Egypt',style: TextStyle(color: ColorManager.primary,fontWeight: FontWeight.w900,fontSize: 25),),
                         SizedBox(height: 30,),
                         Container(
                           decoration: BoxDecoration(
@@ -148,7 +155,7 @@ class LoginScreen extends StatelessWidget {
                                 ),
 
                                 SizedBox(height: 20,),
-                                defaultEditText(control: password,
+                                defaultEditText(isSuffix: true,control: password,
                                     validat: ( s){
                                       if(s.isEmpty){
                                         return "password empty";

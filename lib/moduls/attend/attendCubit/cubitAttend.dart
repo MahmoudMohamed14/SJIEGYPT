@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
-//import 'package:csv/csv.dart';
+import 'package:csv/csv.dart';
 import 'package:dio/dio.dart';
-//import 'package:file_picker/file_picker.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled/componant/componant.dart';
@@ -61,163 +61,163 @@ class AttendCubit extends Cubit< AttendStates> {
 //to build aab to add in google play
   pickFilePaySlip() async {
 
-//     FilePickerResult? result = await FilePicker.platform.pickFiles();
-//
-//     if (result != null) {
-//       paySlipList = [];
-//       print(result.files.first.name);
-//       filePathPaySlip = result.files.first.path!;
-//
-//       final input = File(filePathPaySlip!).openRead();
-//       final fields = await input
-//           .transform(utf8.decoder)
-//           .transform(const CsvToListConverter())
-//           .toList();
-//      paySlipList  = fields;
-//       print(fields.length);
-//       print(paySlipList.length);
-//
-//      payListModel=[];
-//
-//       for (int i = 0; i <fields.length; i++) {
-//
-//
-//           payListModel.add(PaySlipModel(
-//               code: fields[i][0].toString().trim(),
-//               name: fields[i][1].toString().trim(),
-//               job_position: fields[i][2].toString().trim(),
-//               basic: fields[i][3].toString().trim(),
-//               // Variable: fields[i][4].toString().trim(),
-//               // Clothing_Allow: fields[i][5].toString().trim(),
-//              Meal_Allow: fields[i][4].toString().trim(),
-//               Transportation: fields[i][5].toString().trim(),
-//               Productivity_Allow: fields[i][6].toString().trim(),
-//               Att_Bonus: fields[i][7].toString().trim(),
-//               Activity_Allow: fields[i][8].toString().trim(),
-//               Bonus: fields[i][9].toString().trim(),
-//               Overtime: fields[i][10].toString().trim(),
-//               Vacation_Balance: fields[i][11].toString().trim(),
-//               Other_Dues: fields[i][12].toString().trim(),
-//               Total_Dues: fields[i][13].toString().trim(),
-//             net_salary:  fields[i][14].toString().trim(),
-//               EmpSocial_Ins: fields[i][15].toString().trim(),
-//               Tax: fields[i][16].toString().trim(),
-//               Absent: fields[i][17].toString().trim(),
-//               Penalty: fields[i][18].toString().trim(),
-//              Sick: fields[i][19].toString().trim(),
-//               WI: fields[i][20].toString().trim(),
-//              Bonus_Deduction: fields[i][21].toString().trim(),
-//               Other_Deduction: fields[i][22].toString().trim(),
-//             total_Deduction: fields[i][23].toString().trim(),
-//             regular: fields[i][24].toString().trim(),
-//             casual: fields[i][25].toString().trim(),
-//             day_absent: fields[i][26].toString().trim(),
-//             day_Work: fields[i][27].toString().trim(),
-//
-//
-//
-//
-//
-//           ));
-//
-//
-//
-//       }
-//
-//       emit(FetchStateSuccess());
-//       // print(pomList);
-//       PlatformFile file = result.files.first;
-//       print(paySlipList.length);
-//
-//       print(file.name);
-//
-//       print(file.size);
-//       print(file.extension);
-//       print(file.path);
-//     }
-//
-//
-//     else {
-// // User canceled the picker
-//     }
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+    if (result != null) {
+      paySlipList = [];
+      print(result.files.first.name);
+      filePathPaySlip = result.files.first.path!;
+
+      final input = File(filePathPaySlip!).openRead();
+      final fields = await input
+          .transform(utf8.decoder)
+          .transform(const CsvToListConverter())
+          .toList();
+     paySlipList  = fields;
+      print(fields.length);
+      print(paySlipList.length);
+
+     payListModel=[];
+
+      for (int i = 0; i <fields.length; i++) {
+
+
+          payListModel.add(PaySlipModel(
+              code: fields[i][0].toString().trim(),
+              name: fields[i][1].toString().trim(),
+              job_position: fields[i][2].toString().trim(),
+              basic: fields[i][3].toString().trim(),
+              // Variable: fields[i][4].toString().trim(),
+              // Clothing_Allow: fields[i][5].toString().trim(),
+             Meal_Allow: fields[i][4].toString().trim(),
+              Transportation: fields[i][5].toString().trim(),
+              Productivity_Allow: fields[i][6].toString().trim(),
+              Att_Bonus: fields[i][7].toString().trim(),
+              Activity_Allow: fields[i][8].toString().trim(),
+              Bonus: fields[i][9].toString().trim(),
+              Overtime: fields[i][10].toString().trim(),
+              Vacation_Balance: fields[i][11].toString().trim(),
+              Other_Dues: fields[i][12].toString().trim(),
+              Total_Dues: fields[i][13].toString().trim(),
+            net_salary:  fields[i][14].toString().trim(),
+              EmpSocial_Ins: fields[i][15].toString().trim(),
+              Tax: fields[i][16].toString().trim(),
+              Absent: fields[i][17].toString().trim(),
+              Penalty: fields[i][18].toString().trim(),
+             Sick: fields[i][19].toString().trim(),
+              WI: fields[i][20].toString().trim(),
+             Bonus_Deduction: fields[i][21].toString().trim(),
+              Other_Deduction: fields[i][22].toString().trim(),
+            total_Deduction: fields[i][23].toString().trim(),
+            regular: fields[i][24].toString().trim(),
+            casual: fields[i][25].toString().trim(),
+            day_absent: fields[i][26].toString().trim(),
+            day_Work: fields[i][27].toString().trim(),
+
+
+
+
+
+          ));
+
+
+
+      }
+
+      emit(FetchStateSuccess());
+      // print(pomList);
+      PlatformFile file = result.files.first;
+      print(payListModel.length);
+
+      print(file.name);
+
+      print(file.size);
+      print(file.extension);
+      print(file.path);
+    }
+
+
+    else {
+// User canceled the picker
+    }
 
 
   }
   pickFileusers() async {
 
-//     FilePickerResult? result = await FilePicker.platform.pickFiles();
-//
-//     if (result != null) {
-//       paySlipList = [];
-//       print(result.files.first.name);
-//       filePathPaySlip = result.files.first.path!;
-//
-//       final input = File(filePathPaySlip!).openRead();
-//       final fields = await input
-//           .transform(utf8.decoder)
-//           .transform(const CsvToListConverter())
-//           .toList();
-//       paySlipList  = fields;
-//       print(fields.length);
-//       print(paySlipList.length);
-//
-//
-//
-//       emit(FetchStateSuccess());
-//       // print(pomList);
-//       PlatformFile file = result.files.first;
-//       print(paySlipList.length);
-//
-//       print(file.name);
-//
-//       print(file.size);
-//       print(file.extension);
-//       print(file.path);
-//     }
-//
-//
-//     else {
-// // User canceled the picker
-//     }
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+    if (result != null) {
+      paySlipList = [];
+      print(result.files.first.name);
+      filePathPaySlip = result.files.first.path!;
+
+      final input = File(filePathPaySlip!).openRead();
+      final fields = await input
+          .transform(utf8.decoder)
+          .transform(const CsvToListConverter())
+          .toList();
+      paySlipList  = fields;
+      print(fields.length);
+      print(paySlipList.length);
+
+
+
+      emit(FetchStateSuccess());
+      // print(pomList);
+      PlatformFile file = result.files.first;
+      print(paySlipList.length);
+
+      print(file.name);
+
+      print(file.size);
+      print(file.extension);
+      print(file.path);
+    }
+
+
+    else {
+// User canceled the picker
+    }
 
 
   }
   pickFileSuddenNormal() async {
 
-//     FilePickerResult? result = await FilePicker.platform.pickFiles();
-//
-//     if (result != null) {
-//       suddenNormalList = [];
-//       print(result.files.first.name);
-//       filePathSuddenNormal = result.files.first.path!;
-//
-//       final input = File(filePathSuddenNormal!).openRead();
-//       final fields = await input
-//           .transform(utf8.decoder)
-//           .transform(const CsvToListConverter())
-//           .toList();
-//       suddenNormalList  = fields;
-//       print(fields.length);
-//       print(suddenNormalList.length);
-//
-//
-//
-//       emit(FetchStateSuccess());
-//       // print(pomList);
-//       PlatformFile file = result.files.first;
-//       print(suddenNormalList.length);
-//
-//       print(file.name);
-//
-//       print(file.size);
-//       print(file.extension);
-//       print(file.path);
-//     }
-//
-//
-//     else {
-// // User canceled the picker
-//     }
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+    if (result != null) {
+      suddenNormalList = [];
+      print(result.files.first.name);
+      filePathSuddenNormal = result.files.first.path!;
+
+      final input = File(filePathSuddenNormal!).openRead();
+      final fields = await input
+          .transform(utf8.decoder)
+          .transform(const CsvToListConverter())
+          .toList();
+      suddenNormalList  = fields;
+      print(fields.length);
+      print(suddenNormalList.length);
+
+
+
+      emit(FetchStateSuccess());
+      // print(pomList);
+      PlatformFile file = result.files.first;
+      print(suddenNormalList.length);
+
+      print(file.name);
+
+      print(file.size);
+      print(file.extension);
+      print(file.path);
+    }
+
+
+    else {
+// User canceled the picker
+    }
 
 
   }
@@ -240,38 +240,31 @@ class AttendCubit extends Cubit< AttendStates> {
     //   document("${months[int.parse(moth!) - 1]}").
     //   set(payListModel[index-1].toMap()).then((value) {});
     //   if(index%200==0&&(payListModel.length-index)>0){
-    //     showDialog(
-    //
-    //
-    //         barrierDismissible: false,
-    //         context: context, builder: (context) =>
-    //         AlertDialog(
-    //
-    //           title: Text('متابعة تحميل الرواتب'),
-    //           content:Directionality(
-    //             textDirection: TextDirection.rtl,
-    //             child: Text(
-    //               'لقد تم رفع $index ومتبقي ${ payListModel.length - index}ويجب عليك الضغط علي تاكيد حتي يتم الانتهاء من التحميل   '
-    //               ,
-    //               locale: Locale('ar'),
-    //             ),
-    //           ),
-    //
-    //           actions: [
-    //             TextButton(onPressed: () {
-    //               Navigator.pop(context);
-    //             },
-    //                 child: Text('Cancel',
-    //                   style: TextStyle(color: Colors.red),)),
-    //             TextButton(onPressed: () {
-    //               print('تاكيد');
-    //               addPaySlip( context ,moth: moth,indexx: index+1,fromdialog: true);
-    //
-    //             }, child: Text('تاكيد')),
-    //
-    //           ],
-    //
-    //         ));
+     showDialog(
+
+
+            barrierDismissible: false,
+            context: context, builder: (context) =>
+            AlertDialog(
+
+              title: Text('متابعة تحميل الرواتب'),
+              content:Directionality(
+                textDirection: TextDirection.rtl,
+                child: Text("",
+                  locale: Locale('ar'),
+                ),
+              ),
+
+              actions: [
+                TextButton(onPressed: () {
+                  Navigator.pop(context);
+                },
+                    child: Text('Cancel',
+                      style: TextStyle(color: Colors.red),)),
+
+              ],
+
+           ));
     //     break;
     //   }
     //   if(index==payListModel.length){
@@ -297,7 +290,9 @@ class AttendCubit extends Cubit< AttendStates> {
       // emit(AddAttendStateSuccess());
     }
    Future  insertPaySlipSql()async  {
+    emit(AddPaySlipLoadState());
      valuepross=0;
+     print('ok'+payListModel.length.toString());
 
       for(int i=0;i<payListModel.length;i++){
         payListModel[i].month=monthindex;
@@ -311,11 +306,15 @@ class AttendCubit extends Cubit< AttendStates> {
             print(response.data);
             if(valuepross.toInt()==100){
               paySlipList.clear();
-              getEmit();
+              emit(AddPaySlipStateSuccess());
             }
+          }else{
+            print("payupload  Fail"+ response.statusCode.toString());
+            emit(AddPaySlipStateError());
           }
         }catch(error){
           print("payupload "+error.toString());
+          emit(AddPaySlipStateError());
 
         }
 
@@ -352,6 +351,7 @@ class AttendCubit extends Cubit< AttendStates> {
 
 
       }
+
 
 
     }
@@ -495,7 +495,7 @@ class AttendCubit extends Cubit< AttendStates> {
 
     paySlipModel=null;//PaySlipModel.fromJson({"code":"","name":"","Absent":"","Activity_Allow":"","Att_Bonus":"","basic":"","Bonus":"","Bonus_Deduction":"","EmpSocial_Ins":"","job_position":"","Meal_Allow":"","Other_Deduction":"","Other_Dues":"","Overtime":"","Penalty":"","Productivity_Allow":"","Sick":"","Tax":"","Total_Dues":"","Transportation":"","Vacation_Balance":"","WI":"","total_Deduction":"","regular":"","net_salary":"","day_Work":"","day_absent":"","casual":""});
 
-        DioHelper.dio.get('getpayslip.php',queryParameters:{
+        DioHelper.dio.post('getpayslip.php',queryParameters:{
           'code':CacheHelper.getData(key: 'myId'),
           'month':month
         } ).then((value) {
