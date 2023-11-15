@@ -6,6 +6,7 @@ import 'package:untitled/componant/componant.dart';
 import 'package:untitled/model/hiringModel.dart';
 import 'package:untitled/moduls/hiring/cubit/hiringCubit.dart';
 import 'package:untitled/moduls/hiring/cubit/hiringStatus.dart';
+import 'package:untitled/moduls/hiring/design.dart';
 
 class InsetInfoHiring extends StatelessWidget {
 
@@ -18,14 +19,19 @@ class InsetInfoHiring extends StatelessWidget {
     TextEditingController? nIdControl=new TextEditingController();
     TextEditingController? governorateControl= new TextEditingController();
     TextEditingController? dateInterviewControl=new TextEditingController();
-    TextEditingController? cityControl=new TextEditingController();
+    TextEditingController? villageControl=new TextEditingController();
     TextEditingController? centerControl=new TextEditingController();
     TextEditingController? phoneControl=new TextEditingController();
     TextEditingController? noteControl=new TextEditingController();
     TextEditingController? motherControl=new TextEditingController();
     TextEditingController? socialControl=new TextEditingController();
-    TextEditingController? importIDControl=new TextEditingController();
+    TextEditingController? issuingtIDControl=new TextEditingController();
     TextEditingController? expiredIDControl=new TextEditingController();
+    TextEditingController? ageControl=new TextEditingController();
+    TextEditingController? birthControl=new TextEditingController();
+    TextEditingController? genderControl=new TextEditingController();
+
+
     dateInterviewControl.text=DateFormat.yMd().format(DateTime.now());
     var keyForm=GlobalKey<FormState>();
     //.compareTo(DateTime.parse(formattedString)).toString();//DateTime.now().toString();
@@ -75,14 +81,6 @@ class InsetInfoHiring extends StatelessWidget {
               child: Column(children: [
                 Row(
                   children: [
-                    Expanded(child: defaultEditText(label: 'Arabic Name',control: nameControl,validat: ( s){
-                      if(s!.isEmpty){
-
-                        return"name is empty";
-                      }
-                      return null;
-                    })),
-                    SizedBox(width: 20,),
                     Expanded(child: defaultEditText(label: 'English Name',control: enameControl,validat: ( s){
                       if(s!.isEmpty){
 
@@ -90,31 +88,93 @@ class InsetInfoHiring extends StatelessWidget {
                       }
                       return null;
                     })),
+                    SizedBox(width: 20,),
+                    Expanded(child: defaultEditText(label: 'Arabic Name',control: nameControl,validat: ( s){
+                      if(s!.isEmpty){
+
+                        return"name is empty";
+                      }
+                      return null;
+                    })),
+
 
                     SizedBox(width: 20,),
-                    Expanded(child: defaultEditText(label: 'National ID',control: nIdControl,textType: TextInputType.number,maxlength: 14,validat: ( s){
-                      RegExp regex = RegExp(r'^\d+$');
-                    if(s!.isEmpty){
+                    Expanded(child: Column(
+                      children: [
+                        SizedBox(height: 20,),
+                        defaultEditText(onchange: (String s){
+                          if(s.length==14){
+                          String date= s.toString().substring(0,7);
+                          String day=date.substring(5,7);
+                          String month=date.substring(3,5);
 
-                    return"NationalID is empty";
-                    }
-                    else if(s.length<14)return'Must Length greater than 14';
-                    else if(!regex.hasMatch(s))return'input value must be number';
+                          String year=date.substring(1,3);
+                          String numYear=date.substring(0,1)=='2'?'19':'20';
+                          int gender=int.parse(s.substring(13,14));
+                          genderControl.text=gender%2==0?'Male':'Female';
+                          ageControl.text=(DateTime.now().year-int.parse("$numYear$year")).toString();
+                          birthControl.text="$month/$day/$numYear$year";
+                          String gov=s.substring(7,9);
+                          switch(gov){
+                            case '23':{governorateControl.text='Fayoum';
+                              break;
+                            }case '22':{governorateControl.text='Beni suef';
+                          break;
+                          }case '21':{governorateControl.text='Giza';
+                          break;
+                          }case '01':{governorateControl.text='Cairo';
+                          break;
+                          }
+                          }
+                          cubit.getEmit();}
+                          if(s.length==0){
+                            governorateControl.clear();
+                            genderControl.clear();
+                            birthControl.clear();
+                            genderControl.clear();
+                            ageControl.clear();
+
+                          }
+                        },
+                            label: 'National ID',control: nIdControl,textType: TextInputType.number,maxlength: 14,validat: ( s){
+                          RegExp regex = RegExp(r'^\d+$');
+                        if(s!.isEmpty){
+
+                        return"NationalID is empty";
+                        }
+                        else if(s.length<14)return'Must Length greater than 14';
+                        // else if(s.length==14){
+                        //   String date= s.toString().substring(0,7);
+                        //   String day=date.substring(5,7);
+                        //   String month=date.substring(3,5);
+                        //   String year=date.substring(1,3);
+                        //   dateInterviewControl.text="$month/$day/19$year";
+                        //   cubit.getEmit();
+                        // }
+                        else if(!regex.hasMatch(s))return'input value must be number';
                   else  return null;
-                    })),
+                        }),
+                      ],
+                    )),
                               SizedBox(width: 20,),
                     Expanded(
-                        child: defaultEditText(label: 'Phone Number',
-                            control: phoneControl,
-                            maxlength: 11,
-                            validat: ( s){
-                              RegExp regex = RegExp(r'^\d+$');
-                              if(s!.isEmpty) return"Vaccination No is empty";
+                        child: Column(
+                          children: [
+                            SizedBox(height: 20,),
+                            defaultEditText(
+                                label: 'Mobile Number',
+                                control: phoneControl,
+                                maxlength: 11,
+                                validat: ( s){
+                                  RegExp regex = RegExp(r'^\d+$');
+                                  if(s!.isEmpty) return"Mobile No is empty";
 
-                              else if(!regex.hasMatch(s))return'input value must be number';
-                              else if(s.length<11)return'Must Length  Not less than 11';
-                              else return null;
-                            }
+                                  else if(!regex.hasMatch(s))return'input value must be number';
+                                  else if(s.length<11)return'Must Length  Not less than 11';
+                                  else return null;
+                                }
+                            ),
+                          ],
                         )),
                   ],
                 ),
@@ -136,7 +196,7 @@ class InsetInfoHiring extends StatelessWidget {
                       return null;
                     }),),
                     SizedBox(width: 20,),
-                    Expanded(child: defaultEditText(label: 'الحى او القريه',control: cityControl,
+                    Expanded(child: defaultEditText(label: 'Village',control: villageControl,
                         validat: ( s){
                           if(s!.isEmpty){
                             return" Empty";
@@ -162,14 +222,24 @@ class InsetInfoHiring extends StatelessWidget {
                 Row(
                   children: [
 
-                    Expanded(child: defaultEditText(label: 'Social insurance',control: socialControl,validat: ( s){
-                      if(s!.isEmpty){
-                        return"Empty";
-                      }
-                      return null;
-                    })),
+                     Expanded(child: Column(
+
+                       children: [
+                         SizedBox(height: 20,),
+                         defaultEditText(label:'Social insurance',control: socialControl
+   // validat: ( s){
+                    //   RegExp regex = RegExp(r'^\d+$');
+                    //  // if(s!.isEmpty) return"Mobile No is empty";
+                    //
+                    //    if(!regex.hasMatch(s))return'input value must be number';
+                    //   else if(s.length<8)return'Must Length  Not less than 8';
+                    //   else return null;
+                    // }
+                    ,maxlength: 8),
+                       ],
+                     )),
                     SizedBox(width: 20,),
-                    Expanded(child: defaultEditText(label: 'Import ID',control: importIDControl,validat: ( s){
+                    Expanded(child: defaultEditText(label: 'Issuing ID',control: issuingtIDControl,validat: ( s){
                       if(s!.isEmpty){
                         return"Empty";
                       }
@@ -177,9 +247,9 @@ class InsetInfoHiring extends StatelessWidget {
                     },
                         onPress: (){
                           showDatePicker(context: context, initialDate: DateTime.now(), firstDate:
-                          DateTime.now() , lastDate: DateTime.parse('2023-12-31'))
+                          DateTime.now() , lastDate: DateTime.parse('2030-12-31'))
                               .then((value){
-                            importIDControl.text=DateFormat.yM().format(value!);
+                            issuingtIDControl.text=DateFormat.yM().format(value!);
                             cubit.getEmit();
 
 
@@ -240,30 +310,95 @@ class InsetInfoHiring extends StatelessWidget {
                 Row(
                   children: [
 
-
+                    Expanded(child: defaultEditText(label: 'Gender',control: genderControl,validat: ( s){
+                      if(s!.isEmpty){
+                        return"Empty";
+                      }
+                      return null;
+                    })),
                     SizedBox(width: 20,),
-                    Expanded(child: defaultEditText(label: 'Note',control: noteControl,)),
-                    //SizedBox(width: 20,),
-                    // Expanded(child: defaultEditText(label: 'search',control: search,onchange: (s){
-                    //   cubit.search(s);
-                    // })),
+                    Expanded(child: defaultEditText(label: 'Age',control: ageControl,validat: ( s){
+                      if(s!.isEmpty){
+                        return"Empty";
+                      }
+                      return null;
+                    },
 
+                    ),
+
+                    ),
+                    SizedBox(width: 20,),
+                    Expanded(child: defaultEditText(label: 'Birth date',control: birthControl,
+                        validat: ( s){
+                          if(s!.isEmpty){
+                            return" Empty";
+                          }
+                          return null;
+                        },onPress: (){
+                          showDatePicker(context: context, initialDate:  DateTime.parse('1999-01-01'), firstDate:
+                          DateTime.parse('1950-12-31') , lastDate: DateTime.parse('2010-12-31'))
+                              .then((value){
+                            expiredIDControl.text=DateFormat.yMd().format(value!);
+                            cubit.getEmit();
+
+
+                          }).catchError((error){
+                            print('date error'+error.toString());
+                          });
+
+                        }
+
+                    )),
+                    SizedBox(width: 20,),
+                    // Expanded(child: defaultEditText(label: 'Date Interview',control: birthControl
+                    //     ,validat: ( s){
+                    //       if(s!.isEmpty){
+                    //         return"Date is empty";
+                    //       }
+                    //       return null;
+                    //     }
+                    //     ,onPress: (){
+                    //       showDatePicker(context: context, initialDate: DateTime.now(), firstDate:
+                    //       DateTime.now() , lastDate: DateTime.parse('2023-12-31'))
+                    //           .then((value){
+                    //         dateInterviewControl.text=DateFormat.yMd().format(value!);
+                    //         cubit.getEmit();
+                    //
+                    //
+                    //       }).catchError((error){
+                    //         print('date error'+error.toString());
+                    //       });
+                    //
+                    //     })),
+                    // SizedBox(width: 20,),
+                    Expanded(child: defaultEditText(label: 'Note',control: noteControl,)),
                   ],
                 ),
                 SizedBox(height: 20,),
 
+
                 defaultButton(onPress: (){
     if(keyForm.currentState!.validate()) {
-      cubit.insertHiringSql(HiringModel(name: nameControl.text,
+      cubit.insertHiringSql(
+          HiringModel(
+            arabic_name: nameControl.text.trim(),
           nId: nIdControl.text.trim(),
-          ename: enameControl.text.trim(),
+          english_name: enameControl.text.trim(),
           center: centerControl.text.trim(),
-          city: cityControl.text.trim(),
-          governorate: governorateControl.text.trim(),
-          phoneno: phoneControl.text.trim(),
+          village: villageControl.text.trim(),
+          social_insno: socialControl.text.trim(),
+          governerate: governorateControl.text.trim(),
+          mob_no: phoneControl.text.trim(),
+          mother: motherControl.text.trim(),
           note: noteControl.text.trim(),
-          date: dateInterviewControl.text.trim(),
-          confirm: ''));
+          birth_date : birthControl.text.trim(),
+          date_interview: dateInterviewControl.text.trim(),
+          confirm: '',
+          gender: genderControl.text,
+          age: ageControl.text,
+          issuing_id: issuingtIDControl.text.trim(),
+          expired_id: expiredIDControl.text.trim(),
+      ));
       // cubit.add(name: nameControl.text,nId: nIdControl.text,center: centerControl.text,city: cityControl.text,governorate: governorateControl.text,covidNO: covedControl.text,note: noteControl.text,date: dateInterviewControl.text);
     } }, name: 'Insert'),
 
@@ -272,66 +407,9 @@ class InsetInfoHiring extends StatelessWidget {
                 await cubit.deleteHiringSql() ;
                 }, name:'delete'),visible: cubit.selectedNID.isNotEmpty?true:false),
                 SizedBox(height: 20,),
-               cubit.listModelHiring.isNotEmpty? Expanded(child: DataTable2(
-                  border: TableBorder.all(),
-                  fixedLeftColumns: 2,
-                   dataRowHeight: 30,
+               cubit.listModelHiring.isNotEmpty? dataTable(context,cubit.listModelHiring)
 
-                   minWidth: 1700,
-                    showBottomBorder:true ,
-                    showCheckboxColumn: true,
-                    onSelectAll: (value){
-                     // cubit.onchangeselect(value);
-                      cubit.onSelectAll(value??false);
-                     print(value.toString() +'here');
-                    },
-                    //checkboxHorizontalMargin: ,
-                    //horizontalScrollController:ScrollController() ,
-
-
-
-                    columns: [
-                      DataColumn2(label: Center(child: Text('Name')),fixedWidth: 300, ),
-                      DataColumn2(label: Text('National ID'), fixedWidth: 180),
-                      DataColumn2(label: Text('المحافظة'),  fixedWidth: 150),
-                      DataColumn2(label: Text('المركز'), fixedWidth: 150),
-                      DataColumn2(label: Text('الحي والقريه'), fixedWidth: 180),
-                      DataColumn2(label: Text('Vaccination No.'), fixedWidth: 210),
-                      DataColumn2(label: Text('Date '), fixedWidth: 150),
-                      DataColumn2(label: Text('Confirm'), size: ColumnSize.L),
-                      DataColumn2(label: Text('Note '), size: ColumnSize.L),
-
-
-
-                    ], rows: List<DataRow>.generate(cubit.listModelHiring.length, (index) =>
-                    DataRow(selected:cubit.selectedNID.contains( cubit.listModelHiring[index].nId),
-                      //cubit.selectall,
-
-
-                      onSelectChanged: (value){
-                      if(value??false) cubit.selectedNID.add(cubit.listModelHiring[index].nId??'') ;else cubit.selectedNID.removeAt(cubit.selectedNID.indexOf(cubit.listModelHiring[index].nId??"")) ;
-                      cubit.getEmit();
-
-                        print(value.toString()+'odd');
-                      },
-
-                      cells: [
-                      DataCell(Text('${cubit.listModelHiring[index].name}',style: TextStyle(),)),
-                      DataCell(Text('${cubit.listModelHiring[index].nId}',style: TextStyle(),)),
-                      DataCell(Text('${cubit.listModelHiring[index].governorate}',)),
-                      DataCell(Text('${cubit.listModelHiring[index].center}',style: TextStyle(),)),
-                      DataCell(Text('${cubit.listModelHiring[index].city}',style: TextStyle(),)),
-                      DataCell(Text('${cubit.listModelHiring[index].phoneno}',style: TextStyle(),)),
-                      DataCell(Text('${cubit.listModelHiring[index].date}',style: TextStyle(),)),
-                        DataCell(Text('${cubit.listModelHiring[index].confirm}',style: TextStyle(),)),
-                      DataCell(Text('${cubit.listModelHiring[index].note}',style: TextStyle(),)),
-
-
-
-
-                    ],)),
-                )
-                ):SizedBox()
+            :SizedBox()
               ],),
             ),
           ),

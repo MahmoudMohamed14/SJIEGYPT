@@ -23,13 +23,13 @@ class EditHiring extends StatelessWidget {
     TextEditingController? noteControl=new TextEditingController();
     TextEditingController? callControl=new TextEditingController();
     TextEditingController? sDateControl=new TextEditingController();
-    nameControl.text=HiringCubit.get(context).hiringModelEdit.name!;
+    nameControl.text=HiringCubit.get(context).hiringModelEdit.english_name!;
     nIdControl.text=HiringCubit.get(context).hiringModelEdit.nId!;
-    governorateControl.text=HiringCubit.get(context).hiringModelEdit.governorate!;
-    dateInterviewControl.text=HiringCubit.get(context).hiringModelEdit.date!;
-    cityControl.text=HiringCubit.get(context).hiringModelEdit.city!;
+    governorateControl.text=HiringCubit.get(context).hiringModelEdit.governerate!;
+    dateInterviewControl.text=HiringCubit.get(context).hiringModelEdit.birth_date!;
+    cityControl.text=HiringCubit.get(context).hiringModelEdit.village!;
     centerControl.text=HiringCubit.get(context).hiringModelEdit.center!;
-    phoneControl.text=HiringCubit.get(context).hiringModelEdit.phoneno??'';
+    phoneControl.text=HiringCubit.get(context).hiringModelEdit.mob_no??'';
     noteControl.text=HiringCubit.get(context).hiringModelEdit.note!;
     callControl.text=HiringCubit.get(context).hiringModelEdit.iscall!;
     sDateControl.text=HiringCubit.get(context).hiringModelEdit.startdate!;
@@ -145,14 +145,14 @@ class EditHiring extends StatelessWidget {
                 // Visibility(child: child)
                 defaultButton(onPress: (){
                   if(keyForm.currentState!.validate()) {
-                    cubit.insertHiringSql(HiringModel(name: nameControl.text,
+                    cubit.insertHiringSql(HiringModel(english_name: nameControl.text,
                         nId: nIdControl.text,
                         center: centerControl.text,
-                        city: cityControl.text,
-                        governorate: governorateControl.text,
-                        phoneno:phoneControl.text,
+                        village: cityControl.text,
+                        governerate: governorateControl.text,
+                        mob_no:phoneControl.text,
                         note: noteControl.text,
-                        date: dateInterviewControl.text,
+                        birth_date: dateInterviewControl.text,
                         confirm: ''));
                     // cubit.add(name: nameControl.text,nId: nIdControl.text,center: centerControl.text,city: cityControl.text,governorate: governorateControl.text,covidNO: covedControl.text,note: noteControl.text,date: dateInterviewControl.text);
                   } }, name: 'Insert'),

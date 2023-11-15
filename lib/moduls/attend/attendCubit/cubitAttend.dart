@@ -9,11 +9,11 @@ import 'package:untitled/componant/componant.dart';
 import 'package:untitled/componant/local/cache_helper.dart';
 import 'package:untitled/componant/remote/dioHelper.dart';
 import 'package:untitled/home.dart';
-import 'package:untitled/model/attendModel.dart';
+
 import 'package:untitled/model/payroll.dart';
 import 'package:untitled/model/reviewModel.dart';
 import 'package:untitled/moduls/attend/attendCubit/statusAttend.dart';
-import 'package:untitled/moduls/attend/attend_Sceen.dart';
+
 import 'package:untitled/moduls/attend/getHistory.dart';
 import 'package:untitled/moduls/attend/payslipscreen.dart';
 import 'package:untitled/moduls/permisssion/deparScreen.dart';
@@ -42,11 +42,11 @@ class AttendCubit extends Cubit< AttendStates> {
   }
 
   String? filePathAttend;
-  List<AttendModel> listModel=[];
+
   List<List<dynamic>> paySlipList = [];
   List<List<dynamic>> suddenNormalList = [];
 
-  List<Widget> listBody=[AttendScreen(),PaySlipScreen()];
+  List<Widget> listBody=[PaySlipScreen()];
   List<String> listTitle=['attendance','PaySlip'];
   List<Widget> listIcons=[Icon(IconBroken.User,),Icon(IconBroken.Wallet,)];
 
@@ -552,22 +552,22 @@ class AttendCubit extends Cubit< AttendStates> {
     emit(ChangeHomeButton());
   }
 
-  void getPermission(){
-    listOfAttendGl.forEach((element) {
-      if(element.checkIn!.trim().isEmpty && element.checkOut!.trim().isEmpty) {
-        totalAbsent += 1;
-
-
-      }
-      else if(element.checkOut!.isNotEmpty&&int.parse(element.checkOut!.substring(0,element.checkOut!.indexOf(':')))<=16)
-      {
-        totalPermission+=1;
-      }
-    });
-    print("permission= "+totalPermission.toString());
-    print("absent= "+totalAbsent.toString());
-    emit(GetPermissionAttendState());
-  }
+  // void getPermission(){
+  //   listOfAttendGl.forEach((element) {
+  //     if(element.checkIn!.trim().isEmpty && element.checkOut!.trim().isEmpty) {
+  //       totalAbsent += 1;
+  //
+  //
+  //     }
+  //     else if(element.checkOut!.isNotEmpty&&int.parse(element.checkOut!.substring(0,element.checkOut!.indexOf(':')))<=16)
+  //     {
+  //       totalPermission+=1;
+  //     }
+  //   });
+  //   print("permission= "+totalPermission.toString());
+  //   print("absent= "+totalAbsent.toString());
+  //   emit(GetPermissionAttendState());
+  // }
 
 
   void getEmit(){

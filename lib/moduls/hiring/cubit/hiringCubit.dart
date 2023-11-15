@@ -139,54 +139,55 @@ class HiringCubit extends Cubit< HiringStates> {
 
 
   }
-  Future confirmAndCancelSql(bool confirm)  async {
-    emit(HiringConfirmAndRejectLoadingState());
-   // valuepross=0;
-  late HiringModel model;
-
-    for(int i=0;i< selectedNID.length;i++){
-      listModelHiring.forEach((element) {
-        if(element.nId==selectedNID[i]){
-          element.confirm=confirm?'ok':'no';
-          model=element;
-        }
-      });
-
-      try{
-        Response response=await DioHelper.dio.post('edithiring.php',queryParameters: model.toMap());
-        if(response.statusCode==200){
-          print(i);
-         // valuepross=(i+1)/suddenNormalList.length*100;
-        //  getEmit();
-          print("###############################");
-          print(response.data);
-          // if(valuepross.toInt()==100){
-          //   suddenNormalList.clear();
-          //   emit(UpdateSuddenNormalSQLSuccessState());
-          // }
-          if(i==selectedNID.length-1){
-            emit(HiringConfirmAndRejectSuccessState());
-            getAllHiring();
-            onSelectAll(false);
-          }
-        }
-      }catch(error){
-        emit(HiringConfirmAndRejectErrorState());
-        print("Sudden Normal upload "+error.toString());
-
-      }
-
-
-
-
-
-
-    }
-
-
-
-  }
-  Future callYesSql(bool iscall )  async {
+  // Future confirmAndCancelSql(bool confirm)  async {
+  //   emit(HiringConfirmAndRejectLoadingState());
+  //  // valuepross=0;
+  // late HiringModel model;
+  //
+  //   for(int i=0;i< selectedNID.length;i++){
+  //     listModelHiring.forEach((element) {
+  //       if(element.nId==selectedNID[i]){
+  //         element.confirm=confirm?'ok':'no';
+  //         model=element;
+  //       }
+  //     });
+  //
+  //     try{
+  //       Response response=await DioHelper.dio.post('testupdate.php',queryParameters: {'key':'confirm','value':model.confirm,'nId':model.nId});
+  //       if(response.statusCode==200){
+  //         print(i);
+  //        // valuepross=(i+1)/suddenNormalList.length*100;
+  //       //  getEmit();
+  //         print("###############################");
+  //         print(response.data);
+  //         // if(valuepross.toInt()==100){
+  //         //   suddenNormalList.clear();
+  //         //   emit(UpdateSuddenNormalSQLSuccessState());
+  //         // }
+  //         if(i==selectedNID.length-1){
+  //           emit(HiringConfirmAndRejectSuccessState());
+  //           getAllHiring();
+  //           onSelectAll(false);
+  //         }
+  //       }
+  //     }catch(error){
+  //       emit(HiringConfirmAndRejectErrorState());
+  //       print("Sudden Normal upload "+error.toString());
+  //
+  //     }
+  //
+  //
+  //
+  //
+  //
+  //
+  //   }
+  //
+  //
+  //
+  // }
+  Future updateValueSql(String ky , {bool ?iscall,String? value})  async {
+    String val='';
     emit(HiringCallLoadingState());
     // valuepross=0;
     late HiringModel model;
@@ -194,13 +195,15 @@ class HiringCubit extends Cubit< HiringStates> {
     for(int i=0;i< selectedNID.length;i++){
       listModelHiring.forEach((element) {
         if(element.nId==selectedNID[i]){
-          element.iscall=iscall?'ok':'no';;
+          if(iscall!=null) val=iscall?'ok':'no';
+          else if(value !=null) val=value;
+
           model=element;
         }
       });
 
       try{
-        Response response=await DioHelper.dio.post('edithiring.php',queryParameters: model.toMap());
+        Response response=await DioHelper.dio.post('valueupdatehiring.php',queryParameters: {'key':ky,'value':val,'nId':model.nId});
         if(response.statusCode==200){
           print(i);
           // valuepross=(i+1)/suddenNormalList.length*100;
@@ -234,54 +237,9 @@ class HiringCubit extends Cubit< HiringStates> {
 
 
   }
-  Future documentOKSql( )  async {
-    emit(HiringCallLoadingState());
-    // valuepross=0;
-    late HiringModel model;
-
-    for(int i=0;i< selectedNID.length;i++){
-      listModelHiring.forEach((element) {
-        if(element.nId==selectedNID[i]){
-          element.document='ok';
-          model=element;
-        }
-      });
-
-      try{
-        Response response=await DioHelper.dio.post('edithiring.php',queryParameters: model.toMap());
-        if(response.statusCode==200){
-          print(i);
-          // valuepross=(i+1)/suddenNormalList.length*100;
-          //getEmit();
-
-          print("###############################");
-          print(response.data);
-          // if(valuepross.toInt()==100){
-          //   suddenNormalList.clear();
-          //   emit(UpdateSuddenNormalSQLSuccessState());
-          // }
-          if(i==selectedNID.length-1){
-            emit(HiringCallSuccessState());
-            getAllHiring();
-            onSelectAll(false);
-          }
-        }
-      }catch(error){
-        print("Sudden Normal upload "+error.toString());
-        emit(HiringCallErrorState());
-
-      }
 
 
 
-
-
-
-    }
-
-
-
-  }
  List <HiringModel>listOfSearch=[];
  String statusOfList='true';
   void search(String value){
@@ -295,31 +253,23 @@ class HiringCubit extends Cubit< HiringStates> {
   }
   int countCallok=0;
   int countCallno=0;
-  int countdocumentok=0;
-  int countdocumentno=0;
+
   void getMyList(){
     countCallok=0;
     countCallno=0;
-    countdocumentok=0;
-    countdocumentno=0;
+
     listModelHiring=[];
     listAllHiring.forEach((element) {
       if(statusOfList=='true'&& element.confirm=='ok'){
         if(element.iscall=='ok' ){
           countCallok+=1;
           //listModelHiring.add(element);
-        }   if(element.iscall=='no'){
-          countCallno +=1;
-         // listModelHiring.add(element);
-        }  if(element.document=='ok' ){
-          countdocumentok +=1;
-          //listModelHiring.add(element);
-
-        }  if(element.document!.isEmpty){
-          countdocumentno+=1;
-         // listModelHiring.add(element);
-
         }
+         if(element.iscall=='no'){
+          countCallno +=1;
+        //  // listModelHiring.add(element);
+         }
+
         listModelHiring.add(element);
       }else   if(statusOfList=='false'&& element.confirm=='no'){
         listModelHiring.add(element);
@@ -337,7 +287,7 @@ class HiringCubit extends Cubit< HiringStates> {
     final Worksheet sheet = workbook.worksheets[0];
     if(listOfSearch.isNotEmpty){ for(int i=0;i<=listOfSearch.length;i++){
       if(i==0){
-        sheet.getRangeByName('A1').setText('Name');
+        sheet.getRangeByName('A1').setText('En');
         sheet.getRangeByName('B1').setText('National ID');
         sheet.getRangeByName('C1').setText('المحافظه');
         sheet.getRangeByName('D1').setText('المركز');
@@ -346,14 +296,14 @@ class HiringCubit extends Cubit< HiringStates> {
         sheet.getRangeByName('G1').setText('Confirmed');
         sheet.getRangeByName('H1').setText('Date');
       }else{
-        sheet.getRangeByName('A${i+1}').setText('${listOfSearch[i-1].name}');
-        sheet.getRangeByName('B${i+1}').setText('${listOfSearch[i-1].nId}');
-        sheet.getRangeByName('C${i+1}').setText('${listOfSearch[i-1].governorate}');
-        sheet.getRangeByName('D${i+1}').setText('${listOfSearch[i-1].center}');
-        sheet.getRangeByName('E${i+1}').setText('${listOfSearch[i-1].center}');
-        sheet.getRangeByName('F${i+1}').setText('${listOfSearch[i-1].phoneno}');
-        sheet.getRangeByName('G${i+1}').setText('${listOfSearch[i-1].confirm}');
-        sheet.getRangeByName('H${i+1}').setText('${listOfSearch[i-1].date}');
+        sheet.getRangeByName('A${i+1}').setText('${listOfSearch[i-1].english_name}');
+        sheet.getRangeByName('B${i+1}').setText('${listOfSearch[i-1].arabic_name}');
+        sheet.getRangeByName('C${i+1}').setText('${listOfSearch[i-1].nId}');
+        sheet.getRangeByName('D${i+1}').setText('${listOfSearch[i-1].mother}');
+        sheet.getRangeByName('E${i+1}').setText('${listOfSearch[i-1].mob_no}');
+        sheet.getRangeByName('F${i+1}').setText('${listOfSearch[i-1].governerate}');
+        sheet.getRangeByName('G${i+1}').setText('${listOfSearch[i-1].center}');
+        sheet.getRangeByName('H${i+1}').setText('${listOfSearch[i-1].birth_date}');
 
       }
 
@@ -370,14 +320,14 @@ class HiringCubit extends Cubit< HiringStates> {
        sheet.getRangeByName('H1').setText('Date');
      }
      else{
-       sheet.getRangeByName('A${i+1}').setText('${listModelHiring[i-1].name}');
+       sheet.getRangeByName('A${i+1}').setText('${listModelHiring[i-1].english_name}');
        sheet.getRangeByName('B${i+1}').setText('${listModelHiring[i-1].nId}');
-       sheet.getRangeByName('C${i+1}').setText('${listModelHiring[i-1].governorate}');
+       sheet.getRangeByName('C${i+1}').setText('${listModelHiring[i-1].governerate}');
        sheet.getRangeByName('D${i+1}').setText('${listModelHiring[i-1].center}');
        sheet.getRangeByName('E${i+1}').setText('${listModelHiring[i-1].center}');
-       sheet.getRangeByName('F${i+1}').setText('${listModelHiring[i-1].phoneno}');
+       sheet.getRangeByName('F${i+1}').setText('${listModelHiring[i-1].mob_no}');
        sheet.getRangeByName('G${i+1}').setText('${listModelHiring[i-1].confirm}');
-       sheet.getRangeByName('H${i+1}').setText('${listModelHiring[i-1].date}');
+       sheet.getRangeByName('H${i+1}').setText('${listModelHiring[i-1].birth_date}');
      }
 
    }
@@ -412,13 +362,14 @@ class HiringCubit extends Cubit< HiringStates> {
         listModelHiring.add(element);
       }else   if(txtSearch =='callNo'&&element.iscall=='no'&& element.confirm=='ok' ){
         listModelHiring.add(element);
-      }else   if(txtSearch =='documentOk'&&element.document=='ok'&& element.confirm=='ok' ){
-        listModelHiring.add(element);
-
-      }else   if(txtSearch =='documentNo'&&element.document=='' && element.confirm=='ok'){
-        listModelHiring.add(element);
-
       }
+      // else   if(txtSearch =='documentOk'&&element.document=='ok'&& element.confirm=='ok' ){
+      //   listModelHiring.add(element);
+      //
+      // }else   if(txtSearch =='documentNo'&&element.document=='' && element.confirm=='ok'){
+      //   listModelHiring.add(element);
+      //
+      // }
 
     });} else getMyList();
     getEmit();

@@ -54,7 +54,7 @@ class AttendAndPayScreen extends StatelessWidget {
           //
           // ],
         ),
-        body: cubit.listBody[1],
+        body: cubit.listBody[0],
           // bottomNavigationBar:
           // BottomNavigationBar(items:[
           //   BottomNavigationBarItem(icon:Icon(IconBroken.User,),label: 'Attendance'),

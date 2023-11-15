@@ -1,7 +1,5 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:untitled/componant/componant.dart';
 import 'package:untitled/componant/local/cache_helper.dart';
 import 'package:untitled/moduls/hiring/cubit/hiringCubit.dart';
@@ -10,9 +8,8 @@ import 'package:untitled/moduls/hiring/design.dart';
 import 'package:untitled/moduls/hiring/insertInformation.dart';
 import 'package:untitled/moduls/login/login_screen.dart';
 import 'package:untitled/shared/constant/color_manager.dart';
-
-class ProcessHiring extends StatelessWidget {
-  const ProcessHiring({Key? key}) : super(key: key);
+class SafetyScreen extends StatelessWidget {
+  const SafetyScreen ({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +49,7 @@ class ProcessHiring extends StatelessWidget {
         builder:  (context,state){
           var cubit=HiringCubit.get(context);
           return  Scaffold(
-            
+
 
             //   backgroundColor: Colors.white70.withOpacity(.9),
 
@@ -70,27 +67,6 @@ class ProcessHiring extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       //mainAxisSize: MainAxisSize.min,
                       children: [
-                        TextButton(onPressed: (){
-                          search.text='';
-                          cubit.statusOfList='';
-                          cubit.onSelectAll(false);
-                          cubit.getMyList();
-                        }, child:Text('Hiring List',style: TextStyle(color:  cubit.statusOfList==''?ColorManager.primary:ColorManager.grey,fontWeight: FontWeight.bold,fontSize: 20),)),
-                        SizedBox(width: 20,),
-                        TextButton(onPressed: (){
-                          search.text='';
-                          cubit.statusOfList='true';
-                          cubit.onSelectAll(false);
-                          cubit.getMyList();
-                        }, child:Text('Confirmed',style: TextStyle(color:  cubit.statusOfList=='true'?ColorManager.primary:ColorManager.grey2,fontWeight: FontWeight.bold,fontSize: 20))),
-                        SizedBox(width: 20,),
-                        TextButton(onPressed: (){
-                          search.text='';
-                          cubit.statusOfList='false';
-                          cubit.onSelectAll(false);
-                          cubit.getMyList();
-                        }, child:Text('Rejected',style: TextStyle(color:  cubit.statusOfList=='false'?ColorManager.primary:ColorManager.grey2,fontWeight: FontWeight.bold,fontSize: 20))),
-                        Spacer(),
                         SizedBox(
                           width:200,
                           height: 40,
@@ -98,38 +74,7 @@ class ProcessHiring extends StatelessWidget {
                             cubit.search(s);
                           }),
                         ),
-                        Visibility(
-                          visible: cubit.statusOfList=='true',
-                          child: Row(
-                            children: [
-                              TextButton(onPressed: (){
-                                if(!cubit.isSearch){
-                                  cubit.searchByValue(true, 'callOk');
-                                }else{cubit.searchByValue(false, '');}
-                              }, child:Column(
-                                children: [
-                                  Text('CallOk',style: TextStyle(color:  cubit.isSearch&&cubit.typeSearch=='callOk'?ColorManager.primary:ColorManager.grey,fontWeight: FontWeight.bold,fontSize: 16),),
-                                  Text('${cubit.countCallok}',style: TextStyle(color:  ColorManager.grey,fontWeight: FontWeight.bold,fontSize: 14),),
 
-                                ],
-                              )),
-                              TextButton(onPressed: (){
-                                if(!cubit.isSearch){
-                                  cubit.searchByValue(true,'callNo');
-                                }else{cubit.searchByValue(false, '');}
-                              }, child:Column(
-                                children: [
-                                  Text('CallNo',style: TextStyle(color:  cubit.isSearch&&cubit.typeSearch=='callNo'?ColorManager.primary:ColorManager.grey,fontWeight: FontWeight.bold,fontSize: 16),),
-                                  Text('${cubit.countCallno}',style: TextStyle(color:  ColorManager.grey,fontWeight: FontWeight.bold,fontSize: 14),),
-
-                                ],
-                              )),
-
-
-                            ],
-                          ),
-                        ),
-                        
 
                         SizedBox(width: 20,),
                         TextButton(onPressed: (){
@@ -144,7 +89,7 @@ class ProcessHiring extends StatelessWidget {
                           CacheHelper.removeWithKey(key: 'sudden');
                           CacheHelper.removeWithKey(key: 'control');
                           navigateAndFinish(context, LoginScreen());
-                         
+
                         }, child:Row(
                           children: [
                             Icon(Icons.logout_outlined,color:ColorManager.error ,),
@@ -155,7 +100,7 @@ class ProcessHiring extends StatelessWidget {
 
                           ],
                         )),
-                        
+
 
 
                       ],
@@ -171,7 +116,7 @@ class ProcessHiring extends StatelessWidget {
 
 
                         child: defaultButton(height: 25,width: 100,onPress: () async {
-                          await cubit.updateValueSql( 'confirm',iscall: true) ;
+                         // await cubit.updateValueSql(true, 'confirm') ;
 
 
                         }, name:'confirm'),
@@ -183,9 +128,9 @@ class ProcessHiring extends StatelessWidget {
                           children: [
                             SizedBox(width: 20,),
                             defaultButton(color: Colors.blueGrey,height: 25,width: 100,onPress: () async {
-                              await cubit.updateValueSql( 'confirm',iscall: false).then((value) {
-
-                              }) ;
+                              // await cubit.updateValueSql(false, 'confirm').then((value) {
+                              //
+                              // }) ;
 
 
                             }, name:'Reject'),
@@ -199,33 +144,23 @@ class ProcessHiring extends StatelessWidget {
                           children: [
                             SizedBox(width: 20,),
                             defaultButton(height: 25,width: 100,onPress: () async {
-                              cubit.updateValueSql('iscall',iscall: true).then((value) {}) ;
+                            //  cubit.updateValueSql(true,'iscall').then((value) {}) ;
 
 
                             }, name:'CallOK'),
                             SizedBox(width: 20,),
                             defaultButton(color: Colors.blueGrey,height: 25,width: 100,onPress: () async {
-                              cubit.updateValueSql('iscall',iscall: false).then((value) {}) ;
+                             // cubit.updateValueSql(false,'iscall').then((value) {}) ;
                             }, name:'NOT Answer'),
                             SizedBox(width: 20,),
-                            defaultButton(height: 25,width: 150,onPress: () async {
-                              showDatePicker(context: context, initialDate: DateTime.now(), firstDate:
-                              DateTime.now() , lastDate: DateTime.parse('2030-12-31'))
-                                  .then((value){
-                               cubit.updateValueSql('startdate',value: DateFormat.yMd().format(value!));
+                            defaultButton(height: 25,width: 120,onPress: () async {
+                              //   cubit.documentOKSql().then((value) {}) ;
 
 
-                              }).catchError((error){
-                                print('date error'+error.toString());
-                              });
-
-
-
-                            }, name:'Date Start Work'),
+                            }, name:'Document ok'),
                           ],
                         ),
                       ),
-
                       SizedBox(width: 20,),
                       defaultButton(color: Colors.red,height: 25,width: 100,onPress: () async {
                         cubit.deleteHiringSql();
@@ -251,12 +186,7 @@ class ProcessHiring extends StatelessWidget {
                   ),
                 ],),
             ) ,
-            floatingActionButton: FloatingActionButton(onPressed:() async {
 
-              cubit.statusOfList='';
-              cubit.getMyList();
-              navigateTo(context, InsetInfoHiring());
-            },child: Icon(Icons.add),),
           );
         }
 
