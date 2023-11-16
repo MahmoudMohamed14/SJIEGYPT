@@ -2,10 +2,13 @@
 
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart';
+import 'package:untitled/componant/componant.dart';
+import 'package:untitled/componant/local/cache_helper.dart';
 
 import 'package:untitled/componant/remote/dioHelper.dart';
 import 'package:untitled/model/hiringModel.dart';
@@ -19,6 +22,12 @@ class HiringCubit extends Cubit< HiringStates> {
     return BlocProvider.of(context);
   }
   bool selectall=false;
+  String dropValue='SEEG';
+  List<String>dropValueList=['SEEG','Silo','Fayoum'];
+  void dropButtonChange({vlu}) {
+    dropValue = vlu;
+    emit(HiringDropState ());
+  }
   void onchangeselect(value){
     selectall= !selectall;
     emit(HiringAddState());
@@ -39,6 +48,7 @@ class HiringCubit extends Cubit< HiringStates> {
   }
   List<String>selectedNID=[];
   List<HiringModel> listModelHiring=[];
+
   List<HiringModel> listAllHiring=[];
 
   Future insertHiringSql(HiringModel model)  async {
@@ -237,6 +247,41 @@ class HiringCubit extends Cubit< HiringStates> {
 
 
   }
+  Future updateAllSql(context)  async {
+
+    emit(HiringUpdateLoadingState());
+
+
+    try{
+      Response response=await DioHelper.dio.post('edithiring.php',queryParameters: hiringModelEdit.toMap());
+      if(response.statusCode==200){
+       // print(i);
+        // valuepross=(i+1)/suddenNormalList.length*100;
+        //getEmit();
+
+        print("###############################");
+        print(response.data);
+        // if(valuepross.toInt()==100){
+        //   suddenNormalList.clear();
+        //   emit(UpdateSuddenNormalSQLSuccessState());
+        // }
+
+          emit(HiringUpdateSuccessState());
+        Navigator.of(context).pop(true);
+
+          getAllHiring();
+          onSelectAll(false);
+
+      }
+    }catch(error){
+      print("edit allHiring "+error.toString());
+      emit(HiringUpdateErrorState());
+
+    }
+
+
+
+  }
 
 
 
@@ -245,7 +290,7 @@ class HiringCubit extends Cubit< HiringStates> {
   void search(String value){
     listOfSearch=[];
 
-    listOfSearch = listModelHiring.where((element) => element.toMap().values.toString().toLowerCase().trim().contains(value.toLowerCase().trim())).toList();
+    listOfSearch = listModelHiring.where((element) => element.valueSearch().toLowerCase().trim().contains(value.toLowerCase().trim())).toList();
      getEmit();
 
 
@@ -260,7 +305,12 @@ class HiringCubit extends Cubit< HiringStates> {
 
     listModelHiring=[];
     listAllHiring.forEach((element) {
-      if(statusOfList=='true'&& element.confirm=='ok'){
+      if(CacheHelper.getData(key: 'controller')=='safety'){
+        if(element.startdate!.isNotEmpty)listModelHiring.add(element);
+      }
+
+     else if(element.startdate!.isEmpty){
+       if(statusOfList=='true'&& element.confirm=='ok'){
         if(element.iscall=='ok' ){
           countCallok+=1;
           //listModelHiring.add(element);
@@ -271,12 +321,10 @@ class HiringCubit extends Cubit< HiringStates> {
          }
 
         listModelHiring.add(element);
-      }else   if(statusOfList=='false'&& element.confirm=='no'){
-        listModelHiring.add(element);
-      }else   if(statusOfList==''&& element.confirm==''){
-        listModelHiring.add(element);
-
       }
+      else   if(statusOfList=='false'&& element.confirm=='no'){listModelHiring.add(element);}
+      else   if(statusOfList==''&& element.confirm==''){listModelHiring.add(element);}
+     }
 
     });
     getEmit();

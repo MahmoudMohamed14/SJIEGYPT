@@ -7,6 +7,7 @@ import 'package:untitled/model/hiringModel.dart';
 import 'package:untitled/moduls/hiring/cubit/hiringCubit.dart';
 import 'package:untitled/moduls/hiring/cubit/hiringStatus.dart';
 import 'package:untitled/moduls/hiring/design.dart';
+import 'package:untitled/shared/constant/color_manager.dart';
 
 class InsetInfoHiring extends StatelessWidget {
 
@@ -30,6 +31,9 @@ class InsetInfoHiring extends StatelessWidget {
     TextEditingController? ageControl=new TextEditingController();
     TextEditingController? birthControl=new TextEditingController();
     TextEditingController? genderControl=new TextEditingController();
+    TextEditingController? locationControl=new TextEditingController();
+    TextEditingController? projectControl=new TextEditingController();
+
 
 
     dateInterviewControl.text=DateFormat.yMd().format(DateTime.now());
@@ -73,9 +77,12 @@ class InsetInfoHiring extends StatelessWidget {
       builder:  (context,state){
         var cubit=HiringCubit.get(context);
         return Scaffold(
-          appBar: AppBar(),
+
+          appBar: AppBar(
+
+          ),
           body: Padding(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.only(left: 10,right: 10,bottom: 10),
             child: Form(
               key: keyForm,
               child: Column(children: [
@@ -110,8 +117,9 @@ class InsetInfoHiring extends StatelessWidget {
 
                           String year=date.substring(1,3);
                           String numYear=date.substring(0,1)=='2'?'19':'20';
-                          int gender=int.parse(s.substring(13,14));
-                          genderControl.text=gender%2==0?'Male':'Female';
+                          int gender=int.parse(s.substring(12,13));
+                          print(int.parse(s.substring(12,13)).toString()+"gender");
+                          genderControl.text=gender%2==0?'Female':'Male';
                           ageControl.text=(DateTime.now().year-int.parse("$numYear$year")).toString();
                           birthControl.text="$month/$day/$numYear$year";
                           String gov=s.substring(7,9);
@@ -127,7 +135,7 @@ class InsetInfoHiring extends StatelessWidget {
                           }
                           }
                           cubit.getEmit();}
-                          if(s.length==0){
+                          if(s.length<14){
                             governorateControl.clear();
                             genderControl.clear();
                             birthControl.clear();
@@ -135,6 +143,7 @@ class InsetInfoHiring extends StatelessWidget {
                             ageControl.clear();
 
                           }
+                          cubit.getEmit();
                         },
                             label: 'National ID',control: nIdControl,textType: TextInputType.number,maxlength: 14,validat: ( s){
                           RegExp regex = RegExp(r'^\d+$');
@@ -178,7 +187,7 @@ class InsetInfoHiring extends StatelessWidget {
                         )),
                   ],
                 ),
-                SizedBox(height: 20,),
+
                 Row(
                   children: [
 
@@ -218,14 +227,14 @@ class InsetInfoHiring extends StatelessWidget {
                     )),
                   ],
                 ),
-                SizedBox(height: 20,),
+
                 Row(
                   children: [
 
                      Expanded(child: Column(
 
                        children: [
-                         SizedBox(height: 20,),
+                         SizedBox(height:20,),
                          defaultEditText(label:'Social insurance',control: socialControl
    // validat: ( s){
                     //   RegExp regex = RegExp(r'^\d+$');
@@ -306,7 +315,7 @@ class InsetInfoHiring extends StatelessWidget {
                     })),
                   ],
                 ),
-                SizedBox(height: 20,),
+
                 Row(
                   children: [
 
@@ -328,7 +337,7 @@ class InsetInfoHiring extends StatelessWidget {
 
                     ),
                     SizedBox(width: 20,),
-                    Expanded(child: defaultEditText(label: 'Birth date',control: birthControl,
+                    Expanded(child: defaultEditText(label: 'Birth date(m/d/y)',control: birthControl,
                         validat: ( s){
                           if(s!.isEmpty){
                             return" Empty";
@@ -338,7 +347,7 @@ class InsetInfoHiring extends StatelessWidget {
                           showDatePicker(context: context, initialDate:  DateTime.parse('1999-01-01'), firstDate:
                           DateTime.parse('1950-12-31') , lastDate: DateTime.parse('2010-12-31'))
                               .then((value){
-                            expiredIDControl.text=DateFormat.yMd().format(value!);
+                            birthControl.text=DateFormat.yMd().format(value!);
                             cubit.getEmit();
 
 
@@ -371,10 +380,65 @@ class InsetInfoHiring extends StatelessWidget {
                     //
                     //     })),
                     // SizedBox(width: 20,),
+                    Expanded(child: defaultEditText(label: 'Project',control: projectControl,)),
+                  ],
+                ),
+                SizedBox(height: 15,),
+                Row(
+                  children: [
+
+                    Container(
+                      width: 300,
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: ColorManager.lightPrimary),
+                        borderRadius: BorderRadius.circular(15)
+                      ),
+                      child: DropdownButton(
+
+                          isExpanded: true,
+                          iconSize: 40,
+
+
+                          value: cubit.dropValue,
+
+
+                          onChanged: ( String?value){
+
+                            cubit.dropButtonChange(vlu: value);
+
+
+                          },
+
+                          items:List.generate(cubit.dropValueList.length, (index) =>   DropdownMenuItem<String>(child: Text(cubit.dropValueList[index],),value: cubit.dropValueList[index],))
+                      ),
+                    ),
+                    SizedBox(width: 20,),
+                    // Expanded(child: defaultEditText(label: 'Date Interview',control: birthControl
+                    //     ,validat: ( s){
+                    //       if(s!.isEmpty){
+                    //         return"Date is empty";
+                    //       }
+                    //       return null;
+                    //     }
+                    //     ,onPress: (){
+                    //       showDatePicker(context: context, initialDate: DateTime.now(), firstDate:
+                    //       DateTime.now() , lastDate: DateTime.parse('2023-12-31'))
+                    //           .then((value){
+                    //         dateInterviewControl.text=DateFormat.yMd().format(value!);
+                    //         cubit.getEmit();
+                    //
+                    //
+                    //       }).catchError((error){
+                    //         print('date error'+error.toString());
+                    //       });
+                    //
+                    //     })),
+                    // SizedBox(width: 20,),
                     Expanded(child: defaultEditText(label: 'Note',control: noteControl,)),
                   ],
                 ),
-                SizedBox(height: 20,),
+                SizedBox(height: 10,),
 
 
                 defaultButton(onPress: (){
@@ -385,6 +449,8 @@ class InsetInfoHiring extends StatelessWidget {
           nId: nIdControl.text.trim(),
           english_name: enameControl.text.trim(),
           center: centerControl.text.trim(),
+          project: projectControl.text.trim(),
+          locatwork: cubit.dropValue,
           village: villageControl.text.trim(),
           social_insno: socialControl.text.trim(),
           governerate: governorateControl.text.trim(),
@@ -406,8 +472,11 @@ class InsetInfoHiring extends StatelessWidget {
                 Visibility(child: defaultButton(width: 100,onPress: () async {
                 await cubit.deleteHiringSql() ;
                 }, name:'delete'),visible: cubit.selectedNID.isNotEmpty?true:false),
+
+
                 SizedBox(height: 20,),
-               cubit.listModelHiring.isNotEmpty? dataTable(context,cubit.listModelHiring)
+               cubit.listModelHiring.isNotEmpty? dataTable(context,cubit.listModelHiring.reversed.toList())
+
 
             :SizedBox()
               ],),

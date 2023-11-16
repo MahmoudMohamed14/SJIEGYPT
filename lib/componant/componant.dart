@@ -5,6 +5,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:untitled/componant/local/cache_helper.dart';
 
 import 'package:untitled/moduls/hiring/process_hiring.dart';
+import 'package:untitled/moduls/hiring/safetyScrean.dart';
+import 'package:untitled/moduls/login/login_screen.dart';
 import '../model/payroll.dart';
 
 import '../shared/constant/color_manager.dart';
@@ -199,16 +201,22 @@ Color toastColor({
   return color;
 }
 
-void signOut( context,widget) {
+void signOut( context) {
 
 
-  // FirebaseAuth.instance.signOut().then((value) {
-  //  CacheHelper.removeWithKey(key: 'uId');
-  //  CacheHelper.removeWithKey(key: 'admin');
-  //  requestAdmin=false;
-  //  superAdmin=null;
-  //   navigateAndFinish(context, widget);
-  // });
+  CacheHelper.removeWithKey(key: 'isLogin');
+  CacheHelper.removeWithKey(key: 'myId');
+  CacheHelper.removeWithKey(key: 'isAtt');
+  CacheHelper.removeWithKey(key: 'isAdmin');
+  CacheHelper.removeWithKey(key: 'password');
+  CacheHelper.removeWithKey(key: 'myname');
+  CacheHelper.removeWithKey(key: 'depart');
+  CacheHelper.removeWithKey(key: 'normal');
+  CacheHelper.removeWithKey(key: 'sudden');
+  CacheHelper.removeWithKey(key: 'control');
+  CacheHelper.removeWithKey(key: 'controller');
+
+  navigateAndFinish(context, LoginScreen());
 
 
 
@@ -221,7 +229,7 @@ Widget launcherScreen({bool? iscurrentuser,required Widget loginScreen ,required
         if (CacheHelper.getData(key: 'depart')!='ehiring')
           launch = homeScreen;
         else
-          launch = ProcessHiring();
+          launch =  CacheHelper.getData(key: 'controller')=='safety'?SafetyScreen():ProcessHiring();
 
     }else {
   // CacheHelper.getData(key: 'myId')=='sji'? launch = UserAttendScreen():launch = AttendScreen();

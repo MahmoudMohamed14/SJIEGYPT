@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled/componant/componant.dart';
-import 'package:untitled/componant/local/cache_helper.dart';
 import 'package:untitled/moduls/hiring/cubit/hiringCubit.dart';
 import 'package:untitled/moduls/hiring/cubit/hiringStatus.dart';
 import 'package:untitled/moduls/hiring/design.dart';
-import 'package:untitled/moduls/hiring/insertInformation.dart';
-import 'package:untitled/moduls/login/login_screen.dart';
 import 'package:untitled/shared/constant/color_manager.dart';
-class SafetyScreen extends StatelessWidget {
-  const SafetyScreen ({Key? key}) : super(key: key);
+class DocumentScreen extends StatelessWidget {
+  const DocumentScreen ({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +74,7 @@ class SafetyScreen extends StatelessWidget {
                         ),
 
 
-                     Spacer(),
+                        Spacer(),
                         TextButton(onPressed: (){
                           signOut( context);
 
@@ -106,86 +103,104 @@ class SafetyScreen extends StatelessWidget {
                     child: Row(
                       children: [
                         defaultButton(color:  Colors.blueGrey,height: 25,width: 120,onPress: () async {
-                          await cubit.updateValueSql('vest',value: "Received") ;
+                          await cubit.updateValueSql('criminal_report',value: "Received") ;
 
 
-                        }, name:'Received Vest'),
-                        Row(
-                          children: [
-                            SizedBox(width: 20,),
-                            defaultButton(color: Colors.blueGrey,height: 25,width: 130,onPress: () async {
-                              showDialog(
-
-                                  barrierDismissible: false,
-                                  context: context,
-                                  builder:(context )=>AlertDialog(
-                                    backgroundColor:Colors.grey,
-                                    title: Text('Set Shoes Size',style: TextStyle(color: Colors.white),),
-                                    content:  Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        defaultEditText(label: 'Shoes Size',control: shoesSizeControl),
-                                        //Center(child: CircularProgressIndicator()),
-                                        // state is HiringAddErrorState? Text('تم الفحص الكود من قبل !!',style: TextStyle(color: Colors.white)):SizedBox(),
-                                      ],
-                                    ),
-                                    actions: [
-                                      TextButton(onPressed: (){
-                                        //emit(FinishSCanStateSuccess());
-                                        // duplicated=false;
-                                        // emitState();
-
-                                        Navigator.of(context).pop(true);
-
-                                      }, child: Text('Cancel',style: TextStyle(color: Colors.white),)),
-                                      TextButton(onPressed: () async {
-                                        await cubit.updateValueSql('shoes_size',value: shoesSizeControl.text.trim()).then((value) {
-
-                                        }) ;
-
-                                      }, child: Text('Confirm',style: TextStyle(color: ColorManager.darkPrimary),)),
-                                    ],
-
-                                  ));
-
-
-
-                            }, name:'Set Shoes Size'),
-                          ],
-                        ),
+                        }, name:'Criminal report'),
+                        // Row(
+                        //   children: [
+                        //     SizedBox(width: 20,),
+                        //     defaultButton(color: Colors.blueGrey,height: 25,width: 130,onPress: () async {
+                        //       showDialog(
+                        //
+                        //           barrierDismissible: false,
+                        //           context: context,
+                        //           builder:(context )=>AlertDialog(
+                        //             backgroundColor:Colors.grey,
+                        //             title: Text('Set Shoes Size',style: TextStyle(color: Colors.white),),
+                        //             content:  Column(
+                        //               mainAxisSize: MainAxisSize.min,
+                        //               children: [
+                        //                 defaultEditText(label: 'Shoes Size',control: shoesSizeControl),
+                        //                 //Center(child: CircularProgressIndicator()),
+                        //                 // state is HiringAddErrorState? Text('تم الفحص الكود من قبل !!',style: TextStyle(color: Colors.white)):SizedBox(),
+                        //               ],
+                        //             ),
+                        //             actions: [
+                        //               TextButton(onPressed: (){
+                        //                 //emit(FinishSCanStateSuccess());
+                        //                 // duplicated=false;
+                        //                 // emitState();
+                        //
+                        //                 Navigator.of(context).pop(true);
+                        //
+                        //               }, child: Text('Cancel',style: TextStyle(color: Colors.white),)),
+                        //               TextButton(onPressed: () async {
+                        //                 await cubit.updateValueSql('shoes_size',value: shoesSizeControl.text.trim()).then((value) {
+                        //
+                        //                 }) ;
+                        //
+                        //               }, child: Text('Confirm',style: TextStyle(color: ColorManager.darkPrimary),)),
+                        //             ],
+                        //
+                        //           ));
+                        //
+                        //
+                        //
+                        //     }, name:'Set Shoes Size'),
+                        //   ],
+                        // ),
                         Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             SizedBox(width: 15,),
                             defaultButton(color:  Colors.blueGrey,height: 25,width: 180,onPress: () async {
-                              cubit.updateValueSql('safety_soes',value: 'Received').then((value) {}) ;
+                              cubit.updateValueSql('education_certificate',value: 'Received').then((value) {}) ;
 
 
-                            }, name:'Received Safety Shoes'),
+                            }, name:'Education certificate'),
                             SizedBox(width:15,),
                             defaultButton(color: Colors.blueGrey,height: 25,width: 120,onPress: () async {
-                              cubit.updateValueSql('crocs',value: 'Received').then((value) {}) ;
-                            }, name:'Received Crocs'),
+                              cubit.updateValueSql('military_certificate ',value: 'Received').then((value) {}) ;
+                            }, name:'Military certificate'),
                             SizedBox(width: 15,),
                             defaultButton(color:  Colors.blueGrey,height: 25,width: 180,onPress: () async {
-                                cubit.updateValueSql('safety_helmet',value:'Received' );
+                              cubit.updateValueSql('birth_certificate',value:'Received' );
 
 
-                            }, name:'Received Safety Helmet'),
+                            }, name:'Birth certificate'),
                           ],
                         ),
                         SizedBox(width: 15,),
                         defaultButton(color: Colors.blueGrey,height: 25,width: 150,onPress: () async {
-                          cubit.updateValueSql('ear_blug',value:'Received' );
+                          cubit.updateValueSql('insurance_print',value:'Received' );
 
 
-                        }, name:'Received Ear blug'),
+                        }, name:'Insurance print'),
                         SizedBox(width: 15,),
                         defaultButton(color: Colors.blueGrey ,height: 25,width: 120,onPress: () async {
-                          cubit.updateValueSql('cutter',value:'Received' );
+                          cubit.updateValueSql('nid_copy',value:'Received' );
 
 
-                        }, name:'Received Cutter '),
+                        }, name:'NID copy'),
+                        SizedBox(width: 15,),
+                        defaultButton(color: Colors.blueGrey ,height: 25,width: 120,onPress: () async {
+                          cubit.updateValueSql('personal_photo',value:'Received' );
+
+
+                        }, name:'Personal photo'),
+                        SizedBox(width: 15,),
+                        defaultButton(color: Colors.blueGrey ,height: 25,width: 120,onPress: () async {
+                          cubit.updateValueSql('form_111',value:'Received' );
+
+
+                        }, name:'Form 111'),
+                        SizedBox(width: 15,),
+                        defaultButton(color: Colors.blueGrey ,height: 25,width: 120,onPress: () async {
+                          cubit.updateValueSql('qr_vaccine',value:'Received' );
+
+
+                        }, name:'QR  vaccine'),
 
                         SizedBox(width: 15,),
                         defaultButton(color: Colors.blueGrey,height: 25,width: 80,onPress: () async {
@@ -197,8 +212,8 @@ class SafetyScreen extends StatelessWidget {
                     ),
                   ),visible: cubit.selectedNID.isNotEmpty?true:false),
                   SizedBox(height: 20,),
-                  search.text.isNotEmpty?dataTableSafety(context,cubit.listOfSearch)
-                      :cubit.listModelHiring.isNotEmpty? dataTableSafety(context,cubit.listModelHiring)
+                  search.text.isNotEmpty?dataTableDocument(context,cubit.listOfSearch)
+                      :cubit.listModelHiring.isNotEmpty? dataTableDocument(context,cubit.listModelHiring)
                       :Column(
                     children: [
                       SizedBox(height: 200,),

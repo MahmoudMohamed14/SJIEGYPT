@@ -155,18 +155,7 @@ class HomeLayout extends StatelessWidget {
                           ));
                           print('password done');
                         } else if(value=='out'){
-                          CacheHelper.removeWithKey(key: 'isLogin');
-                          CacheHelper.removeWithKey(key: 'myId');
-                          CacheHelper.removeWithKey(key: 'isAtt');
-                          CacheHelper.removeWithKey(key: 'isAdmin');
-                          CacheHelper.removeWithKey(key: 'password');
-                          CacheHelper.removeWithKey(key: 'myname');
-                          CacheHelper.removeWithKey(key: 'depart');
-                          CacheHelper.removeWithKey(key: 'normal');
-                          CacheHelper.removeWithKey(key: 'sudden');
-                          CacheHelper.removeWithKey(key: 'control');
-
-                          navigateAndFinish(context, LoginScreen());
+                          signOut( context);
                         }
                       },
 

@@ -16,3 +16,7 @@ class HiringConfirmAndRejectErrorState extends  HiringStates{}
 class HiringCallSuccessState extends  HiringStates{}
 class HiringCallLoadingState extends  HiringStates{}
 class HiringCallErrorState extends  HiringStates{}
+class HiringUpdateSuccessState extends  HiringStates{}
+class HiringUpdateLoadingState extends  HiringStates{}
+class HiringUpdateErrorState extends  HiringStates{}
+class HiringDropState extends  HiringStates{}

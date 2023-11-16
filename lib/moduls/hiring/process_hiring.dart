@@ -16,7 +16,7 @@ class ProcessHiring extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController? search=new TextEditingController();
+    TextEditingController? searchControl=new TextEditingController();
     return  BlocConsumer<HiringCubit,HiringStates>(
         listener: (context,state){
           if(state is HiringDeleteLoadingState||state is HiringConfirmAndRejectLoadingState ||state is HiringCallLoadingState ){
@@ -71,21 +71,21 @@ class ProcessHiring extends StatelessWidget {
                       //mainAxisSize: MainAxisSize.min,
                       children: [
                         TextButton(onPressed: (){
-                          search.text='';
+                          searchControl.text='';
                           cubit.statusOfList='';
                           cubit.onSelectAll(false);
                           cubit.getMyList();
                         }, child:Text('Hiring List',style: TextStyle(color:  cubit.statusOfList==''?ColorManager.primary:ColorManager.grey,fontWeight: FontWeight.bold,fontSize: 20),)),
                         SizedBox(width: 20,),
                         TextButton(onPressed: (){
-                          search.text='';
+                          searchControl.text='';
                           cubit.statusOfList='true';
                           cubit.onSelectAll(false);
                           cubit.getMyList();
                         }, child:Text('Confirmed',style: TextStyle(color:  cubit.statusOfList=='true'?ColorManager.primary:ColorManager.grey2,fontWeight: FontWeight.bold,fontSize: 20))),
                         SizedBox(width: 20,),
                         TextButton(onPressed: (){
-                          search.text='';
+                          searchControl.text='';
                           cubit.statusOfList='false';
                           cubit.onSelectAll(false);
                           cubit.getMyList();
@@ -94,8 +94,8 @@ class ProcessHiring extends StatelessWidget {
                         SizedBox(
                           width:200,
                           height: 40,
-                          child: defaultEditText(prefIcon: Icons.search,label: 'search',control: search,onchange: (s){
-                            cubit.search(s);
+                          child: defaultEditText(prefIcon: Icons.search,label: 'search',control: searchControl,onchange: (s){
+                            cubit.search(s.trim());
                           }),
                         ),
                         Visibility(
@@ -133,19 +133,10 @@ class ProcessHiring extends StatelessWidget {
 
                         SizedBox(width: 20,),
                         TextButton(onPressed: (){
-                          CacheHelper.removeWithKey(key: 'isLogin');
-                          CacheHelper.removeWithKey(key: 'myId');
-                          CacheHelper.removeWithKey(key: 'isAtt');
-                          CacheHelper.removeWithKey(key: 'isAdmin');
-                          CacheHelper.removeWithKey(key: 'password');
-                          CacheHelper.removeWithKey(key: 'myname');
-                          CacheHelper.removeWithKey(key: 'depart');
-                          CacheHelper.removeWithKey(key: 'normal');
-                          CacheHelper.removeWithKey(key: 'sudden');
-                          CacheHelper.removeWithKey(key: 'control');
-                          navigateAndFinish(context, LoginScreen());
-                         
-                        }, child:Row(
+                          signOut( context);
+
+                        },
+                            child:Row(
                           children: [
                             Icon(Icons.logout_outlined,color:ColorManager.error ,),
                             SizedBox(width: 5,),
@@ -241,8 +232,8 @@ class ProcessHiring extends StatelessWidget {
                     ],
                   ),visible: cubit.selectedNID.isNotEmpty?true:false),
                   SizedBox(height: 20,),
-                  search.text.isNotEmpty?dataTable(context,cubit.listOfSearch)
-                      :cubit.listModelHiring.isNotEmpty? dataTable(context,cubit.listModelHiring)
+                  searchControl.text.isNotEmpty?dataTable(context,cubit.listOfSearch)
+                      :cubit.listModelHiring.isNotEmpty? dataTableAllData(context,cubit.listModelHiring)
                       :Column(
                     children: [
                       SizedBox(height: 200,),
@@ -251,12 +242,12 @@ class ProcessHiring extends StatelessWidget {
                   ),
                 ],),
             ) ,
-            floatingActionButton: FloatingActionButton(onPressed:() async {
+            floatingActionButton: cubit.statusOfList==''?FloatingActionButton(onPressed:() async {
 
               cubit.statusOfList='';
               cubit.getMyList();
               navigateTo(context, InsetInfoHiring());
-            },child: Icon(Icons.add),),
+            },child: Icon(Icons.add),):null,
           );
         }
 

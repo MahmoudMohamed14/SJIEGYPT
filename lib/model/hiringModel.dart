@@ -5,6 +5,7 @@ class HiringModel{
   String?confirm;
   String ?iscall;
   String?startdate;
+  String?enddate;
   int?id;
   String?gencode;
   String?code;
@@ -61,6 +62,7 @@ class HiringModel{
     this.gencode,
     this.code,
     this.locatwork,
+    this.enddate,
 
     //ok down
     this.english_name ,
@@ -113,6 +115,7 @@ class HiringModel{
     date_interview=json['date_interview'];
     iscall=json['iscall'];
     startdate=json['startdate'];
+    enddate=json['enddate'];
     gencode=json['gencode'];
    code=json['code'];
    locatwork=json['locatwork'];
@@ -138,7 +141,7 @@ class HiringModel{
     service =json['service'];
     title=json['title'];
     category=json['category'];
-    social_insamount =json['social_insamount '];
+    social_insamount =json['social_insamount'];
     vest=json['vest'];
     shoes_size=json['shoes_size'];
     safety_soes=json['safety_soes'];
@@ -166,6 +169,7 @@ return {
   'confirm':confirm,
   'iscall':iscall,
   'startdate':startdate,
+  'enddate':enddate,
   'date_interview':date_interview,
  'gencode':gencode,
  'code':code,
@@ -215,5 +219,8 @@ return {
 
 
 };
+  }
+  String valueSearch(){
+    return "${code}${nId}${arabic_name}${english_name}${mother}${mob_no}${locatwork}${governerate}${village}${center}${project}${startdate}${birth_date}${gender}${shoes_size}${social_insno}${date_interview}";
   }
 }

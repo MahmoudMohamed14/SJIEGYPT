@@ -648,6 +648,7 @@ class AttendCubit extends Cubit< AttendStates> {
             CacheHelper.putData(key: 'depart', value: res[0]['depart']);
             CacheHelper.putData(key: 'normal', value: res[0]['normal']);
             CacheHelper.putData(key: 'sudden', value: res[0]['sudden']);
+            CacheHelper.putData(key: 'controller', value: res[0]['controller']);
             if (res[0]['controller'] == 'true') {
               CacheHelper.putData(key: 'control', value: true);
             } else
