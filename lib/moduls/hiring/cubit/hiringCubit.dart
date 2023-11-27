@@ -3,7 +3,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
+//import 'package:path_provider/path_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart';
@@ -13,7 +13,7 @@ import 'package:untitled/componant/local/cache_helper.dart';
 import 'package:untitled/componant/remote/dioHelper.dart';
 import 'package:untitled/model/hiringModel.dart';
 import 'package:untitled/moduls/hiring/cubit/hiringStatus.dart';
-import 'package:open_file/open_file.dart';
+//import 'package:open_file/open_file.dart';
 
 class HiringCubit extends Cubit< HiringStates> {
   HiringCubit () : super(HiringInitState ());
@@ -116,6 +116,13 @@ class HiringCubit extends Cubit< HiringStates> {
 
 
   }
+  String typeOfAccountHiring='';
+  int numOfWork=0;
+  int numOfEndWork=0;
+  int numOfReject=0;
+  int  numOfConfirm=0;
+  int numOfWait=0;
+
   Future<void> getAllHiring() async {
    emit(HiringGetLoadingState());
     listAllHiring=[];
@@ -127,7 +134,17 @@ class HiringCubit extends Cubit< HiringStates> {
       if(res.length>0){
         print(res);
         listAllHiring=[];
+       numOfWork=0;
+       numOfEndWork=0;
+       numOfReject=0;
+       numOfConfirm=0;
+        numOfWait=0;
         res.forEach((element){
+          if(element['startdate'].toString().isNotEmpty&&element['enddate'].toString().isEmpty)numOfWork+=1;
+          if(element['startdate'].toString().isNotEmpty&&element['enddate'].toString().isNotEmpty)numOfEndWork+=1;
+          if(element['confirm'].toString()=='no'&&element['startdate'].toString().isEmpty&&element['enddate'].toString().isEmpty)numOfReject+=1;
+          if(element['startdate'].toString().isEmpty&&element['enddate'].toString().isEmpty&&element['confirm'].toString()=='ok')numOfConfirm+=1;
+          if(element['startdate'].toString().isEmpty&&element['enddate'].toString().isEmpty&&element['confirm'].toString().isEmpty)numOfWait+=1;
           listAllHiring.add(HiringModel.FromJson(element));
           //myDepartList.add(element['depart']);
         });
@@ -139,63 +156,16 @@ class HiringCubit extends Cubit< HiringStates> {
 
       print(response.statusCode);
 
-    } else {print('Login failed: ${response.data}');}
+    } else {print('Get All Data Error: ${response.data}');}
     }catch(onError){
       emit(HiringGetErrorState());
 
-      print('Login onError: ${onError.toString()}');
+      print('Get All Data Error: ${onError.toString()}');
       print(onError);
     }
 
-
   }
-  // Future confirmAndCancelSql(bool confirm)  async {
-  //   emit(HiringConfirmAndRejectLoadingState());
-  //  // valuepross=0;
-  // late HiringModel model;
-  //
-  //   for(int i=0;i< selectedNID.length;i++){
-  //     listModelHiring.forEach((element) {
-  //       if(element.nId==selectedNID[i]){
-  //         element.confirm=confirm?'ok':'no';
-  //         model=element;
-  //       }
-  //     });
-  //
-  //     try{
-  //       Response response=await DioHelper.dio.post('testupdate.php',queryParameters: {'key':'confirm','value':model.confirm,'nId':model.nId});
-  //       if(response.statusCode==200){
-  //         print(i);
-  //        // valuepross=(i+1)/suddenNormalList.length*100;
-  //       //  getEmit();
-  //         print("###############################");
-  //         print(response.data);
-  //         // if(valuepross.toInt()==100){
-  //         //   suddenNormalList.clear();
-  //         //   emit(UpdateSuddenNormalSQLSuccessState());
-  //         // }
-  //         if(i==selectedNID.length-1){
-  //           emit(HiringConfirmAndRejectSuccessState());
-  //           getAllHiring();
-  //           onSelectAll(false);
-  //         }
-  //       }
-  //     }catch(error){
-  //       emit(HiringConfirmAndRejectErrorState());
-  //       print("Sudden Normal upload "+error.toString());
-  //
-  //     }
-  //
-  //
-  //
-  //
-  //
-  //
-  //   }
-  //
-  //
-  //
-  // }
+
   Future updateValueSql(String ky , {bool ?iscall,String? value})  async {
     String val='';
     emit(HiringCallLoadingState());
@@ -286,6 +256,7 @@ class HiringCubit extends Cubit< HiringStates> {
 
 
  List <HiringModel>listOfSearch=[];
+  List <HiringModel>listOfExcel=[];
  String statusOfList='true';
   void search(String value){
     listOfSearch=[];
@@ -303,13 +274,17 @@ class HiringCubit extends Cubit< HiringStates> {
     countCallok=0;
     countCallno=0;
 
+
     listModelHiring=[];
     listAllHiring.forEach((element) {
-      if(CacheHelper.getData(key: 'controller')=='safety'){
-        if(element.startdate!.isNotEmpty)listModelHiring.add(element);
+      if(CacheHelper.getData(key: 'controller')=='safety'||typeOfAccountHiring!="hiring"){
+        if((element.startdate!.isNotEmpty&&element.enddate!.isEmpty)&&(typeOfAccountHiring=="workdata"||typeOfAccountHiring=="document"||typeOfAccountHiring=="safety"||CacheHelper.getData(key: 'controller')=='safety'))listModelHiring.add(element);
+        else if(element.startdate!.isNotEmpty&&element.enddate!.isNotEmpty&&typeOfAccountHiring=="endwork")listModelHiring.add(element);
+
+
       }
 
-     else if(element.startdate!.isEmpty){
+     else if(element.startdate!.isEmpty&&typeOfAccountHiring=="hiring"){
        if(statusOfList=='true'&& element.confirm=='ok'){
         if(element.iscall=='ok' ){
           countCallok+=1;
@@ -330,66 +305,68 @@ class HiringCubit extends Cubit< HiringStates> {
     getEmit();
 
   }
+
   Future<void> createExcel() async {
-    final Workbook workbook = Workbook();
-    final Worksheet sheet = workbook.worksheets[0];
-    if(listOfSearch.isNotEmpty){ for(int i=0;i<=listOfSearch.length;i++){
-      if(i==0){
-        sheet.getRangeByName('A1').setText('En');
-        sheet.getRangeByName('B1').setText('National ID');
-        sheet.getRangeByName('C1').setText('المحافظه');
-        sheet.getRangeByName('D1').setText('المركز');
-        sheet.getRangeByName('E1').setText('القريه');
-        sheet.getRangeByName('F1').setText('CovidNo');
-        sheet.getRangeByName('G1').setText('Confirmed');
-        sheet.getRangeByName('H1').setText('Date');
-      }else{
-        sheet.getRangeByName('A${i+1}').setText('${listOfSearch[i-1].english_name}');
-        sheet.getRangeByName('B${i+1}').setText('${listOfSearch[i-1].arabic_name}');
-        sheet.getRangeByName('C${i+1}').setText('${listOfSearch[i-1].nId}');
-        sheet.getRangeByName('D${i+1}').setText('${listOfSearch[i-1].mother}');
-        sheet.getRangeByName('E${i+1}').setText('${listOfSearch[i-1].mob_no}');
-        sheet.getRangeByName('F${i+1}').setText('${listOfSearch[i-1].governerate}');
-        sheet.getRangeByName('G${i+1}').setText('${listOfSearch[i-1].center}');
-        sheet.getRangeByName('H${i+1}').setText('${listOfSearch[i-1].birth_date}');
-
-      }
-
-    }}else{
-   for(int i=0;i<=listModelHiring.length;i++){
-     if(i==0){
-       sheet.getRangeByName('A1').setText('Name');
-       sheet.getRangeByName('B1').setText('National ID');
-       sheet.getRangeByName('C1').setText('المحافظه');
-       sheet.getRangeByName('D1').setText('المركز');
-       sheet.getRangeByName('E1').setText('القريه');
-       sheet.getRangeByName('F1').setText('CovidNo');
-       sheet.getRangeByName('G1').setText('Confirmed');
-       sheet.getRangeByName('H1').setText('Date');
-     }
-     else{
-       sheet.getRangeByName('A${i+1}').setText('${listModelHiring[i-1].english_name}');
-       sheet.getRangeByName('B${i+1}').setText('${listModelHiring[i-1].nId}');
-       sheet.getRangeByName('C${i+1}').setText('${listModelHiring[i-1].governerate}');
-       sheet.getRangeByName('D${i+1}').setText('${listModelHiring[i-1].center}');
-       sheet.getRangeByName('E${i+1}').setText('${listModelHiring[i-1].center}');
-       sheet.getRangeByName('F${i+1}').setText('${listModelHiring[i-1].mob_no}');
-       sheet.getRangeByName('G${i+1}').setText('${listModelHiring[i-1].confirm}');
-       sheet.getRangeByName('H${i+1}').setText('${listModelHiring[i-1].birth_date}');
-     }
-
-   }
-    }
-
-    final List<int> bytes = workbook.saveAsStream();
-    workbook.dispose();
-
-
-      final String path = ( await getDownloadsDirectory())!.path;
-      final String fileName = '$path\\Output.xlsx' ;
-      final File file = File(fileName);
-      await file.writeAsBytes(bytes, flush: true);
-      OpenFile.open(fileName);
+  //   listOfExcel=[];
+  //   final Workbook workbook = Workbook();
+  //   final Worksheet sheet = workbook.worksheets[0];
+  // listOfExcel=  listOfSearch.isNotEmpty?listOfSearch:listModelHiring;
+  //
+  //     for(int i=0;i<=selectedNID.length;i++){
+  //
+  //       if(i==0){
+  //         sheet.getRangeByName('A1').setText('English Name');
+  //         sheet.getRangeByName('B1').setText('Arabic Name');
+  //         sheet.getRangeByName('C1').setText('NID');
+  //         sheet.getRangeByName('D1').setText("Mother's Name");
+  //         sheet.getRangeByName('E1').setText('Mobile No.');
+  //         sheet.getRangeByName('F1').setText('governerate');
+  //         sheet.getRangeByName('G1').setText('center');
+  //         sheet.getRangeByName('H1').setText('village');
+  //         sheet.getRangeByName('I1').setText('Birth Date');
+  //         sheet.getRangeByName('J1').setText('Issuing Id');
+  //         sheet.getRangeByName('K1').setText('Expired Id');
+  //         sheet.getRangeByName('L1').setText('Social Ins no');
+  //       }
+  //       else{
+  //
+  //         listModelHiring.forEach((element) {
+  //           if(element.nId==selectedNID[i-1]){
+  //             sheet.getRangeByName('A${i+1}').setText('${element.english_name}');
+  //             sheet.getRangeByName('B${i+1}').setText('${element.arabic_name}');
+  //             sheet.getRangeByName('C${i+1}').setText('${element.nId}');
+  //             sheet.getRangeByName('D${i+1}').setText('${element.mother}');
+  //             sheet.getRangeByName('E${i+1}').setText('${element.mob_no}');
+  //             sheet.getRangeByName('F${i+1}').setText('${element.governerate}');
+  //             sheet.getRangeByName('G${i+1}').setText('${element.center}');
+  //             sheet.getRangeByName('H${i+1}').setText('${element.village}');
+  //             sheet.getRangeByName('I${i+1}').setText('${element.birth_date}');
+  //             sheet.getRangeByName('J${i+1}').setText('${element.issuing_id}');
+  //             sheet.getRangeByName('K${i+1}').setText('${element.expired_id}');
+  //             sheet.getRangeByName('L${i+1}').setText('${element.social_insno}');
+  //
+  //           }
+  //         }
+  //         );
+  //
+  //
+  //       }
+  //
+  //
+  //
+  //
+  //
+  //   }
+  //
+  //   final List<int> bytes = workbook.saveAsStream();
+  //   workbook.dispose();
+  //
+  //
+  //     final String path = ( await getDownloadsDirectory())!.path;
+  //     final String fileName = '$path\\Output.xlsx' ;
+  //     final File file = File(fileName);
+  //     await file.writeAsBytes(bytes, flush: true);
+  //     OpenFile.open(fileName);
 
   }
  late HiringModel hiringModelEdit ;

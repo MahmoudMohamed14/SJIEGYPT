@@ -7,10 +7,12 @@ import 'package:untitled/componant/local/cache_helper.dart';
 
 import 'package:untitled/moduls/attend/attendCubit/cubitAttend.dart';
 import 'package:untitled/moduls/hiring/cubit/hiringCubit.dart';
+import 'package:untitled/moduls/hiring/dashBoardScreen.dart';
 import 'package:untitled/moduls/hiring/process_hiring.dart';
 import 'package:untitled/moduls/hiring/safetyScrean.dart';
 
 import 'package:untitled/moduls/homeLayout/homeLayout.dart';
+import 'package:untitled/moduls/login/register.dart';
 
 import 'package:untitled/shared/constant/color_manager.dart';
 
@@ -69,7 +71,7 @@ class LoginScreen extends StatelessWidget {
 
             else {
               HiringCubit.get(context).getAllHiring();
-              navigateAndFinish(context , CacheHelper.getData(key: 'controller')=='safety'?SafetyScreen():ProcessHiring());}
+              navigateAndFinish(context , CacheHelper.getData(key: 'controller')=='safety'?SafetyScreen():DashBoardScreen());}
              // launch = ProcessHiring();
 
 
@@ -198,6 +200,9 @@ class LoginScreen extends StatelessWidget {
                                     },
                                     name:  "login"),
                                 SizedBox(height: 20,),
+                                TextButton(onPressed: (){
+                                  navigateTo(context, RegisterScreen());
+                                }, child: Text('Register?'))
 
                                 // SizedBox(height: 15,),
                                 //change Password

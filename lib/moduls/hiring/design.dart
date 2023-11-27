@@ -5,6 +5,7 @@ import 'package:untitled/model/hiringModel.dart';
 import 'package:untitled/moduls/hiring/cubit/hiringCubit.dart';
 
 import 'package:untitled/moduls/hiring/edit_hiring.dart';
+import 'package:untitled/shared/constant/color_manager.dart';
 
 Widget dataTable(context, List<HiringModel> listModel){
   return Expanded(child: DataTable2(
@@ -186,7 +187,7 @@ Widget dataTableAllData(context, List<HiringModel> listModel){
     dataRowHeight:28,
 
 
-    minWidth: 5310,
+    minWidth: 5570,
     columnSpacing: 5,
     showBottomBorder:true ,
     showCheckboxColumn: true,
@@ -221,6 +222,8 @@ Widget dataTableAllData(context, List<HiringModel> listModel){
        DataColumn2(label: Center(child: Text('Location Work')),fixedWidth: 130),
 
       DataColumn2(label: Center(child: Text('Date Interview')), fixedWidth: 130),
+      DataColumn2(label: Center(child: Text('Start Date')), fixedWidth: 130),
+      DataColumn2(label: Center(child: Text('Out Date')), fixedWidth: 130),
       //Project	Service 	Title	Category	Social ins.Amount
       DataColumn2(label: Center(child: Text('Project')), fixedWidth: 80),
       DataColumn2(label: Center(child: Text('Service')),fixedWidth: 100,),
@@ -289,6 +292,8 @@ Widget dataTableAllData(context, List<HiringModel> listModel){
           DataCell(Center(child: Text('${listModel[index].village}',style: TextStyle(),))),
           DataCell(Center(child: Text('${listModel[index].locatwork}',style: TextStyle(),))),
           DataCell(Center(child: Text('${listModel[index].date_interview}',style: TextStyle(),))),
+          DataCell(Center(child: Text('${listModel[index].startdate}',style: TextStyle(),))),
+          DataCell(Center(child: Text('${listModel[index].enddate}',style: TextStyle(),))),
           //Project	Service 	Title	Category	Social ins. Amount
           DataCell(Center(child: Text('${listModel[index].project}',style: TextStyle(),))),
           DataCell(Center(child: Text('${listModel[index].service}',style: TextStyle(),))),
@@ -298,15 +303,16 @@ Widget dataTableAllData(context, List<HiringModel> listModel){
           DataCell(Center(child: Text('${listModel[index].confirm}',style: TextStyle(color: HiringCubit.get(context).statusOfList=='true'?Colors.green:Colors.black),))),
           DataCell(Center(child: Text('${listModel[index].iscall}',style: TextStyle(),))),
 
-          DataCell(Center(child: Text('${listModel[index].criminal_report}',style: TextStyle(),))),
-          DataCell(Center(child: Text('${listModel[index].education_certificate}',style: TextStyle(),))),
-          DataCell(Center(child: Text('${listModel[index].military_certificate}',style: TextStyle(),))),
-          DataCell(Center(child: Text('${listModel[index].birth_certificate}',style: TextStyle(),))),
-          DataCell(Center(child: Text('${listModel[index].insurance_print}',style: TextStyle(),))),
-          DataCell(Center(child: Text('${listModel[index].nid_copy}',style: TextStyle(),))),
-          DataCell(Center(child: Text('${listModel[index].personal_photo}',style: TextStyle(),))),
-          DataCell(Center(child: Text('${listModel[index].form_111}',style: TextStyle(),))),
-          DataCell(Center(child: Text('${listModel[index].qr_vaccine}',style: TextStyle(),))),
+          DataCell(Center(child: Text('${listModel[index].criminal_report}',style: TextStyle(color:listModel[index].criminal_report=='Received'?Colors.green:ColorManager.error ),))),
+          DataCell(Center(child: Text('${listModel[index].education_certificate}',style: TextStyle(color:listModel[index].education_certificate=='Received'?Colors.green:ColorManager.error),))),
+          DataCell(Center(child: Text('${listModel[index].military_certificate}',style: TextStyle(color:listModel[index].military_certificate=='Received'?Colors.green:ColorManager.error),))),
+          DataCell(Center(child: Text('${listModel[index].birth_certificate}',style: TextStyle(color:listModel[index].birth_date=='Received'?Colors.green:ColorManager.error),))),
+          DataCell(Center(child: Text('${listModel[index].insurance_print}',style: TextStyle(color:listModel[index].insurance_print=='Received'?Colors.green:ColorManager.error),))),
+          DataCell(Center(child: Text('${listModel[index].nid_copy}',style: TextStyle(color:listModel[index].nid_copy=='Received'?Colors.green:ColorManager.error),))),
+          DataCell(Center(child: Text('${listModel[index].personal_photo}',style: TextStyle(color:listModel[index].personal_photo=='Received'?Colors.green:ColorManager.error),))),
+          DataCell(Center(child: Text('${listModel[index].form_111}',style: TextStyle(color:listModel[index].form_111=='Received'?Colors.green:ColorManager.error),))),
+          DataCell(Center(child: Text('${listModel[index].qr_vaccine}',style: TextStyle(color:listModel[index].qr_vaccine=='Received'?Colors.green:ColorManager.error),))),
+
 
           DataCell(Center(child: Text('${listModel[index].shoes_size}',style: TextStyle(),))),
           DataCell(Center(child: Text('${listModel[index].vest}',style: TextStyle(),))),
@@ -382,17 +388,17 @@ Widget dataTableDocument(context, List<HiringModel> listModel){
         },
 
         cells: [
-          DataCell(Center(child: Text('${listModel[index].english_name}',style: TextStyle(),))),
+          DataCell(Center(child: Text('${listModel[index].english_name}',style: TextStyle( ),))),
           DataCell(Center(child: Text('${listModel[index].arabic_name}',style: TextStyle(),))),
-          DataCell(Center(child: Text('${listModel[index].criminal_report}',style: TextStyle(),))),
-          DataCell(Center(child: Text('${listModel[index].education_certificate}',style: TextStyle(),))),
-          DataCell(Center(child: Text('${listModel[index].military_certificate}',style: TextStyle(),))),
-          DataCell(Center(child: Text('${listModel[index].birth_certificate}',style: TextStyle(),))),
-          DataCell(Center(child: Text('${listModel[index].insurance_print}',style: TextStyle(),))),
-          DataCell(Center(child: Text('${listModel[index].nid_copy}',style: TextStyle(),))),
-          DataCell(Center(child: Text('${listModel[index].personal_photo}',style: TextStyle(),))),
-          DataCell(Center(child: Text('${listModel[index].form_111}',style: TextStyle(),))),
-          DataCell(Center(child: Text('${listModel[index].qr_vaccine}',style: TextStyle(),))),
+          DataCell(Center(child: Text('${listModel[index].criminal_report}',style: TextStyle(color:listModel[index].criminal_report=='Received'?Colors.green:ColorManager.error ),))),
+          DataCell(Center(child: Text('${listModel[index].education_certificate}',style: TextStyle(color:listModel[index].education_certificate=='Received'?Colors.green:ColorManager.error),))),
+          DataCell(Center(child: Text('${listModel[index].military_certificate}',style: TextStyle(color:listModel[index].military_certificate=='Received'?Colors.green:ColorManager.error),))),
+          DataCell(Center(child: Text('${listModel[index].birth_certificate}',style: TextStyle(color:listModel[index].birth_date=='Received'?Colors.green:ColorManager.error),))),
+          DataCell(Center(child: Text('${listModel[index].insurance_print}',style: TextStyle(color:listModel[index].insurance_print=='Received'?Colors.green:ColorManager.error),))),
+          DataCell(Center(child: Text('${listModel[index].nid_copy}',style: TextStyle(color:listModel[index].nid_copy=='Received'?Colors.green:ColorManager.error),))),
+          DataCell(Center(child: Text('${listModel[index].personal_photo}',style: TextStyle(color:listModel[index].personal_photo=='Received'?Colors.green:ColorManager.error),))),
+          DataCell(Center(child: Text('${listModel[index].form_111}',style: TextStyle(color:listModel[index].form_111=='Received'?Colors.green:ColorManager.error),))),
+          DataCell(Center(child: Text('${listModel[index].qr_vaccine}',style: TextStyle(color:listModel[index].qr_vaccine=='Received'?Colors.green:ColorManager.error),))),
 
 
 
@@ -400,4 +406,55 @@ Widget dataTableDocument(context, List<HiringModel> listModel){
 
         ],)),
   ));
+}
+
+Widget counterDashBoard(title,count){
+  return  Expanded(
+
+    child: Padding(
+      padding: const EdgeInsets.all(10),
+      child: Container(
+
+        decoration: BoxDecoration(
+            color: ColorManager.primary,
+           // borderRadius:BorderRadius.circular(150)
+          shape: BoxShape.circle
+        ),
+        height: 150,
+        child:Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('$title',style: TextStyle(fontWeight: FontWeight.bold,color: ColorManager.white),),
+              Text('$count',style: TextStyle(fontWeight: FontWeight.bold,color: ColorManager.white),)
+            ],
+          ),
+        ) ,
+      ),
+    ),
+  );
+}
+Widget navigationDashBoard(title){
+  return  Container(
+
+    decoration: BoxDecoration(
+        color: ColorManager.primary,
+       borderRadius:BorderRadius.circular(20)
+       // shape: BoxShape.circle
+    ),
+    height: 150,
+    child:Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('$title',style: TextStyle(fontWeight: FontWeight.bold,color: ColorManager.white,fontSize: 30),),
+          //Text('$count',style: TextStyle(fontWeight: FontWeight.bold,color: ColorManager.white),)
+        ],
+      ),
+    ) ,
+  );
 }

@@ -52,6 +52,7 @@ class ProcessHiring extends StatelessWidget {
         builder:  (context,state){
           var cubit=HiringCubit.get(context);
           return  Scaffold(
+            appBar: AppBar(),
             
 
             //   backgroundColor: Colors.white70.withOpacity(.9),
@@ -131,22 +132,22 @@ class ProcessHiring extends StatelessWidget {
                         ),
                         
 
-                        SizedBox(width: 20,),
-                        TextButton(onPressed: (){
-                          signOut( context);
-
-                        },
-                            child:Row(
-                          children: [
-                            Icon(Icons.logout_outlined,color:ColorManager.error ,),
-                            SizedBox(width: 5,),
-                            Text('Logout',style: TextStyle(color: ColorManager.error,fontWeight: FontWeight.bold,fontSize: 16),),
-
-                            //Text('${cubit.countCallok}',style: TextStyle(color:  ColorManager.grey,fontWeight: FontWeight.bold,fontSize: 14),),
-
-                          ],
-                        )),
-                        
+                        // SizedBox(width: 20,),
+                        // TextButton(onPressed: (){
+                        //   signOut( context);
+                        //
+                        // },
+                        //     child:Row(
+                        //   children: [
+                        //     Icon(Icons.logout_outlined,color:ColorManager.error ,),
+                        //     SizedBox(width: 5,),
+                        //     Text('Logout',style: TextStyle(color: ColorManager.error,fontWeight: FontWeight.bold,fontSize: 16),),
+                        //
+                        //     //Text('${cubit.countCallok}',style: TextStyle(color:  ColorManager.grey,fontWeight: FontWeight.bold,fontSize: 14),),
+                        //
+                        //   ],
+                        // )),
+                        //
 
 
                       ],
@@ -233,7 +234,7 @@ class ProcessHiring extends StatelessWidget {
                   ),visible: cubit.selectedNID.isNotEmpty?true:false),
                   SizedBox(height: 20,),
                   searchControl.text.isNotEmpty?dataTable(context,cubit.listOfSearch)
-                      :cubit.listModelHiring.isNotEmpty? dataTableAllData(context,cubit.listModelHiring)
+                      :cubit.listModelHiring.isNotEmpty? dataTable(context,cubit.listModelHiring)
                       :Column(
                     children: [
                       SizedBox(height: 200,),

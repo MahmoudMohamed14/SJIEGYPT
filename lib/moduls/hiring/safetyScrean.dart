@@ -50,6 +50,7 @@ class SafetyScreen extends StatelessWidget {
         builder:  (context,state){
           var cubit=HiringCubit.get(context);
           return  Scaffold(
+            appBar: AppBar(),
 
 
             //   backgroundColor: Colors.white70.withOpacity(.9),
@@ -78,7 +79,7 @@ class SafetyScreen extends StatelessWidget {
 
 
                      Spacer(),
-                        TextButton(onPressed: (){
+                       CacheHelper.getData(key: 'controller') =='safety'?TextButton(onPressed: (){
                           signOut( context);
 
                         }, child:Row(
@@ -90,7 +91,7 @@ class SafetyScreen extends StatelessWidget {
                             //Text('${cubit.countCallok}',style: TextStyle(color:  ColorManager.grey,fontWeight: FontWeight.bold,fontSize: 14),),
 
                           ],
-                        )),
+                        )):SizedBox(),
 
 
 

@@ -105,14 +105,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
-  csv:
-    dependency: "direct main"
-    description:
-      name: csv
-      sha256: "142bdf2b24f4a49e35a0fc4398f21d861c4c0f9015e8054dcacd0bb8e23ee27d"
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.1.0"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -209,14 +201,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.4"
-  file_picker:
-    dependency: "direct main"
-    description:
-      name: file_picker
-      sha256: "704259669b5e9cb24e15c11cfcf02caf5f20d30901b3916d60b6d1c2d647035f"
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.6.1"
   fluent_ui:
     dependency: "direct main"
     description:
@@ -251,14 +235,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_plugin_android_lifecycle:
-    dependency: transitive
-    description:
-      name: flutter_plugin_android_lifecycle
-      sha256: f185ac890306b5779ecbd611f52502d8d4d63d27703ef73161ca0407e815f02c
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.16"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -381,14 +357,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
-  open_file:
-    dependency: "direct main"
-    description:
-      name: open_file
-      sha256: "5cd0288033d613ee7908aa974b7ff00805ae55d253f64d311603cf2e30613ca8"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.2.1"
   os_detect:
     dependency: transitive
     description:
@@ -453,30 +421,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.2"
-  path_provider:
-    dependency: "direct main"
-    description:
-      name: path_provider
-      sha256: "3087813781ab814e4157b172f1a11c46be20179fcc9bea043e0fba36bc0acaa2"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.15"
-  path_provider_android:
-    dependency: transitive
-    description:
-      name: path_provider_android
-      sha256: "2cec049d282c7f13c594b4a73976b0b4f2d7a1838a6dd5aaf7bd9719196bee86"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.27"
-  path_provider_foundation:
-    dependency: transitive
-    description:
-      name: path_provider_foundation
-      sha256: "916731ccbdce44d545414dd9961f26ba5fbaa74bcbb55237d8e65a623a8c7297"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.2.4"
   path_provider_linux:
     dependency: transitive
     description:

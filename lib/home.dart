@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:percent_indicator/percent_indicator.dart';
 import 'package:untitled/componant/componant.dart';
 import 'package:untitled/componant/local/cache_helper.dart';
 import 'package:untitled/moduls/attend/add_suddenNormal_screen.dart';
@@ -207,22 +206,77 @@ class HomeScreen extends StatelessWidget {
     ):  BlocConsumer<AttendCubit,AttendStates>(
       listener: (context,state){},
       builder:  (context,state){
+        var cubit=AttendCubit.get(context);
         return  state is GetUserLoadingState?Center(child: CircularProgressIndicator()) :Padding(
           padding: const EdgeInsets.all(20),
-          child: Container(
-            decoration: BoxDecoration(
-                border: Border.all(color:Colors.black,width: 1.5)
-
-            ),
+          child: SingleChildScrollView(
             child: Column(
-              mainAxisSize: MainAxisSize.min,
               children: [
-                itemInTable(label: 'الاسم',value: '${CacheHelper.getData(key: 'myname')??''}',),
-                itemInTable(label: 'القسم',value: '${CacheHelper.getData(key: 'depart')??''}'),
-                itemInTable(label: 'الكود',value: '${CacheHelper.getData(key: 'myId')??''}'),
-                itemInTable(label: 'الاعتيادي',value: '${CacheHelper.getData(key: 'normal')??''}'),
-                itemInTable(label: 'العارضه',value: '${CacheHelper.getData(key: 'sudden')??''}'),
-              //  itemInTable(label: 'اجمالي الاجازات المتاحه',value: '${int.parse(CacheHelper.getData(key: 'sudden')==''?'0':CacheHelper.getData(key: 'sudden'))+int.parse(CacheHelper.getData(key: 'normal')==''?'0':CacheHelper.getData(key: 'normal'))}'),
+                Container(
+                  decoration: BoxDecoration(
+                      border: Border.all(color:Colors.black,width: 1.5)
+
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      itemInTable(label: 'الاسم',value: '${CacheHelper.getData(key: 'myname')??''}',),
+                      itemInTable(label: 'القسم',value: '${CacheHelper.getData(key: 'depart')??''}'),
+                      itemInTable(label: 'الكود',value: '${CacheHelper.getData(key: 'myId')??''}'),
+                      itemInTable(label: 'الاعتيادي',value: '${CacheHelper.getData(key: 'normal')??''}'),
+                      itemInTable(label: 'العارضه',value: '${CacheHelper.getData(key: 'sudden')??''}'),
+
+
+
+                    //  itemInTable(label: 'اجمالي الاجازات المتاحه',value: '${int.parse(CacheHelper.getData(key: 'sudden')==''?'0':CacheHelper.getData(key: 'sudden'))+int.parse(CacheHelper.getData(key: 'normal')==''?'0':CacheHelper.getData(key: 'normal'))}'),
+                    ],
+                  ),
+                ),
+                // SizedBox(height: 5,),
+                //  CacheHelper.getData(key: 'vot')==null? Container(
+                //     decoration: BoxDecoration(
+                //         border: Border.all(color:ColorManager.primary,width: 2)
+                //
+                //     ),
+                //     child: Padding(
+                //       padding: const EdgeInsets.all(8.0),
+                //       child: Column(
+                //         mainAxisSize: MainAxisSize.min,
+                //         children: [
+                //           Directionality(
+                //
+                //             textDirection: TextDirection.rtl,
+                //             child: Text('''فى اطار المحافظه على البيئه العامه لمكان العمل وجعل المصنع اكثر صحه وامان تود الشركه ان تقرر اعطاء مصل البرد لكافه موظفين الشركه فاذا كان هناك ترحيب من جانب الموظفين سنقوم باحضار المصل  نحيط علمكم ان سلامتكم وصحتكم هامه لديناادراة الموارد البشريه\n برجاء ابداء الراى لتلقى المصل الخاص لمرض الانفلونزا؟ ''',),
+                //           ),
+                //           SizedBox(height: 20,),
+                //           Row(
+                //             children: [
+                //               Radio(value: 'ok', groupValue: cubit.valueRadioButton, onChanged: (value){
+                //                 cubit.onChangeRadioButton(value);
+                //               }),
+                //               SizedBox(width: 10,),
+                //               Text('نعم(yes)')
+                //             ],
+                //           ),
+                //           SizedBox(height: 10,),
+                //           Row(
+                //             children: [
+                //               Radio(value: 'no', groupValue: cubit.valueRadioButton, onChanged: (value){
+                //                 cubit.onChangeRadioButton(value);
+                //               }),
+                //               SizedBox(width: 10,),
+                //               Text('لا(No)')
+                //             ],
+                //           ),
+                //           //SizedBox(height: 10,),
+                //         cubit.valueRadioButton.isNotEmpty? state is  VotLoadingState?CircularProgressIndicator() :defaultButton(onPress: (){
+                //           cubit.votFunction();
+                //         }, name: 'تأكيد'):SizedBox(),
+                //           SizedBox(height: 10,)
+                //         ],
+                //       ),
+                //     ),
+                //   ):SizedBox()
               ],
             ),
           ),

@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:untitled/componant/local/cache_helper.dart';
+import 'package:untitled/moduls/hiring/dashBoardScreen.dart';
 
 import 'package:untitled/moduls/hiring/process_hiring.dart';
 import 'package:untitled/moduls/hiring/safetyScrean.dart';
@@ -215,6 +216,7 @@ void signOut( context) {
   CacheHelper.removeWithKey(key: 'sudden');
   CacheHelper.removeWithKey(key: 'control');
   CacheHelper.removeWithKey(key: 'controller');
+  CacheHelper.removeWithKey(key: 'location');
 
   navigateAndFinish(context, LoginScreen());
 
@@ -229,7 +231,8 @@ Widget launcherScreen({bool? iscurrentuser,required Widget loginScreen ,required
         if (CacheHelper.getData(key: 'depart')!='ehiring')
           launch = homeScreen;
         else
-          launch =  CacheHelper.getData(key: 'controller')=='safety'?SafetyScreen():ProcessHiring();
+          launch =  CacheHelper.getData(key: 'controller')=='safety'?SafetyScreen():DashBoardScreen();
+
 
     }else {
   // CacheHelper.getData(key: 'myId')=='sji'? launch = UserAttendScreen():launch = AttendScreen();

@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
-import 'package:csv/csv.dart';
+
+//import 'package:csv/csv.dart';
 import 'package:dio/dio.dart';
-import 'package:file_picker/file_picker.dart';
+//import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled/componant/componant.dart';
@@ -26,6 +26,12 @@ class AttendCubit extends Cubit< AttendStates> {
 
   static AttendCubit get(context) {
     return BlocProvider.of(context);
+  }
+  String dropValue='SEEG';
+  List<String>dropValueList=['SEEG','Silo','Fayoum'];
+  void dropButtonChange({vlu}) {
+    dropValue = vlu;
+    emit(HiringDropState ());
   }
   List<Widget>listScreenHome=[MonthsAttend(),HomeScreen(),MonthsAttend(),DepartScreen()];
   List<Widget>listTitleHome=[Text( "Month PaySlip", style: TextStyle(color:ColorManager.primary , fontSize: 20.0,)),Text('SJI EGYPT',style: TextStyle(color:ColorManager.primary , fontSize: 20.0,)),Text( "Month Review", style: TextStyle(color:ColorManager.primary , fontSize: 20.0,)),Text('Depart',style: TextStyle(color:ColorManager.primary , fontSize: 20.0,))];
@@ -61,163 +67,163 @@ class AttendCubit extends Cubit< AttendStates> {
 //to build aab to add in google play
   pickFilePaySlip() async {
 
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
-
-    if (result != null) {
-      paySlipList = [];
-      print(result.files.first.name);
-      filePathPaySlip = result.files.first.path!;
-
-      final input = File(filePathPaySlip!).openRead();
-      final fields = await input
-          .transform(utf8.decoder)
-          .transform(const CsvToListConverter())
-          .toList();
-     paySlipList  = fields;
-      print(fields.length);
-      print(paySlipList.length);
-
-     payListModel=[];
-
-      for (int i = 0; i <fields.length; i++) {
-
-
-          payListModel.add(PaySlipModel(
-              code: fields[i][0].toString().trim(),
-              name: fields[i][1].toString().trim(),
-              job_position: fields[i][2].toString().trim(),
-              basic: fields[i][3].toString().trim(),
-              // Variable: fields[i][4].toString().trim(),
-              // Clothing_Allow: fields[i][5].toString().trim(),
-             Meal_Allow: fields[i][4].toString().trim(),
-              Transportation: fields[i][5].toString().trim(),
-              Productivity_Allow: fields[i][6].toString().trim(),
-              Att_Bonus: fields[i][7].toString().trim(),
-              Activity_Allow: fields[i][8].toString().trim(),
-              Bonus: fields[i][9].toString().trim(),
-              Overtime: fields[i][10].toString().trim(),
-              Vacation_Balance: fields[i][11].toString().trim(),
-              Other_Dues: fields[i][12].toString().trim(),
-              Total_Dues: fields[i][13].toString().trim(),
-            net_salary:  fields[i][14].toString().trim(),
-              EmpSocial_Ins: fields[i][15].toString().trim(),
-              Tax: fields[i][16].toString().trim(),
-              Absent: fields[i][17].toString().trim(),
-              Penalty: fields[i][18].toString().trim(),
-             Sick: fields[i][19].toString().trim(),
-              WI: fields[i][20].toString().trim(),
-             Bonus_Deduction: fields[i][21].toString().trim(),
-              Other_Deduction: fields[i][22].toString().trim(),
-            total_Deduction: fields[i][23].toString().trim(),
-            regular: fields[i][24].toString().trim(),
-            casual: fields[i][25].toString().trim(),
-            day_absent: fields[i][26].toString().trim(),
-            day_Work: fields[i][27].toString().trim(),
-
-
-
-
-
-          ));
-
-
-
-      }
-
-      emit(FetchStateSuccess());
-      // print(pomList);
-      PlatformFile file = result.files.first;
-      print(payListModel.length);
-
-      print(file.name);
-
-      print(file.size);
-      print(file.extension);
-      print(file.path);
-    }
-
-
-    else {
-// User canceled the picker
-    }
+//     FilePickerResult? result = await FilePicker.platform.pickFiles();
+//
+//     if (result != null) {
+//       paySlipList = [];
+//       print(result.files.first.name);
+//       filePathPaySlip = result.files.first.path!;
+//
+//       final input = File(filePathPaySlip!).openRead();
+//       final fields = await input
+//           .transform(utf8.decoder)
+//           .transform(const CsvToListConverter())
+//           .toList();
+//      paySlipList  = fields;
+//       print(fields.length);
+//       print(paySlipList.length);
+//
+//      payListModel=[];
+//
+//       for (int i = 0; i <fields.length; i++) {
+//
+//
+//           payListModel.add(PaySlipModel(
+//               code: fields[i][0].toString().trim(),
+//               name: fields[i][1].toString().trim(),
+//               job_position: fields[i][2].toString().trim(),
+//               basic: fields[i][3].toString().trim(),
+//               // Variable: fields[i][4].toString().trim(),
+//               // Clothing_Allow: fields[i][5].toString().trim(),
+//              Meal_Allow: fields[i][4].toString().trim(),
+//               Transportation: fields[i][5].toString().trim(),
+//               Productivity_Allow: fields[i][6].toString().trim(),
+//               Att_Bonus: fields[i][7].toString().trim(),
+//               Activity_Allow: fields[i][8].toString().trim(),
+//               Bonus: fields[i][9].toString().trim(),
+//               Overtime: fields[i][10].toString().trim(),
+//               Vacation_Balance: fields[i][11].toString().trim(),
+//               Other_Dues: fields[i][12].toString().trim(),
+//               Total_Dues: fields[i][13].toString().trim(),
+//             net_salary:  fields[i][14].toString().trim(),
+//               EmpSocial_Ins: fields[i][15].toString().trim(),
+//               Tax: fields[i][16].toString().trim(),
+//               Absent: fields[i][17].toString().trim(),
+//               Penalty: fields[i][18].toString().trim(),
+//              Sick: fields[i][19].toString().trim(),
+//               WI: fields[i][20].toString().trim(),
+//              Bonus_Deduction: fields[i][21].toString().trim(),
+//               Other_Deduction: fields[i][22].toString().trim(),
+//             total_Deduction: fields[i][23].toString().trim(),
+//             regular: fields[i][24].toString().trim(),
+//             casual: fields[i][25].toString().trim(),
+//             day_absent: fields[i][26].toString().trim(),
+//             day_Work: fields[i][27].toString().trim(),
+//
+//
+//
+//
+//
+//           ));
+//
+//
+//
+//       }
+//
+//       emit(FetchStateSuccess());
+//       // print(pomList);
+//       PlatformFile file = result.files.first;
+//       print(payListModel.length);
+//
+//       print(file.name);
+//
+//       print(file.size);
+//       print(file.extension);
+//       print(file.path);
+//     }
+//
+//
+//     else {
+// // User canceled the picker
+//     }
 
 
   }
   pickFileusers() async {
 
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
-
-    if (result != null) {
-      paySlipList = [];
-      print(result.files.first.name);
-      filePathPaySlip = result.files.first.path!;
-
-      final input = File(filePathPaySlip!).openRead();
-      final fields = await input
-          .transform(utf8.decoder)
-          .transform(const CsvToListConverter())
-          .toList();
-      paySlipList  = fields;
-      print(fields.length);
-      print(paySlipList.length);
-
-
-
-      emit(FetchStateSuccess());
-      // print(pomList);
-      PlatformFile file = result.files.first;
-      print(paySlipList.length);
-
-      print(file.name);
-
-      print(file.size);
-      print(file.extension);
-      print(file.path);
-    }
-
-
-    else {
-// User canceled the picker
-    }
+//     FilePickerResult? result = await FilePicker.platform.pickFiles();
+//
+//     if (result != null) {
+//       paySlipList = [];
+//       print(result.files.first.name);
+//       filePathPaySlip = result.files.first.path!;
+//
+//       final input = File(filePathPaySlip!).openRead();
+//       final fields = await input
+//           .transform(utf8.decoder)
+//           .transform(const CsvToListConverter())
+//           .toList();
+//       paySlipList  = fields;
+//       print(fields.length);
+//       print(paySlipList.length);
+//
+//
+//
+//       emit(FetchStateSuccess());
+//       // print(pomList);
+//       PlatformFile file = result.files.first;
+//       print(paySlipList.length);
+//
+//       print(file.name);
+//
+//       print(file.size);
+//       print(file.extension);
+//       print(file.path);
+//     }
+//
+//
+//     else {
+// // User canceled the picker
+//     }
 
 
   }
   pickFileSuddenNormal() async {
-
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
-
-    if (result != null) {
-      suddenNormalList = [];
-      print(result.files.first.name);
-      filePathSuddenNormal = result.files.first.path!;
-
-      final input = File(filePathSuddenNormal!).openRead();
-      final fields = await input
-          .transform(utf8.decoder)
-          .transform(const CsvToListConverter())
-          .toList();
-      suddenNormalList  = fields;
-      print(fields.length);
-      print(suddenNormalList.length);
-
-
-
-      emit(FetchStateSuccess());
-      // print(pomList);
-      PlatformFile file = result.files.first;
-      print(suddenNormalList.length);
-
-      print(file.name);
-
-      print(file.size);
-      print(file.extension);
-      print(file.path);
-    }
-
-
-    else {
-// User canceled the picker
-    }
+//
+//     FilePickerResult? result = await FilePicker.platform.pickFiles();
+//
+//     if (result != null) {
+//       suddenNormalList = [];
+//       print(result.files.first.name);
+//       filePathSuddenNormal = result.files.first.path!;
+//
+//       final input = File(filePathSuddenNormal!).openRead();
+//       final fields = await input
+//           .transform(utf8.decoder)
+//           .transform(const CsvToListConverter())
+//           .toList();
+//       suddenNormalList  = fields;
+//       print(fields.length);
+//       print(suddenNormalList.length);
+//
+//
+//
+//       emit(FetchStateSuccess());
+//       // print(pomList);
+//       PlatformFile file = result.files.first;
+//       print(suddenNormalList.length);
+//
+//       print(file.name);
+//
+//       print(file.size);
+//       print(file.extension);
+//       print(file.path);
+//     }
+//
+//
+//     else {
+// // User canceled the picker
+//     }
 
 
   }
@@ -240,31 +246,31 @@ class AttendCubit extends Cubit< AttendStates> {
     //   document("${months[int.parse(moth!) - 1]}").
     //   set(payListModel[index-1].toMap()).then((value) {});
     //   if(index%200==0&&(payListModel.length-index)>0){
-     showDialog(
+    showDialog(
 
 
-            barrierDismissible: false,
-            context: context, builder: (context) =>
-            AlertDialog(
+        barrierDismissible: false,
+        context: context, builder: (context) =>
+        AlertDialog(
 
-              title: Text('متابعة تحميل الرواتب'),
-              content:Directionality(
-                textDirection: TextDirection.rtl,
-                child: Text("",
-                  locale: Locale('ar'),
-                ),
-              ),
+          title: Text('متابعة تحميل الرواتب'),
+          content:Directionality(
+            textDirection: TextDirection.rtl,
+            child: Text("",
+              locale: Locale('ar'),
+            ),
+          ),
 
-              actions: [
-                TextButton(onPressed: () {
-                  Navigator.pop(context);
-                },
-                    child: Text('Cancel',
-                      style: TextStyle(color: Colors.red),)),
+          actions: [
+            TextButton(onPressed: () {
+              Navigator.pop(context);
+            },
+                child: Text('Cancel',
+                  style: TextStyle(color: Colors.red),)),
 
-              ],
+          ],
 
-           ));
+        ));
     //     break;
     //   }
     //   if(index==payListModel.length){
@@ -274,127 +280,61 @@ class AttendCubit extends Cubit< AttendStates> {
     //   }
     //
     // }
-      // payListModel.forEach((element) {
-      //
-      //     Firestore.instance
-      //         .collection("userAttend").document("${element.code}")
-      //         .collection('payslip').
-      //     document("${months[int.parse(moth!) - 1]}").
-      //     set(element.toMap()).then((value) {});
-      //
-      // });
+    // payListModel.forEach((element) {
+    //
+    //     Firestore.instance
+    //         .collection("userAttend").document("${element.code}")
+    //         .collection('payslip').
+    //     document("${months[int.parse(moth!) - 1]}").
+    //     set(element.toMap()).then((value) {});
+    //
+    // });
 
 
-      // payListModel.clear();
-      // paySlipList.clear();
-      // emit(AddAttendStateSuccess());
-    }
-   Future  insertPaySlipSql()async  {
+    // payListModel.clear();
+    // paySlipList.clear();
+    // emit(AddAttendStateSuccess());
+  }
+  Future  insertPaySlipSql()async  {
     emit(AddPaySlipLoadState());
-     valuepross=0;
-     print('ok'+payListModel.length.toString());
-
-      for(int i=0;i<payListModel.length;i++){
-        payListModel[i].month=monthindex;
-        try{
-          Response response=await DioHelper.dio.post('insertSlip.php',queryParameters: payListModel[i].toMap());
-          if(response.statusCode==200){
-            print(i);
-            valuepross=(i+1)/payListModel.length*100;
-            getEmit();
-            print("###############################");
-            print(response.data);
-            if(valuepross.toInt()==100){
-              paySlipList.clear();
-              emit(AddPaySlipStateSuccess());
-            }
-          }else{
-            print("payupload  Fail"+ response.statusCode.toString());
-            emit(AddPaySlipStateError());
-          }
-        }catch(error){
-          print("payupload "+error.toString());
-          emit(AddPaySlipStateError());
-
-        }
-
-        // DioHelper.dio.post('insertSlip.php',queryParameters: payListModel[i].toMap()) .then((value) {
-        //   var res=json.decode(value.data);
-        //   if (value.statusCode == 200 ) {
-        //     paySlipList.removeAt(i);
-        //
-        //
-        //    print(res);
-        //
-        //
-        //
-        //     print(value.statusCode);
-        //
-        //   } else {
-        //
-        //     print('insert failed: ${value.data}');
-        //
-        //   }
-        // }).catchError((onError){
-        //   //emit(LoginErrorState(error: "Login onError"));
-        //
-        //   print('payslip onError: ${onError.toString()}');
-        //   print(onError);
-        // });
-        // if(i==payListModel.length-1){
-        //   emit(InsetSQLSuccess());
-        //  // paySlipList.clear();
-        // }
-
-
-
-
-
-      }
-
-
-
-    }
-
-  Future insertReviewSql({context})async  {
     valuepross=0;
+    print('ok'+payListModel.length.toString());
 
-    for(int i=0;i<PermissionCubit.get(context).reviewListModel.length;i++){
-      PermissionCubit.get(context).reviewListModel[i].month=monthindex;
+    for(int i=0;i<payListModel.length;i++){
+      payListModel[i].month=monthindex;
       try{
-       Response response=await DioHelper.dio.post('insetreview.php',queryParameters: PermissionCubit.get(context).reviewListModel[i].toMap(),
-           onReceiveProgress: (act,total){
-         // valuepross=act/total*100;
-         // getEmit();
-
-
-
-       });
-       if(response.statusCode==200){
-         print(i);
-         valuepross=(i+1)/PermissionCubit.get(context).reviewListModel.length*100;
-        // PermissionCubit.get(context).reviewList.removeWhere((element) =>element.contains(PermissionCubit.get(context).reviewListModel[i].code) );
-         getEmit();
-         print("###############################");
-         print(response.data);
-         if(valuepross.toInt()==100){
-           PermissionCubit.get(context).reviewList.clear();
-           getEmit();
-         }
-
-         //PermissionCubit.get(context).reviewListModel.removeAt(i);
-        // getEmit();
-       }
+        Response response=await DioHelper.dio.post('insertSlip.php',queryParameters: payListModel[i].toMap());
+        if(response.statusCode==200){
+          print(i);
+          valuepross=(i+1)/payListModel.length*100;
+          getEmit();
+          print("###############################");
+          print(response.data);
+          if(valuepross.toInt()==100){
+            paySlipList.clear();
+            emit(AddPaySlipStateSuccess());
+          }
+        }else{
+          print("payupload  Fail"+ response.statusCode.toString());
+          emit(AddPaySlipStateError());
+        }
       }catch(error){
-        print("resopne "+ error.toString());
+        print("payupload "+error.toString());
+        emit(AddPaySlipStateError());
+
       }
 
-      // DioHelper.dio.post('insetreview.php',queryParameters: PermissionCubit.get(context).reviewListModel[i].toMap(),) .then((value) {
+      // DioHelper.dio.post('insertSlip.php',queryParameters: payListModel[i].toMap()) .then((value) {
       //   var res=json.decode(value.data);
       //   if (value.statusCode == 200 ) {
-      //     //paySlipList.removeAt(i);
-      //  print(res);
-      //    print(value.statusCode);
+      //     paySlipList.removeAt(i);
+      //
+      //
+      //    print(res);
+      //
+      //
+      //
+      //     print(value.statusCode);
       //
       //   } else {
       //
@@ -404,23 +344,64 @@ class AttendCubit extends Cubit< AttendStates> {
       // }).catchError((onError){
       //   //emit(LoginErrorState(error: "Login onError"));
       //
-      //   print('review onError: ${onError.toString()}');
+      //   print('payslip onError: ${onError.toString()}');
       //   print(onError);
       // });
-      // if(i==PermissionCubit.get(context).reviewListModel.length-1){
+      // if(i==payListModel.length-1){
       //   emit(InsetSQLSuccess());
-      //   // paySlipList.clear();
+      //  // paySlipList.clear();
       // }
 
-      // getEmit();
-      // await waiting(10);
+
+
+
+
+    }
+
+
+
+  }
+
+  Future insertReviewSql({context})async  {
+    valuepross=0;
+
+    for(int i=0;i<PermissionCubit.get(context).reviewListModel.length;i++){
+      PermissionCubit.get(context).reviewListModel[i].month=monthindex;
+      try{
+        Response response=await DioHelper.dio.post('insetreview.php',queryParameters: PermissionCubit.get(context).reviewListModel[i].toMap(),
+            onReceiveProgress: (act,total){
+              // valuepross=act/total*100;
+              // getEmit();
+
+
+
+            });
+        if(response.statusCode==200){
+          print(i);
+          valuepross=(i+1)/PermissionCubit.get(context).reviewListModel.length*100;
+          // PermissionCubit.get(context).reviewList.removeWhere((element) =>element.contains(PermissionCubit.get(context).reviewListModel[i].code) );
+          getEmit();
+          print("###############################");
+          print(response.data);
+          if(valuepross.toInt()==100){
+            PermissionCubit.get(context).reviewList.clear();
+            getEmit();
+          }
+
+          //PermissionCubit.get(context).reviewListModel.removeAt(i);
+          // getEmit();
+        }
+      }catch(error){
+        print("resopne "+ error.toString());
+      }
+
 
 
     }
 
 
   }
-  
+
 
   int totalAbsent=0;
   int totalPermission=0;
@@ -495,10 +476,10 @@ class AttendCubit extends Cubit< AttendStates> {
 
     paySlipModel=null;//PaySlipModel.fromJson({"code":"","name":"","Absent":"","Activity_Allow":"","Att_Bonus":"","basic":"","Bonus":"","Bonus_Deduction":"","EmpSocial_Ins":"","job_position":"","Meal_Allow":"","Other_Deduction":"","Other_Dues":"","Overtime":"","Penalty":"","Productivity_Allow":"","Sick":"","Tax":"","Total_Dues":"","Transportation":"","Vacation_Balance":"","WI":"","total_Deduction":"","regular":"","net_salary":"","day_Work":"","day_absent":"","casual":""});
 
-        DioHelper.dio.post('getpayslip.php',queryParameters:{
-          'code':CacheHelper.getData(key: 'myId'),
-          'month':month
-        } ).then((value) {
+    DioHelper.dio.post('getpayslip.php',queryParameters:{
+      'code':CacheHelper.getData(key: 'myId'),
+      'month':month
+    } ).then((value) {
       //
       if (value.statusCode == 200 ) {
 
@@ -507,9 +488,9 @@ class AttendCubit extends Cubit< AttendStates> {
         if(res.length>0){
           showToast(text: 'GET SUCCESS', state: ToastState.SUCCESS);
 
-        //  print(res);
+          //  print(res);
           paySlipModel= PaySlipModel.fromJson(res[0]);
-         // print(paySlipModel!.toMap());
+          // print(paySlipModel!.toMap());
 
           emit(GetPaySlipStateSuccess());
 
@@ -527,9 +508,9 @@ class AttendCubit extends Cubit< AttendStates> {
 
       }
     }).catchError((onError){
-          showToast(text: 'ERROR   '+onError.toString(), state: ToastState.ERROR);
+      showToast(text: 'ERROR   '+onError.toString(), state: ToastState.ERROR);
       //emit(LoginErrorState(error: "Login onError"));
-       emit(GetPaySlipStateError());
+      emit(GetPaySlipStateError());
       print('payslip onError: ${onError.toString()}');
       print(onError);
     });
@@ -541,13 +522,13 @@ class AttendCubit extends Cubit< AttendStates> {
     if(ind==2)getPayOrReview('review');
     if(ind==3){
       if(CacheHelper.getData(key: 'control')){
-       getDepart();
-       // navigateTo(context,DepartScreen());
+        getDepart();
+        // navigateTo(context,DepartScreen());
       }else{
         PermissionCubit.get(context).getOrderPermissionSQL();
         // if(CacheHelper.getData(key: 'control'))   navigateTo(context, LayoutPermission());else navigateTo(context,MyScreen());
-       // navigateTo(context,MyScreen());}
-    }}
+        // navigateTo(context,MyScreen());}
+      }}
     indexHomeButton=ind;
     emit(ChangeHomeButton());
   }
@@ -571,15 +552,15 @@ class AttendCubit extends Cubit< AttendStates> {
 
 
   void getEmit(){
-   emit(EmitAttend() );
+    emit(EmitAttend() );
   }
   bool isScure=true;
   IconData suffix = Icons.visibility_off;
-   String isPayORreview='';
-   void getPayOrReview(value){
-     isPayORreview=value;
-     emit(GetPayOrReviewState() );
-   }
+  String isPayORreview='';
+  void getPayOrReview(value){
+    isPayORreview=value;
+    emit(GetPayOrReviewState() );
+  }
   void passwordLogin(){
 
     isScure = !isScure;
@@ -588,13 +569,13 @@ class AttendCubit extends Cubit< AttendStates> {
 
   }
 
- List<String>myDepartList=[];
+  List<String>myDepartList=[];
   void getDepart(){
     myDepartList=[];
-        DioHelper.dio.get('getdepart.php',queryParameters: {
-          'code': CacheHelper.getData(key: 'myId'),
+    DioHelper.dio.get('getdepart.php',queryParameters: {
+      'code': CacheHelper.getData(key: 'myId'),
 
-        }).then((value) {
+    }).then((value) {
 
       //
       if (value.statusCode == 200 ) {
@@ -602,11 +583,11 @@ class AttendCubit extends Cubit< AttendStates> {
         showToast(text: value.data.toString(), state: ToastState.SUCCESS);
         if(res.length>0){
           print(res);
-         res.forEach((element){
-           myDepartList.add(element['depart']);
-         });
+          res.forEach((element){
+            myDepartList.add(element['depart']);
+          });
 
-         emit(GetDepartSQLSuccess());
+          emit(GetDepartSQLSuccess());
 
         }
 
@@ -648,6 +629,7 @@ class AttendCubit extends Cubit< AttendStates> {
             CacheHelper.putData(key: 'depart', value: res[0]['depart']);
             CacheHelper.putData(key: 'normal', value: res[0]['normal']);
             CacheHelper.putData(key: 'sudden', value: res[0]['sudden']);
+            CacheHelper.putData(key: 'location', value: res[0]['location']);
             CacheHelper.putData(key: 'controller', value: res[0]['controller']);
             if (res[0]['controller'] == 'true') {
               CacheHelper.putData(key: 'control', value: true);
@@ -672,9 +654,9 @@ class AttendCubit extends Cubit< AttendStates> {
     }
 
   }
- Future changePasswordSql(String username, String password,context) async {
+  Future changePasswordSql(String username, String password,context) async {
 
-try{
+    try{
       Response response=await  DioHelper.dio.post('updatepassword.php',queryParameters:{'code': username, 'password': password,} );
       if (response.statusCode == 200 && response.data.trim().contains("success" )) {
 
@@ -689,12 +671,39 @@ try{
         print('Login failed: ${response.data.trim()}');
 
       }}catch(error){
-  print(error.toString());
-  showToast(text: error.toString(), state: ToastState.ERROR);
-}
+      print(error.toString());
+      showToast(text: error.toString(), state: ToastState.ERROR);
+    }
 
   }
-  Future registerSql(
+  Future registerSql(code,name,password,location) async {
+    try{
+      Response response=await DioHelper.dio.post('register.php',queryParameters: {
+        'name': name,
+        'code': code,
+        'depart': '',
+        'password':password,
+        'controller': 'false',
+        'normal':'0',
+        'sudden':'0',
+        'location':location
+      });
+      if(response.statusCode==200){
+        loginSql(code, password);
+        // print(i);
+        //  valuepross=(i+1)/paySlipList.length*100;
+        //getEmit();
+        print("###############################");
+        emit(RegisterSQLSuccessState());
+      }
+    }catch(error){
+      print("payupload "+error.toString());
+
+    }
+
+  }
+
+  Future insertUserSql(
       )  async {
     valuepross=0;
 
@@ -801,6 +810,7 @@ try{
       try{
         Response response=await DioHelper.dio.post('updatevacation.php',queryParameters: {
           'normal': suddenNormalList[i][1].toString(),
+          // 'location': suddenNormalList[i][1].toString(),
           'code': suddenNormalList[i][0].toString(),
           'sudden': suddenNormalList[i][2].toString(),
 
@@ -812,7 +822,7 @@ try{
           print("###############################");
           print(response.data);
           if(valuepross.toInt()==100){
-           suddenNormalList.clear();
+            suddenNormalList.clear();
             emit(UpdateSuddenNormalSQLSuccessState());
           }
         }
@@ -821,71 +831,41 @@ try{
 
       }
 
-      // DioHelper.dio.post('insertSlip.php',queryParameters: payListModel[i].toMap()) .then((value) {
-      //   var res=json.decode(value.data);
-      //   if (value.statusCode == 200 ) {
-      //     paySlipList.removeAt(i);
-      //
-      //
-      //    print(res);
-      //
-      //
-      //
-      //     print(value.statusCode);
-      //
-      //   } else {
-      //
-      //     print('insert failed: ${value.data}');
-      //
-      //   }
-      // }).catchError((onError){
-      //   //emit(LoginErrorState(error: "Login onError"));
-      //
-      //   print('payslip onError: ${onError.toString()}');
-      //   print(onError);
-      // });
-      // if(i==payListModel.length-1){
-      //   emit(InsetSQLSuccess());
-      //  // paySlipList.clear();
-      // }
+
 
 
 
 
 
     }
-    // var url = Uri.parse('https://sjeg.seongji-eg.com/register.php');// Replace with your PHP script URL
-    //                paySlipList.forEach((element) {
-    //                  http.post(url,headers: {'Accept':'application/json'} ,body: {
-    //                    'name': element[1].toString(),
-    //                    'code': element[0].toString(),
-    //                    'depart': element[2].toString(),
-    //                    'password': '123456',
-    //                    'controller': 'false',
-    //                  }).then((value)
-    //                  {
-    //
-    //                    print('=============done ========Ok======');
-    //
-    //                    //
-    //                    print(value.statusCode);
-    //                    if (value.statusCode == 200 ) {
-    //                      emit(RegisterSQLSuccessState());
-    //                      // print(value.headers);
-    //                      print(value.body.trim()); // The response from PHP script
-    //                    } else {
-    //                      print('Login failed: ${value.body}');
-    //
-    //                    }
-    //                  }).catchError((onError)
-    //                  {
-    //                    print('register onError: ${onError.toString()}');
-    //                    print(onError);
-    //                  });
-    //
-    //                });
 
 
   }
+  String valueRadioButton='';
+  void onChangeRadioButton(v){
+    valueRadioButton=v;
+    getEmit();
+  }
 
+  Future votFunction() async {
+    emit( VotLoadingState());
+    try{
+      Response response = await DioHelper.dio.post('vot.php', queryParameters: {'code': CacheHelper.getData(key: 'myId') , 'location': CacheHelper.getData(key: 'location')??'','votv':valueRadioButton});
+      if(response.statusCode==200){
+        if(response.data.toString().contains("success incert")){
+
+          CacheHelper.putData(key: 'vot', value: true);
+        }
+        print(i);
+        // valuepross=(i+1)/suddenNormalList.length*100;
+        getEmit();
+        print("###############################");
+        print(response.data);
+
+      }
+    }catch(error){
+      print("Vot "+error.toString());
+
+    }
+  }
 }
