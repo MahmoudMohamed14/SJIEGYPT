@@ -12,7 +12,7 @@ class HiringModel{
   String?locatwork;
   //dowon ok
   String?english_name ;
-  String?arabic_name ;
+  dynamic arabic_name ;
   String?gender;
   String?nId ;
   String?issuing_id;
@@ -20,7 +20,7 @@ class HiringModel{
   String?mob_no;
   String?social_insno;
   String?birth_date;
-  String ?mother;
+ dynamic mother;
   String?age;
   String?governerate ;
   String?center;
@@ -65,19 +65,19 @@ class HiringModel{
     this.enddate,
 
     //ok down
-    this.english_name ,
-    this.arabic_name ,
-    this.gender,
-    this.nId ,
-    this.issuing_id,
-    this.expired_id,
-    this.mother,
-    this.mob_no,
-    this.social_insno,
-    this.birth_date,
-    this.age,
-    this.governerate ,
-    this.center,
+    this.english_name='' ,
+    this.arabic_name='' ,
+    this.gender='',
+    this.nId='' ,
+    this.issuing_id='',
+    this.expired_id='',
+    this.mother='',
+    this.mob_no='',
+    this.social_insno='',
+    this.birth_date='',
+    this.age='',
+    this.governerate ='',
+    this.center='',
     this.village="" ,
     this.address="",
 
@@ -176,10 +176,11 @@ return {
   "locatwork":locatwork,
   //ok down
   'english_name':english_name ,
-  'arabic_name':arabic_name ,
+  'arabic_name':'''${arabic_name}''' ,
+
   'gender':gender,
   'nId':nId ,
-  'mother':mother,
+  'mother':'''${mother.toString().trim()}''',
   'issuing_id':issuing_id,
   'expired_id':expired_id,
   'mob_no':mob_no,

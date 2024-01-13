@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:untitled/componant/componant.dart';
 import 'package:untitled/componant/local/cache_helper.dart';
+import 'package:untitled/moduls/hiring/addNewHiring.dart';
 import 'package:untitled/moduls/hiring/cubit/hiringCubit.dart';
 import 'package:untitled/moduls/hiring/cubit/hiringStatus.dart';
 import 'package:untitled/moduls/hiring/design.dart';
@@ -91,6 +92,16 @@ class ProcessHiring extends StatelessWidget {
                           cubit.onSelectAll(false);
                           cubit.getMyList();
                         }, child:Text('Rejected',style: TextStyle(color:  cubit.statusOfList=='false'?ColorManager.primary:ColorManager.grey2,fontWeight: FontWeight.bold,fontSize: 20))),
+                        SizedBox(width: 20,),
+                        TextButton(onPressed: (){
+                          navigateTo(context,  UploadNewHiringScreen());
+                         searchControl.text='';
+                         cubit.statusOfList='up';
+                           cubit.onSelectAll(false);
+                          // cubit.getMyList();
+                        }, child:Text('Upload New Hiring',style: TextStyle(color:  cubit.statusOfList=='up'?ColorManager.primary:ColorManager.grey2,fontWeight: FontWeight.bold,fontSize: 20))),
+
+
                         Spacer(),
                         SizedBox(
                           width:200,
@@ -230,6 +241,7 @@ class ProcessHiring extends StatelessWidget {
 
 
                       }, name:'Export'),
+
                     ],
                   ),visible: cubit.selectedNID.isNotEmpty?true:false),
                   SizedBox(height: 20,),

@@ -4,7 +4,7 @@ import 'package:untitled/componant/componant.dart';
 import 'package:untitled/moduls/hiring/cubit/hiringCubit.dart';
 import 'package:untitled/moduls/hiring/cubit/hiringStatus.dart';
 import 'package:untitled/moduls/hiring/design.dart';
-import 'package:untitled/shared/constant/color_manager.dart';
+
 class DocumentScreen extends StatelessWidget {
   const DocumentScreen ({Key? key}) : super(key: key);
 

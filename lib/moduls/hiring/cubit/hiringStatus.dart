@@ -20,3 +20,4 @@ class HiringUpdateSuccessState extends  HiringStates{}
 class HiringUpdateLoadingState extends  HiringStates{}
 class HiringUpdateErrorState extends  HiringStates{}
 class HiringDropState extends  HiringStates{}
+class FetchStateSuccess extends  HiringStates{}

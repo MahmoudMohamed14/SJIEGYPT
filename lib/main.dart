@@ -29,7 +29,7 @@ void main()async  {
   await CacheHelper.init();
   //getHttp();
 
-  // if (Platform.isWindows){
+   //if (Platform.isWindows){}
   //
   //   //Firestore.initialize(projectId);
   //   // await Firebase.initializeApp(
@@ -71,6 +71,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
    
     return MultiBlocProvider(
+
       providers: [
        // CacheHelper.getData(key: 'isAtt')==null? BlocProvider<AddPomCubit>(create: (context)=>AddPomCubit()..getPom()..getUsers()..getcode()..getBox()..getAttendanceUser()):BlocProvider<AddPomCubit>(create: (context)=>AddPomCubit()..getAttendanceUser()..getUsers()),
       //  BlocProvider<AddPomCubit>(create: (context)=>AddPomCubit()..getAttendanceUser()),
@@ -82,6 +83,7 @@ class MyApp extends StatelessWidget {
       ],
 
 
+
       child: BlocListener<AttendCubit,AttendStates>(
 
         listener: (context,state){
@@ -90,12 +92,7 @@ class MyApp extends StatelessWidget {
     //       }
     //
     // PermissionCubit.get(context).getEmit();
-
-
-
-
-
-        },
+   },
 
 
           child:  LayoutBuilder(

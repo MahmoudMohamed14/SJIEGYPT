@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled/componant/local/cache_helper.dart';
 import 'package:untitled/componant/remote/dioHelper.dart';
 import 'package:untitled/model/permissionModel.dart';
-import 'package:untitled/model/reviewModel.dart';
+
 import 'package:untitled/moduls/permisssion/permission_status.dart';
 
 
@@ -15,100 +15,7 @@ class PermissionCubit extends Cubit< PermissionStates> {
   static PermissionCubit  get(context) {
     return BlocProvider.of(context);
   }
-  String? filePathReview;
-  List<ReviewModel> reviewListModel=[];
-  List<List<dynamic>> reviewList= [];
-  pickFileReview() async {
-//
-//     FilePickerResult? result = await FilePicker.platform.pickFiles();
-//
-//     if (result != null) {
-//       reviewList = [];
-//       print(result.files.first.name);
-//       filePathReview = result.files.first.path!;
-//
-//       final input = File(filePathReview!).openRead();
-//       final fields = await input
-//           .transform(utf8.decoder)
-//           .transform(const CsvToListConverter())
-//           .toList();
-//       reviewList   = fields;
-//       print(fields.length);
-//       print( reviewList.length);
-//
-//       reviewListModel=[];
-//
-//       for (int i = 0; i <fields.length; i++) {
-//
-//
-//         reviewListModel.add(ReviewModel(
-//           code: fields[i][0].toString().trim(),
-//           name: fields[i][1].toString().trim(),
-//           month_1: fields[i][2].toString().trim(),
-//           month_2: fields[i][3].toString().trim(),
-//           // Variable: fields[i][4].toString().trim(),
-//           // Clothing_Allow: fields[i][5].toString().trim(),
-//           month_3: fields[i][4].toString().trim(),
-//           month_4: fields[i][5].toString().trim(),
-//           month_5: fields[i][6].toString().trim(),
-//           month_6: fields[i][7].toString().trim(),
-//           month_7: fields[i][8].toString().trim(),
-//           month_8: fields[i][9].toString().trim(),
-//           month_9: fields[i][10].toString().trim(),
-//           month_10: fields[i][11].toString().trim(),
-//           month_11: fields[i][12].toString().trim(),
-//           month_12: fields[i][13].toString().trim(),
-//           month_13:  fields[i][14].toString().trim(),
-//           month_14: fields[i][15].toString().trim(),
-//           month_15: fields[i][16].toString().trim(),
-//           month_16: fields[i][17].toString().trim(),
-//           month_17: fields[i][18].toString().trim(),
-//           month_18: fields[i][19].toString().trim(),
-//           month_19: fields[i][20].toString().trim(),
-//           month_20: fields[i][21].toString().trim(),
-//           month_21: fields[i][22].toString().trim()??'',
-//           month_22: fields[i][23].toString().trim()??'',
-//           month_23: fields[i][24].toString().trim()??'',
-//           month_24: fields[i][25].toString().trim()??'',
-//           month_25: fields[i][26].toString().trim()??'',
-//           month_26: fields[i][27].toString().trim()??'',
-//           month_27: fields[i][28].toString().trim()??'',
-//           month_28: fields[i][29].toString().trim()??'',
-//           month_29: fields[i][30].toString().trim()??'',
-//           month_30: fields[i][31].toString().trim()??'',
-//           month_31: fields[i][32].toString().trim()??'',
-//           month: '',
-//
-//
-//
-//
-//
-//
-//         ));
-//
-//
-//
-//       }
-//
-//       emit(FetchStateSuccess());
-//       // print(pomList);
-//       PlatformFile file = result.files.first;
-//       print(reviewList.length);
-//
-//       print(file.name);
-//
-//       print(file.size);
-//       print(file.extension);
-//       print(file.path);
-//     }
-//
-//
-//     else {
-// // User canceled the picker
-//     }
 
-
-  }
 
   List<String> allVaction=['','اعتيادية'];
   List<String> Vaction=['','عارضة'];

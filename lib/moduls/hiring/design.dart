@@ -16,7 +16,7 @@ Widget dataTable(context, List<HiringModel> listModel){
     dataRowHeight:30,
 
 
-    minWidth: 2870,
+    minWidth: 2950,
     columnSpacing: 5,
     showBottomBorder:true ,
     showCheckboxColumn: true,
@@ -32,8 +32,8 @@ Widget dataTable(context, List<HiringModel> listModel){
 
 
     columns: [
-      DataColumn2(label: Center(child: Text('English name ')),fixedWidth: 300, ),
-      DataColumn2(label: Center(child: Text('Arabic name ')),fixedWidth: 300, ),
+      DataColumn2(label: Center(child: Text('English name ')),fixedWidth: 340, ),
+      DataColumn2(label: Center(child: Text('Arabic name ')),fixedWidth: 340, ),
       DataColumn2(label: Center(child: Text('NID')), fixedWidth: 150),
       DataColumn2(label: Center(child: Text('Gender')), fixedWidth: 120),
       DataColumn2(label: Center(child: Text('Issuing ID')),  fixedWidth: 100),
@@ -93,6 +93,7 @@ Widget dataTable(context, List<HiringModel> listModel){
           DataCell(Center(child: Text('${listModel[index].iscall}',style: TextStyle(),))),
           DataCell(Center(child: Text('${listModel[index].note}',style: TextStyle(),))),
           DataCell(Center(child: Icon(Icons.edit)),onTap: (){
+
             HiringCubit.get(context).edit(listModel[index]);
             navigateTo(context, EditHiring());
           }),

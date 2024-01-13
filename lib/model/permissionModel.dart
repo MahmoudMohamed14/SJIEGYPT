@@ -10,10 +10,6 @@ class PermissionModel{
   String ?reason;
   String ?state;
 
-
-
-
-
   PermissionModel(
       {
 

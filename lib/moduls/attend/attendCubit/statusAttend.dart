@@ -10,8 +10,14 @@ class GetPaySlipStateError extends  AttendStates{}
 class AddPaySlipStateSuccess extends  AttendStates{}
 class AddPaySlipLoadState extends  AttendStates{}
 class AddPaySlipStateError extends  AttendStates{}
+class AddVacationStateSuccess extends  AttendStates{}
+class AddVacationLoadState extends  AttendStates{}
+class AddVacationStateError extends  AttendStates{}
 class GetReviewStateSuccess extends  AttendStates{}
 class GetReviewStateEroor extends  AttendStates{}
+class GetVacationStateSuccess extends  AttendStates{}
+class GetVacationStateError extends  AttendStates{}
+class GetVacationLoadState extends  AttendStates{}
 class LoadReviewStateSuccess extends  AttendStates{}
 class LoadingGetAttendStateSuccess extends  AttendStates{}
 class DeleteAttendStateSuccess extends  AttendStates{}

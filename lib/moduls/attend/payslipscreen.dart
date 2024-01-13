@@ -194,7 +194,8 @@ class  PaySlipScreen extends StatelessWidget {
             ],
           ),
         ),
-      );}
+      );
+        }
     );
   }
   Widget  itemInTable({String label='',String value='0',Color colorRow=Colors.white,Color colorText=Colors.black,}){
