@@ -16,6 +16,7 @@ class PermissionCubit extends Cubit< PermissionStates> {
     return BlocProvider.of(context);
   }
 
+  bool holidayByCalendar=false;
 
   List<String> allVaction=['','اعتيادية'];
   List<String> Vaction=['','عارضة'];
@@ -29,7 +30,7 @@ class PermissionCubit extends Cubit< PermissionStates> {
   String  name,
   String date,
 
-      String state,){
+      String state,type){
     emit( PermissionLoadingState());
     // var url = Uri.parse('https://sjeg.seongji-eg.com/addHoliday.php');// Replace with your PHP script URL
     //
@@ -48,7 +49,10 @@ class PermissionCubit extends Cubit< PermissionStates> {
             ,name: name
             ,depart: CacheHelper.getData(key: 'depart')??'NoDepart'
             ,reason: reason
-            ,state: state
+            ,state: state,
+            location: CacheHelper.getData(key: 'location'),
+            dateAccept: '',
+            type: type
         ).toMap() ).then((value) {
       if (value.statusCode == 200 ) {
         emit(PermissionSuccessState());
@@ -112,6 +116,9 @@ class PermissionCubit extends Cubit< PermissionStates> {
   List<PermissionModel>listOfPermisAccept=[];
   List<PermissionModel>listOfPermisNotAccept=[];
   getOrderPermissionSQL(){
+    listOfPermisPending=[];
+    listOfPermisAccept=[];
+    listOfPermisNotAccept=[];
 
     // var url = Uri.parse('https://sjeg.seongji-eg.com/getholidybycode.php');// Replace with your PHP script URL
     //
@@ -119,26 +126,51 @@ class PermissionCubit extends Cubit< PermissionStates> {
     //     body:  {'code':CacheHelper.getData(key: 'myId')})
         DioHelper.dio.post('getholidybycode.php',queryParameters:{'code':CacheHelper.getData(key: 'myId')} ).then((value) {
 
+      // if (value.statusCode == 200 ) {
+      //   print('code= '+CacheHelper.getData(key: 'myId'));
+      //
+      //   listofpermis=[];
+      //   var res=json.decode(value.data);
+      //   print(res);
+      //   print(value.data);
+      //   print(res.length);
+      //   if(res.length>0){
+      //     res.forEach((element){
+      //       listofpermis.add(PermissionModel.fromJson(element));
+      //
+      //     });
+      //   }
+      //   emit(PermissionGetSuccessState());
+      //
+      //  // The response from PHP script
+      // }
       if (value.statusCode == 200 ) {
-        print('code= '+CacheHelper.getData(key: 'myId'));
-
-        listofpermis=[];
-        var res=json.decode(value.data);
-        print(res);
         print(value.data);
-        print(res.length);
+        var res=json.decode(value.data);
         if(res.length>0){
           res.forEach((element){
-            listofpermis.add(PermissionModel.fromJson(element));
+
+            if(element['state']=='pending'){
+              listOfPermisPending.add(PermissionModel.fromJson(element));
+            }else if(element['state']=='NotAccept'){
+              listOfPermisNotAccept.add(PermissionModel.fromJson(element));
+            }
+            else if(element['state']=='Accept'){
+              listOfPermisAccept.add(PermissionModel.fromJson(element));
+            }
+
+
+
 
           });
+          emit(PermissionGetSuccessState());
         }
         emit(PermissionGetSuccessState());
+        print(res.length); // The response from PHP script
+      }
+      else  {print(value.data.trim());
 
-       // The response from PHP script
-      }else  {print(value.data.trim());
 
-      emit(PermissionGetSuccessState());
      // emit( PermissionErrorState());
       } //
 
@@ -160,7 +192,7 @@ class PermissionCubit extends Cubit< PermissionStates> {
         DioHelper.dio.post('getallholidays.php',queryParameters: {'depart':depart}).then((value) {
 
       if (value.statusCode == 200 ) {
-
+print(value.data);
         var res=json.decode(value.data);
         if(res.length>0){
           res.forEach((element){
@@ -193,6 +225,50 @@ class PermissionCubit extends Cubit< PermissionStates> {
 
 
   }
+  getOrderPermissionSQLByLocation(depart){
+    listOfPermisPending=[];
+    listOfPermisAccept=[];
+    listOfPermisNotAccept=[];
+    // var url = Uri.parse('https://sjeg.seongji-eg.com/getallholidays.php');// Replace with your PHP script URL
+    //
+    // http.post(url,headers: {'Accept':'application/json'} ,
+    //     body:  {'depart':depart})
+    DioHelper.dio.post('getholidaybylocation.php',queryParameters: {'location':depart}).then((value) {
+
+      if (value.statusCode == 200 ) {
+
+        var res=json.decode(value.data);
+        if(res.length>0){
+          res.forEach((element){
+
+            if(element['state']=='pending'){
+              listOfPermisPending.add(PermissionModel.fromJson(element));
+            }else if(element['state']=='NotAccept'){
+              listOfPermisNotAccept.add(PermissionModel.fromJson(element));
+            }
+            else if(element['state']=='Accept'){
+              listOfPermisAccept.add(PermissionModel.fromJson(element));
+            }
+
+
+
+
+          });
+        }
+        emit(PermissionGetSuccessState());
+        print(res.length); // The response from PHP script
+      }else  {
+        print(value.data.trim());
+        emit( PermissionErrorState());
+      } //
+
+    }).catchError((onError){
+      emit( PermissionErrorState());
+      print(onError.toString().trim());
+    });
+
+
+  }
   getOrderPermissionSQLByDepartAndDate(date){
     listOfPermisPending=[];
     listOfPermisAccept=[];
@@ -202,6 +278,51 @@ class PermissionCubit extends Cubit< PermissionStates> {
     // http.post(url,headers: {'Accept':'application/json'} ,
     //     body:  {'depart':departvar,"date":date})
     DioHelper.dio.post('getholidays_depart_date.php',queryParameters: {'depart':departvar,"date":date} )  .then((value) {
+
+      if (value.statusCode == 200 ) {
+
+
+        var res=json.decode(value.data);
+        if(res.length>0){
+          res.forEach((element){
+
+            if(element['state']=='pending'){
+              listOfPermisPending.add(PermissionModel.fromJson(element));
+            }else if(element['state']=='NotAccept'){
+              listOfPermisNotAccept.add(PermissionModel.fromJson(element));
+            }
+            else if(element['state']=='Accept'){
+              listOfPermisAccept.add(PermissionModel.fromJson(element));
+            }
+
+
+
+
+          });
+        }
+        emit(PermissionGetSuccessState());
+        print(res.length); // The response from PHP script
+      }else  {
+        print(value.data.trim());
+        emit( PermissionErrorState());
+      } //
+
+    }).catchError((onError){
+      emit( PermissionErrorState());
+      print(onError.toString().trim());
+    });
+
+
+  }
+  getOrderPermissionSQLByLocationAndDate(date){
+    listOfPermisPending=[];
+    listOfPermisAccept=[];
+    listOfPermisNotAccept=[];
+    // var url = Uri.parse('https://sjeg.seongji-eg.com/getholidays_depart_date.php');// Replace with your PHP script URL
+    //
+    // http.post(url,headers: {'Accept':'application/json'} ,
+    //     body:  {'depart':departvar,"date":date})
+    DioHelper.dio.post('getholidaybylocationanddate.php',queryParameters: {'location':departvar,"date":date} )  .then((value) {
 
       if (value.statusCode == 200 ) {
 
@@ -287,7 +408,7 @@ class PermissionCubit extends Cubit< PermissionStates> {
     //
     // http.post(url,headers: {'Accept':'application/json'} ,
     //     body:  {'code':code,"date":date,"state":state})
-    DioHelper.dio.post('updateholiday.php',queryParameters: {'code':code,"date":date,"state":state}).then((value) {
+    DioHelper.dio.post('updateholiday.php',queryParameters: {'code':code,"date":date,"state":state,'dateAccept':DateTime.now().toString()}).then((value) {
 
       if (value.statusCode == 200 ) {
         emit(PermissionUpdateSuccessState());

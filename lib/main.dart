@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
+import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled/componant/componant.dart';
 import 'package:untitled/componant/local/cache_helper.dart';
 import 'package:untitled/componant/remote/dioHelper.dart';
+import 'package:untitled/firebase_options.dart';
 import 'package:untitled/moduls/attend/attendCubit/cubitAttend.dart';
 import 'package:untitled/moduls/attend/attendCubit/statusAttend.dart';
 import 'package:untitled/moduls/hiring/cubit/hiringCubit.dart';
@@ -27,32 +32,19 @@ void main()async  {
  // FirebaseAuth.initialize(apiKey, VolatileStore());
   DioHelper.init();
   await CacheHelper.init();
+ //  await Firebase.initializeApp(
+ //
+ // // options: DefaultFirebaseOptions.currentPlatform,
+ //  );
   //getHttp();
 
-   //if (Platform.isWindows){}
+  //  if (!Platform.isWindows){
+  //    await Firebase.initializeApp(
   //
-  //   //Firestore.initialize(projectId);
-  //   // await Firebase.initializeApp(
-  //   //
-  //   //
-  //   //     options: FirebaseOptions(
-  //   //       apiKey: "AIzaSyCH1ep_lNnDmSE0SJ8_WUOLD3IWMuF69I4",
-  //   //       appId: '1:699991408348:android:77ea5bf9029055992a7e19',
-  //   //       messagingSenderId: "699991408348",
-  //   //       projectId: "seongjiproject-d3742",
-  //   //     )
-  //   // );
-  // }else{
-  //   // await Firebase.initializeApp(
-  //   //
-  //   //
-  //   //     options: FirebaseOptions(
-  //   //       apiKey: "AIzaSyCH1ep_lNnDmSE0SJ8_WUOLD3IWMuF69I4",
-  //   //       appId: '1:699991408348:android:77ea5bf9029055992a7e19',
-  //   //       messagingSenderId: "699991408348",
-  //   //       projectId: "seongjiproject-d3742",
-  //   //     )
-  //   // );
+  //
+  //        options: DefaultFirebaseOptions.currentPlatform
+  //    );
+  //
   // }
 
 
@@ -110,10 +102,10 @@ class MyApp extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               theme: getApplicationTheme(context),
               home:  UpgradeAlert(
-                upgrader:  Upgrader(
-                 showIgnore: false,
-                    showLater:  false,
-                    dialogStyle: UpgradeDialogStyle.material),
+                  showIgnore: false,
+                  showLater:  false,
+                  dialogStyle: UpgradeDialogStyle.material,
+                upgrader:  Upgrader(),
                   child:launcherScreen(loginScreen: LoginScreen(),homeScreen:HomeLayout (),iscurrentuser: CacheHelper.getData(key: "isLogin")??false )),//ProcessHiring()),
             );
               },

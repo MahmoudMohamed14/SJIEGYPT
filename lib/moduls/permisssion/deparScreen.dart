@@ -39,12 +39,15 @@ class  DepartScreen extends StatelessWidget {
                           return GestureDetector(
                             onTap: (){
                               PermissionCubit.get(context).getDepart(cubit.myDepartList[index]);
+                             // PermissionCubit.get(context).getOrderPermissionSQLByDepart(cubit.myDepartList[index]);
+                              navigateTo(context, LayoutPermission());
                               if(CacheHelper.getData(key: 'depart')=='HR'){
+                                PermissionCubit.get(context).getOrderPermissionSQLByLocation(cubit.myDepartList[index]);
 
-                                navigateTo(context, MyScreen());
+                                //navigateTo(context, MyScreen());
                               }else{
                                 PermissionCubit.get(context).getOrderPermissionSQLByDepart(cubit.myDepartList[index]);
-                                navigateTo(context, LayoutPermission());
+                               // navigateTo(context, LayoutPermission());
                               }
 
 

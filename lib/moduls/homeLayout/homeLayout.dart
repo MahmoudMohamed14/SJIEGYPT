@@ -31,7 +31,10 @@ class HomeLayout extends StatelessWidget {
             appBar: AppBar(
               title: Text( "${cubit.listTitleHome[cubit.indexHomeButton]} ${cubit.indexHomeButton==3?cubit.countVacation:''}", style: TextStyle(color:ColorManager.primary , fontSize: 20.0,)),//cubit.listTitleHome[cubit.indexHomeButton],//Text('SJI EGYPT',),
               centerTitle: true,
-              actions: [
+              actions: !CacheHelper.getData(key: 'control') && cubit.indexHomeButton==4? [IconButton(onPressed: (){
+                PermissionCubit.get(context).getOrderPermissionSQL();
+                navigateTo(context, LayoutPermission());
+              }, icon: Icon(Icons.history_outlined))]:[
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: PopupMenuButton<String>(
@@ -391,7 +394,12 @@ class HomeLayout extends StatelessWidget {
             ):cubit.listScreenHome[cubit.indexHomeButton],
             bottomNavigationBar:CacheHelper.getData(key: 'myId')=='sji'?null: BottomNavigationBar(
               type: BottomNavigationBarType.fixed,
-              elevation: 0,
+              elevation: 10,
+              backgroundColor: ColorManager.primary.withOpacity(.9),
+
+              selectedItemColor: ColorManager.white,
+              unselectedItemColor: ColorManager.grey,
+
 
 
 

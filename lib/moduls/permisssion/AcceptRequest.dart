@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:untitled/componant/componant.dart';
 import 'package:untitled/componant/local/cache_helper.dart';
 import 'package:untitled/model/permissionModel.dart';
@@ -21,6 +22,33 @@ class LayoutPermission extends StatelessWidget {
           child: Scaffold(
             appBar: AppBar(
               title: Text('Holiday Status'),
+              actions: ! CacheHelper.getData(key: 'control') ?null:[
+              cubit.holidayByCalendar? IconButton(onPressed: (){
+                CacheHelper.getData(key: 'depart')=='HR'? PermissionCubit.get(context).getOrderPermissionSQLByLocation(cubit.departvar):PermissionCubit.get(context).getOrderPermissionSQLByDepart(cubit.departvar);
+                cubit.holidayByCalendar=false;
+                cubit.getEmit();
+              }, icon: Icon(Icons.cancel_outlined,color: Colors.red,)):  IconButton(onPressed: (){
+                  showDatePicker(context: context, initialDate: DateTime.now(), firstDate:
+                  DateTime.parse('2023-01-01') , lastDate: DateTime.parse('2030-12-31'))
+                      .then((value){
+                    // Duration difference = value!.difference(DateTime.now());
+                    // print(difference.inDays.toString()+" day");
+                    // print(difference.inHours.toString()+" hours");
+                    //print(DateTime.now().hour);
+                       cubit.holidayByCalendar=true;
+                       CacheHelper.getData(key: 'depart')=='HR'?  cubit.getOrderPermissionSQLByLocationAndDate('${DateFormat('d').format(value!)} ${DateFormat('MMM').format(value)}'):cubit.getOrderPermissionSQLByDepartAndDate('${DateFormat('d').format(value!)} ${DateFormat('MMM').format(value)}');
+
+                    // cubit.getSeller(date:DateFormat.yMd().format(value!).toString() );
+                    // print(DateFormat.yMd().format(value).toString());
+                    // expiredIDControl.text=DateFormat.yMd().format(value!);
+                    cubit.getEmit();
+
+
+                  }).catchError((error){
+                    print('date error'+error.toString());
+                  });
+                },icon:const Icon(Icons.calendar_month),)
+              ],
               centerTitle: true,
               bottom: TabBar(
                 labelPadding: EdgeInsets.symmetric(horizontal: 5,vertical: 5),
@@ -51,7 +79,7 @@ class LayoutPermission extends StatelessWidget {
       } ,
     );
   }
-  Widget buildItemRequest(context,PermissionModel model,bool isPending,{bool isNotAc=false,}){
+  Widget buildItemRequest(context,PermissionModel model,bool isAccept,{bool isNotAc=false,}){
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Container(
@@ -74,28 +102,37 @@ class LayoutPermission extends StatelessWidget {
               children: [
                 Text('Holiday Request',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,),),
                 SizedBox(width: 10,),
-                Text('${model.reason}',),
+                Text('${model.type}',),
               ],
             ),
             SizedBox(height: 10,),
-            Text('${model.name} (${model.code}) request holiday for ${model.day} ${model.date}  '),
+            Text('${model.name} (${model.code.toString()} ) request holiday for ${model.day} ${model.date}  '),
+
+        model.reason!.isNotEmpty?    Column(
+              children: [
+                SizedBox(height: 10,),
+               const Text('Reason:',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16,), ),
+                Text("${model.reason}")
+
+              ],
+            ):SizedBox(),
             SizedBox(height: 20,),
-          CacheHelper.getData(key: 'depart')=='HR'? SizedBox():Row(
+          CacheHelper.getData(key: 'depart')=='HR' || DateTime.now().difference(DateTime.parse(model.dateAccept!.isNotEmpty?model.dateAccept!:DateTime.now().toString())).inHours>=24
+              ||!CacheHelper.getData(key: 'control')? SizedBox():Row(
               mainAxisAlignment: MainAxisAlignment.start,
 
+
               children: [
-             isNotAc? SizedBox() :Expanded(
-                  child: defaultButton(onPress: () {
+             isNotAc ? SizedBox():Expanded(child: defaultButton(onPress: () {
                     PermissionCubit.get(context).EditPermissionSql(context, model.code!
                         , model.date!
                         , 'NotAccept');
 
 
-                  }, name: 'Deny', width: 80, height: 30,color: Colors.red),
-                ),
+                  }, name: 'Deny', width: 80, height: 30,color: Colors.red),),
                 SizedBox(width: 10,),
 
-                isPending?SizedBox() : Expanded(
+                isAccept ? SizedBox():Expanded(
                   child: defaultButton(onPress: () {
                     PermissionCubit.get(context).EditPermissionSql(context, model.code!
                         , model.date!

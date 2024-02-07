@@ -47,6 +47,8 @@ class UpdateSuddenNormalSQLSuccessState extends AttendStates{}
 class GetDepartSQLSuccess extends  AttendStates{}
 class InsetSQLSuccess extends  AttendStates{}
 class GetPayOrReviewState extends  AttendStates{}
-class VotLoadingState extends  AttendStates{}
+class SizeLoadingState extends  AttendStates{}
+class SizeSuccessState extends  AttendStates{}
+class SizeErrorState extends  AttendStates{}
 class HiringDropState  extends  AttendStates{}
 

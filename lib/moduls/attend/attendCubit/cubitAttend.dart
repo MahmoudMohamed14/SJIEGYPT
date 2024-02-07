@@ -1,27 +1,23 @@
 import 'dart:convert';
-
-
-
+import 'dart:io';
+import 'package:csv/csv.dart';
 import 'package:dio/dio.dart';
-
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled/componant/componant.dart';
 import 'package:untitled/componant/local/cache_helper.dart';
 import 'package:untitled/componant/remote/dioHelper.dart';
 import 'package:untitled/home.dart';
-
 import 'package:untitled/model/payroll.dart';
 import 'package:untitled/model/reviewModel.dart';
 import 'package:untitled/model/vacationModel.dart';
 import 'package:untitled/moduls/attend/attendCubit/statusAttend.dart';
-
 import 'package:untitled/moduls/attend/getHistory.dart';
 import 'package:untitled/moduls/attend/payslipscreen.dart';
 import 'package:untitled/moduls/attend/vacation_screen.dart';
 import 'package:untitled/moduls/permisssion/deparScreen.dart';
 import 'package:untitled/moduls/permisssion/permission_cubit.dart';
-import 'package:untitled/shared/constant/color_manager.dart';
 import 'package:untitled/shared/constant/icon_broken.dart';
 
 class AttendCubit extends Cubit< AttendStates> {
@@ -320,85 +316,85 @@ class AttendCubit extends Cubit< AttendStates> {
 //to build aab to add in google play
   pickFilePaySlip() async {
 
-//     FilePickerResult? result = await FilePicker.platform.pickFiles();
-//
-//     if (result != null) {
-//       paySlipList = [];
-//       print(result.files.first.name);
-//       filePathPaySlip = result.files.first.path!;
-//
-//       final input = File(filePathPaySlip!).openRead();
-//       final fields = await input
-//           .transform(utf8.decoder)
-//           .transform(const CsvToListConverter())
-//           .toList();
-//      paySlipList  = fields;
-//       print(fields.length);
-//       print(paySlipList.length);
-//
-//      payListModel=[];
-//
-//       for (int i = 0; i <fields.length; i++) {
-//
-//
-//           payListModel.add(PaySlipModel(
-//               code: fields[i][0].toString().trim(),
-//               name: fields[i][1].toString().trim(),
-//               job_position: fields[i][2].toString().trim(),
-//               basic: fields[i][3].toString().trim(),
-//               // Variable: fields[i][4].toString().trim(),
-//               // Clothing_Allow: fields[i][5].toString().trim(),
-//              Meal_Allow: fields[i][4].toString().trim(),
-//               Transportation: fields[i][5].toString().trim(),
-//               Productivity_Allow: fields[i][6].toString().trim(),
-//               Att_Bonus: fields[i][7].toString().trim(),
-//               Activity_Allow: fields[i][8].toString().trim(),
-//               Bonus: fields[i][9].toString().trim(),
-//               Overtime: fields[i][10].toString().trim(),
-//               Vacation_Balance: fields[i][11].toString().trim(),
-//               Other_Dues: fields[i][12].toString().trim(),
-//               Total_Dues: fields[i][13].toString().trim(),
-//             net_salary:  fields[i][14].toString().trim(),
-//               EmpSocial_Ins: fields[i][15].toString().trim(),
-//               Tax: fields[i][16].toString().trim(),
-//               Absent: fields[i][17].toString().trim(),
-//               Penalty: fields[i][18].toString().trim(),
-//              Sick: fields[i][19].toString().trim(),
-//               WI: fields[i][20].toString().trim(),
-//              Bonus_Deduction: fields[i][21].toString().trim(),
-//               Other_Deduction: fields[i][22].toString().trim(),
-//             total_Deduction: fields[i][23].toString().trim(),
-//             regular: fields[i][24].toString().trim(),
-//             casual: fields[i][25].toString().trim(),
-//             day_absent: fields[i][26].toString().trim(),
-//             day_Work: fields[i][27].toString().trim(),
-//
-//
-//
-//
-//
-//           ));
-//
-//
-//
-//       }
-//
-//       emit(FetchStateSuccess());
-//       // print(pomList);
-//       PlatformFile file = result.files.first;
-//       print(payListModel.length);
-//
-//       print(file.name);
-//
-//       print(file.size);
-//       print(file.extension);
-//       print(file.path);
-//     }
-//
-//
-//     else {
-// // User canceled the picker
-//     }
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+    if (result != null) {
+      paySlipList = [];
+      print(result.files.first.name);
+      filePathPaySlip = result.files.first.path!;
+
+      final input = File(filePathPaySlip!).openRead();
+      final fields = await input
+          .transform(utf8.decoder)
+          .transform(const CsvToListConverter())
+          .toList();
+     paySlipList  = fields;
+      print(fields.length);
+      print(paySlipList.length);
+
+     payListModel=[];
+
+      for (int i = 0; i <fields.length; i++) {
+
+
+          payListModel.add(PaySlipModel(
+              code: fields[i][0].toString().trim(),
+              name: fields[i][1].toString().trim(),
+              job_position: fields[i][2].toString().trim(),
+              basic: fields[i][3].toString().trim(),
+              // Variable: fields[i][4].toString().trim(),
+              // Clothing_Allow: fields[i][5].toString().trim(),
+             Meal_Allow: fields[i][4].toString().trim(),
+              Transportation: fields[i][5].toString().trim(),
+              Productivity_Allow: fields[i][6].toString().trim(),
+              Att_Bonus: fields[i][7].toString().trim(),
+              Activity_Allow: fields[i][8].toString().trim(),
+              Bonus: fields[i][9].toString().trim(),
+              Overtime: fields[i][10].toString().trim(),
+              Vacation_Balance: fields[i][11].toString().trim(),
+              Other_Dues: fields[i][12].toString().trim(),
+              Total_Dues: fields[i][13].toString().trim(),
+            net_salary:  fields[i][14].toString().trim(),
+              EmpSocial_Ins: fields[i][15].toString().trim(),
+              Tax: fields[i][16].toString().trim(),
+              Absent: fields[i][17].toString().trim(),
+              Penalty: fields[i][18].toString().trim(),
+             Sick: fields[i][19].toString().trim(),
+              WI: fields[i][20].toString().trim(),
+             Bonus_Deduction: fields[i][21].toString().trim(),
+              Other_Deduction: fields[i][22].toString().trim(),
+            total_Deduction: fields[i][23].toString().trim(),
+            regular: fields[i][24].toString().trim(),
+            casual: fields[i][25].toString().trim(),
+            day_absent: fields[i][26].toString().trim(),
+            day_Work: fields[i][27].toString().trim(),
+
+
+
+
+
+          ));
+
+
+
+      }
+
+      emit(FetchStateSuccess());
+      // print(pomList);
+      PlatformFile file = result.files.first;
+      print(payListModel.length);
+
+      print(file.name);
+
+      print(file.size);
+      print(file.extension);
+      print(file.path);
+    }
+
+
+    else {
+// User canceled the picker
+    }
 
 
   }
@@ -1286,26 +1282,122 @@ class AttendCubit extends Cubit< AttendStates> {
     valueRadioButton=v;
     getEmit();
   }
-
-  Future votFunction() async {
-    emit( VotLoadingState());
+  Future EditSizeFunction() async {
+    emit( SizeLoadingState());
     try{
-      Response response = await DioHelper.dio.post('vot.php', queryParameters: {'code': CacheHelper.getData(key: 'myId') , 'location': CacheHelper.getData(key: 'location')??'','votv':valueRadioButton});
+      Response response = await DioHelper.dio.post('editSize.php', queryParameters: {
+        'code': CacheHelper.getData(key: 'myId')??"_" ,
+        'size':dropValueSize??'_',}
+      );
       if(response.statusCode==200){
-        if(response.data.toString().contains("success incert")){
 
-          CacheHelper.putData(key: 'vot', value: true);
-        }
-        print(i);
+        emit(SizeSuccessState());
+
         // valuepross=(i+1)/suddenNormalList.length*100;
-        getEmit();
+        // getEmit();
         print("###############################");
         print(response.data);
 
+      }else{
+        emit(SizeErrorState());
       }
     }catch(error){
       print("Vot "+error.toString());
-
+      emit(SizeErrorState());
     }
   }
+  Future votFunction(context) async {
+    emit( SizeLoadingState());
+    try{
+      Response response = await DioHelper.dio.post('size.php', queryParameters: {
+        'code': CacheHelper.getData(key: 'myId')??"_" ,
+        'location': CacheHelper.getData(key: 'location')??'_',
+        'size':dropValueSize??'_',
+        'name':CacheHelper.getData(key: 'myname').toString().replaceAll("'", "")??'_'}
+      );
+      if(response.statusCode==200){
+        if(response.data.toString().contains("Success Size Incert")){
+
+          CacheHelper.putData(key: 'size${CacheHelper.getData(key: 'myId')}',value:  true );
+          emit(SizeSuccessState());
+          showDialog(
+              barrierDismissible: false,
+              context: context,
+              builder:(context )=>AlertDialog(
+
+                backgroundColor:Colors.grey,
+
+                title: Text('شكرا لك تم التسجيل ',style: TextStyle(color: Colors.white),),
+                // content:  Column(
+                //   mainAxisSize: MainAxisSize.min,
+                //   children: [
+                //     Center(child: CircularProgressIndicator()),
+                //     // state is HiringAddErrorState? Text('تم الفحص الكود من قبل !!',style: TextStyle(color: Colors.white)):SizedBox(),
+                //   ],
+                // ),
+                actions: [
+                  TextButton(onPressed: (){
+                    //emit(FinishSCanStateSuccess());
+                    // duplicated=false;
+                    // emitState();
+
+                    Navigator.of(context).pop(true);
+
+                  }, child: Text('Cancel',style: TextStyle(color: Colors.white),)),
+
+
+                ],
+
+              ));
+        }
+        print(i);
+        // valuepross=(i+1)/suddenNormalList.length*100;
+       // getEmit();
+        print("###############################");
+        print(response.data);
+
+      }else{
+        emit(SizeErrorState());
+      }
+    }catch(error){
+      showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder:(context )=>AlertDialog(
+
+            backgroundColor:Colors.grey,
+
+            title: Text('لم يتم التسجيل حاول مره اخره',style: TextStyle(color: Colors.white),),
+            // content:  Column(
+            //   mainAxisSize: MainAxisSize.min,
+            //   children: [
+            //     Center(child: CircularProgressIndicator()),
+            //     // state is HiringAddErrorState? Text('تم الفحص الكود من قبل !!',style: TextStyle(color: Colors.white)):SizedBox(),
+            //   ],
+            // ),
+            actions: [
+              TextButton(onPressed: (){
+                //emit(FinishSCanStateSuccess());
+                // duplicated=false;
+                // emitState();
+
+                Navigator.of(context).pop(true);
+
+              }, child: Text('Cancel',style: TextStyle(color: Colors.white),)),
+
+
+            ],
+
+          ));
+      print("Vot "+error.toString());
+      emit(SizeErrorState());
+    }
+  }
+  String dropValueSize='';
+  List<String>dropValueSizeList=['','Medium','Large','XLarge','2XLarge','3XLarge'];
+  void dropButtonChangeSize({vlu}) {
+    dropValueSize = vlu;
+    emit(HiringDropState ());
+  }
+
 }
