@@ -86,7 +86,7 @@ ThemeData getApplicationTheme(context) {
         style: ElevatedButton.styleFrom(
             textStyle: getRegularStyle(
                 color: ColorManager.white, fontSize: FontSize.s17),
-            primary: ColorManager.primary,
+           // primary: ColorManager.primary,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(AppSize.s12)))),
     floatingActionButtonTheme: FloatingActionButtonThemeData(

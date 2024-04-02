@@ -233,73 +233,73 @@ class HomeScreen extends StatelessWidget {
                       const SizedBox(height: 10,),
                       itemInTable(label: 'العارضه',value: '${CacheHelper.getData(key: 'sudden')??''}'),
                       const SizedBox(height: 10,),
-                       itemInTable(label: 'اجمالي الاجازات المتاحه',value: '${int.parse(CacheHelper.getData(key: 'sudden')==''?'0':CacheHelper.getData(key: 'sudden'))+int.parse(CacheHelper.getData(key: 'normal')==''?'0':CacheHelper.getData(key: 'normal'))}'),
+                      itemInTable(label: 'اجمالي الاجازات المتاحه',value: '${int.parse(CacheHelper.getData(key: 'sudden')==''?'0':CacheHelper.getData(key: 'sudden'))+int.parse(CacheHelper.getData(key: 'normal')==''?'0':CacheHelper.getData(key: 'normal'))}'),
 
-                      const SizedBox(height: 20,),
-                      Container(
-                        decoration: BoxDecoration(
-
-                            border: Border.all(color:ColorManager.primary,width: 2),
-                            borderRadius: BorderRadius.circular(15)
-
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Directionality(
-
-                                textDirection: TextDirection.rtl,
-                                child: Text(''' برجاء وضع  مقاسك لعمل يونفورم جديد ''',),
-                              ),
-                              SizedBox(height: 20,),
-                              Container(
-                                width: double.infinity,
-                                padding: EdgeInsets.symmetric(horizontal: 10),
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: ColorManager.lightPrimary),
-                                    borderRadius: BorderRadius.circular(15)
-                                ),
-                                child: DropdownButton(
-                                    dropdownColor: Colors.white,
-
-
-                                    isExpanded: true,
-                                    iconSize: 40,
-
-
-                                    value: cubit.dropValueSize,
-
-
-                                    onChanged: ( String?value){
-
-                                      cubit.dropButtonChangeSize(vlu: value);
-
-
-                                    },
-
-                                    items:List.generate(cubit.dropValueSizeList.length, (index) =>   DropdownMenuItem<String>(
-
-                                      child: Text(cubit.dropValueSizeList[index],style: TextStyle(fontWeight: FontWeight.bold),),value: cubit.dropValueSizeList[index],))
-                                ),
-                              ),
-                              SizedBox(height: 20,),
-
-                              //SizedBox(height: 10,),
-                              state is  SizeLoadingState?CircularProgressIndicator() :CacheHelper.getData(key: 'size${CacheHelper.getData(key: 'myId')}')!=null?defaultButton(onPress: (){
-                                // CacheHelper.removeWithKey(key: 'size${CacheHelper.getData(key: 'myId')}');
-                                //cubit.votFunction();
-                                cubit.EditSizeFunction();
-                              }, name: 'تعديل'):
-                              defaultButton(onPress: (){
-                                cubit.votFunction(context);
-                              }, name: 'تأكيد'),
-                              SizedBox(height: 10,)
-                            ],
-                          ),
-                        ),
-                      )
+                      // const SizedBox(height: 20,),
+                      // Container(
+                      //   decoration: BoxDecoration(
+                      //
+                      //       border: Border.all(color:ColorManager.primary,width: 2),
+                      //       borderRadius: BorderRadius.circular(15)
+                      //
+                      //   ),
+                      //   child: Padding(
+                      //     padding: const EdgeInsets.all(8.0),
+                      //     child: Column(
+                      //       mainAxisSize: MainAxisSize.min,
+                      //       children: [
+                      //         Directionality(
+                      //
+                      //           textDirection: TextDirection.rtl,
+                      //           child: Text(''' برجاء وضع  مقاسك لعمل يونفورم جديد ''',),
+                      //         ),
+                      //         SizedBox(height: 20,),
+                      //         Container(
+                      //           width: double.infinity,
+                      //           padding: EdgeInsets.symmetric(horizontal: 10),
+                      //           decoration: BoxDecoration(
+                      //               border: Border.all(color: ColorManager.lightPrimary),
+                      //               borderRadius: BorderRadius.circular(15)
+                      //           ),
+                      //           child: DropdownButton(
+                      //               dropdownColor: Colors.white,
+                      //
+                      //
+                      //               isExpanded: true,
+                      //               iconSize: 40,
+                      //
+                      //
+                      //               value: cubit.dropValueSize,
+                      //
+                      //
+                      //               onChanged: ( String?value){
+                      //
+                      //                 cubit.dropButtonChangeSize(vlu: value);
+                      //
+                      //
+                      //               },
+                      //
+                      //               items:List.generate(cubit.dropValueSizeList.length, (index) =>   DropdownMenuItem<String>(
+                      //
+                      //                 child: Text(cubit.dropValueSizeList[index],style: TextStyle(fontWeight: FontWeight.bold),),value: cubit.dropValueSizeList[index],))
+                      //           ),
+                      //         ),
+                      //         SizedBox(height: 20,),
+                      //
+                      //         //SizedBox(height: 10,),
+                      //         state is  SizeLoadingState?CircularProgressIndicator() :CacheHelper.getData(key: 'size${CacheHelper.getData(key: 'myId')}')!=null?defaultButton(onPress: (){
+                      //           // CacheHelper.removeWithKey(key: 'size${CacheHelper.getData(key: 'myId')}');
+                      //           //cubit.votFunction();
+                      //           cubit.EditSizeFunction();
+                      //         }, name: 'تعديل'):
+                      //         defaultButton(onPress: (){
+                      //           cubit.votFunction(context);
+                      //         }, name: 'تأكيد'),
+                      //         SizedBox(height: 10,)
+                      //       ],
+                      //     ),
+                      //   ),
+                      // )
 
 
 

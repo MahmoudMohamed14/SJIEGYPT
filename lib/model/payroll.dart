@@ -115,7 +115,7 @@ class PaySlipModel{
 
    'name':name,
   'Absent': Absent,
-   'Activity_Allow': Absent,
+   'Activity_Allow': Activity_Allow,
  'Att_Bonus':Att_Bonus,
    'basic':basic,
 

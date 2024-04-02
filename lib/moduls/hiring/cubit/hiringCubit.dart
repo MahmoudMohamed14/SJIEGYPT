@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart';
 
@@ -22,7 +23,7 @@ class HiringCubit extends Cubit< HiringStates> {
   List<HiringModel> hiringListModel=[];
   List<List<dynamic>> hiringList= [];
   pickFileHiring() async {
-
+//
 //     FilePickerResult? result = await FilePicker.platform.pickFiles();
 //
 //     if (result != null) {
@@ -45,19 +46,24 @@ class HiringCubit extends Cubit< HiringStates> {
 //
 //         print(fields[i][1]);
 //         hiringListModel.add(HiringModel(
-//            english_name: fields[i][0].toString().trim(),
-//            arabic_name: fields[i][1],
-//           nId: fields[i][2].toString().trim(),
-//            mother: fields[i][3],
-//           mob_no: fields[i][4].toString(),
-//            governerate: fields[i][5].toString(),
-//           center: fields[i][6].toString(),
-//           village: fields[i][7].toString(),
-//           birth_date: fields[i][8].toString().trim(),
-//           issuing_id: fields[i][9].toString().trim(),
-//          expired_id: fields[i][10].toString().trim(),
-//           social_insno: fields[i][11].toString().trim(),
-//
+//            gencode: fields[i][0].toString().trim(),
+//           code: fields[i][1].toString(),
+//           english_name: fields[i][2].toString().trim(),
+//            arabic_name: fields[i][3],
+//           service: fields[i][4].toString(),
+//            category: fields[i][5].toString(),
+//           gender: fields[i][6].toString(),
+//           startdate: fields[i][7].toString(),
+//           social_insno: fields[i][8].toString().trim(),
+//           nId: fields[i][9].toString().trim(),
+//          birth_date: fields[i][10].toString().trim(),
+//           mob_no: fields[i][11].toString().trim(),
+//           center: fields[i][12].toString().trim(),
+//           governerate : fields[i][13].toString().trim(),
+//           village: fields[i][14].toString().trim(),
+//           note: fields[i][15].toString().trim(),
+//           project: fields[i][16].toString().trim(),
+//           locatwork: 'SEEG',
 //         ));
 //       }
 //
@@ -168,6 +174,7 @@ class HiringCubit extends Cubit< HiringStates> {
         selectedNID.add(element.nId??'');
 
       });
+
     }else selectedNID=[];
     emit(HiringAddState());
   }
@@ -489,6 +496,8 @@ String messagesuccess='';
 
   }
 
+
+
   Future<void> createExcel() async {
     listOfExcel=[];
     final Workbook workbook = Workbook();
@@ -555,7 +564,7 @@ String messagesuccess='';
  late HiringModel hiringModelEdit ;
   void edit(HiringModel model){
     hiringModelEdit=model;
-    getEmit();
+   // getEmit();
 
   }
   String typeSearch='';

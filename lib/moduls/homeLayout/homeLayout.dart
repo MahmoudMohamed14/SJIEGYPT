@@ -1,13 +1,18 @@
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled/componant/componant.dart';
 import 'package:untitled/componant/local/cache_helper.dart';
+import 'package:untitled/home.dart';
 import 'package:untitled/moduls/attend/add_suddenNormal_screen.dart';
 import 'package:untitled/moduls/attend/add_vacation.dart';
 import 'package:untitled/moduls/attend/attendCubit/cubitAttend.dart';
 import 'package:untitled/moduls/attend/attendCubit/statusAttend.dart';
-import 'package:untitled/moduls/attend/getHistory.dart';
+import 'package:untitled/moduls/attend/monthsAttend .dart';
+import 'package:untitled/moduls/attend/payslipscreen.dart';
+import 'package:untitled/moduls/attend/vacation_screen.dart';
 import 'package:untitled/moduls/login/login_screen.dart';
 import 'package:untitled/moduls/permisssion/AcceptRequest.dart';
 import 'package:untitled/moduls/permisssion/deparScreen.dart';
@@ -15,6 +20,7 @@ import 'package:untitled/moduls/permisssion/order_permission.dart';
 import 'package:untitled/moduls/permisssion/permission_cubit.dart';
 import 'package:untitled/shared/constant/color_manager.dart';
 import 'package:untitled/shared/constant/icon_broken.dart';
+import 'package:untitled/shared/constant/values_manager.dart';
 
 class HomeLayout extends StatelessWidget {
   @override
@@ -391,34 +397,147 @@ class HomeLayout extends StatelessWidget {
                   ],
                 ),
               ),
-            ):cubit.listScreenHome[cubit.indexHomeButton],
-            bottomNavigationBar:CacheHelper.getData(key: 'myId')=='sji'?null: BottomNavigationBar(
-              type: BottomNavigationBarType.fixed,
-              elevation: 10,
-              backgroundColor: ColorManager.primary.withOpacity(.9),
+            ):HomeScreen(),
+            drawer: Padding(
+              padding: const EdgeInsets.symmetric(vertical: AppPadding.p8),
+              child: Drawer(
+                elevation: 0,
+                //shape: Border.all(color: ColorManager.primary),
+                backgroundColor: Colors.white.withOpacity(.7),
+              shadowColor: ColorManager.lightPrimary,
+                surfaceTintColor: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.all(AppPadding.p8),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height/3,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
 
-              selectedItemColor: ColorManager.white,
-              unselectedItemColor: ColorManager.grey,
+                      children: [
+                        SizedBox(height: MediaQuery.of(context).size.height/35 ,),
+                        GestureDetector(
+                          onTap: (){
+                           cubit.getPayOrReview('pay');
+                            navigateTo(context,MonthsAttend());
+                          // Navigator.pop(context);
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            height: 50,
+
+                            decoration: BoxDecoration(
+                              color: ColorManager.lightPrimary,
+                              border: Border.all(),
+                              borderRadius: BorderRadius.circular(20),
 
 
+                            ),
+                              child: Center(child: Text('المرتبات',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),)),
+                        ),
+                        SizedBox(height: MediaQuery.of(context).size.height/35 ,),
+                        GestureDetector(
+                          onTap: (){
+                           cubit.getVacation();
+                           // cubit.getPayOrReview('');
+                            navigateTo(context,VacationScreen());
+                          // Navigator.pop(context);
+                          },
+                          child: Container(
+                              width: double.infinity,
+                              height: 50,
+
+                              decoration: BoxDecoration(
+                                color: ColorManager.lightPrimary,
+                                border: Border.all(),
+                                borderRadius: BorderRadius.circular(20),
 
 
-              items:   <BottomNavigationBarItem>[
-                BottomNavigationBarItem(icon: Icon(Icons.monetization_on_outlined,),label: 'المرتبات'),
-                BottomNavigationBarItem(icon: Icon(Icons.home_filled),label: 'home'),
-                BottomNavigationBarItem(icon: Icon(Icons.rate_review_outlined,),label: 'مراجعة الحضور'),
-                BottomNavigationBarItem(icon: Icon(Icons.rate_review_outlined,),label: 'مراجعة الاجازات'),
-                BottomNavigationBarItem(icon: Icon(Icons.holiday_village_outlined,),label: 'طلب الاجازة'),
+                              ),
+                              child: Center(child: Text('مراجعة الاجازات',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),)),
+                        ),
+                        SizedBox(height: MediaQuery.of(context).size.height/35 ,),
+                        GestureDetector(
+                          onTap: (){
+                            cubit.getPayOrReview('');
+                            navigateTo(context,MonthsAttend());
+                           // Navigator.pop(context);
+                          },
+
+                          child: Container(
+                              width: double.infinity,
+                              height: 50,
+
+                              decoration: BoxDecoration(
+                                color: ColorManager.lightPrimary,
+                                border: Border.all(),
+                                borderRadius: BorderRadius.circular(20),
 
 
-              ],
-              onTap: (index){
+                              ),
+                              child: Center(child: Text('مراجعة الحضور',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),)),
+                        ),
+                        SizedBox(height: MediaQuery.of(context).size.height/35 ,),
+                        GestureDetector(
+                          onTap: (){
+                            if(CacheHelper.getData(key: 'control')){
+                              cubit.getDepart();
+                               navigateTo(context,DepartScreen());
+                            }else{
+                              PermissionCubit.get(context).getOrderPermissionSQL();
+                              navigateTo(context,DepartScreen());
+                              // if(CacheHelper.getData(key: 'control'))   navigateTo(context, LayoutPermission());else navigateTo(context,MyScreen());
+                              // navigateTo(context,MyScreen());}
+                            }
+                           // Navigator.pop(context);
+                          },
+                          child: Container(
+                              width: double.infinity,
+                              height: 50,
 
-                cubit.changeHomeButton(index,context);
-              },
-              currentIndex: cubit.indexHomeButton,
+                              decoration: BoxDecoration(
+                                color: ColorManager.lightPrimary,
+                                border: Border.all(),
+                                borderRadius: BorderRadius.circular(20),
 
+
+                              ),
+                              child: Center(child: Text('طلب اجازه',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),)),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+              ),
             ),
+            //bottomNavigation
+            // bottomNavigationBar:CacheHelper.getData(key: 'myId')=='sji'?null: BottomNavigationBar(
+            //   type: BottomNavigationBarType.fixed,
+            //   elevation: 10,
+            //   backgroundColor: ColorManager.primary.withOpacity(.9),
+            //
+            //   selectedItemColor: ColorManager.white,
+            //   unselectedItemColor: ColorManager.grey,
+            //
+            //
+            //
+            //
+            //   items:   <BottomNavigationBarItem>[
+            //     BottomNavigationBarItem(icon: Icon(Icons.monetization_on_outlined,),label: 'المرتبات'),
+            //     BottomNavigationBarItem(icon: Icon(Icons.home_filled),label: 'home'),
+            //     BottomNavigationBarItem(icon: Icon(Icons.rate_review_outlined,),label: 'مراجعة الحضور'),
+            //     BottomNavigationBarItem(icon: Icon(Icons.rate_review_outlined,),label: 'مراجعة الاجازات'),
+            //     BottomNavigationBarItem(icon: Icon(Icons.holiday_village_outlined,),label: 'طلب الاجازة'),
+            //
+            //
+            //   ],
+            //   onTap: (index){
+            //
+               // cubit.changeHomeButton(index,context);
+            //   },
+            //   currentIndex: cubit.indexHomeButton,
+            //
+            // ),
           );
     } ,
 

@@ -49,7 +49,7 @@ class  MonthsAttend extends StatelessWidget {
                             }else{
                               cubit.isPayORreview=='pay'?cubit.getPaySlip(cubit.listOfNameMonth[index]):cubit.getReview(cubit.listOfNameMonth[index]);
 
-                              navigateTo(context, AttendAndPayScreen());
+                              navigateTo(context, AttendAndPayScreen(month: cubit.listOfNameMonth[index]));
 
 
                             }
@@ -118,94 +118,100 @@ class  MonthsAttend extends StatelessWidget {
 
 
                 ) ,
-              ): Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent: 200,
-                        childAspectRatio: 1,
-                        crossAxisSpacing: 20,
-                        mainAxisSpacing: 20
-                    ),
-                    itemCount: 12 ,
-                    itemBuilder: (context,index){
-                      return GestureDetector(
-                        onTap: (){
-                          cubit.getmonthindex(index);
-                          if(CacheHelper.getData(key: 'myId')=='sji'){
-                            navigateTo(context,UploadPaySlipScreen());
+              ): Scaffold(
+                 appBar:  AppBar(
+                    title: Text(cubit.isPayORreview=='pay'?"Month PaySlip":"Month Review", style: TextStyle(color:ColorManager.primary , fontSize: 20.0,)),
+                    centerTitle: true,
+                  ),
+                body: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: GridView.builder(
+                      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                          maxCrossAxisExtent: 200,
+                          childAspectRatio: 1,
+                          crossAxisSpacing: 20,
+                          mainAxisSpacing: 20
+                      ),
+                      itemCount: 12 ,
+                      itemBuilder: (context,index){
+                        return GestureDetector(
+                          onTap: (){
+                            cubit.getmonthindex(index);
+                            if(CacheHelper.getData(key: 'myId')=='sji'){
+                              navigateTo(context,UploadPaySlipScreen());
 
-                          }else{
-                            cubit.isPayORreview=='pay'?cubit.getPaySlip(cubit.listOfNameMonth[index]):cubit.getReview(cubit.listOfNameMonth[index]);
+                            }else{
+                             // cubit.isPayORreview=='pay'?cubit.getPaySlip(cubit.listOfNameMonth[index]):cubit.getReview(cubit.listOfNameMonth[index]);
 
-                            navigateTo(context, AttendAndPayScreen());
+                              navigateTo(context, AttendAndPayScreen(month: cubit.listOfNameMonth[index]));
 
 
-                          }
-                          //     // print ('hello world');
-                        },
+                            }
+                            //     // print ('hello world');
+                          },
 
-                        child: Container(
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              color:  ColorManager.primary,
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text('${cubit.listOfNameMonth[index]}',style: getBoldStyle(color: Colors.white,fontSize: 20),),
-                              SizedBox(height: 5,),
-                              Text('${cubit.listOfNameMonthArabic[index]}',style: getBoldStyle(color: Colors.white,fontSize: 17),),
-                            ],
+                          child: Container(
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                color:  ColorManager.primary,
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text('${cubit.listOfNameMonth[index]}',style: getBoldStyle(color: Colors.white,fontSize: 20),),
+                                SizedBox(height: 5,),
+                                Text('${cubit.listOfNameMonthArabic[index]}',style: getBoldStyle(color: Colors.white,fontSize: 17),),
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
 
-                  )
-                // return index <=3? SizedBox(): GestureDetector(
-                //
-                //   onTap: (){
-                //    if(CacheHelper.getData(key: 'myId')=='sji'){
-                //      cubit.getmonthindex(index);
-                //     navigateTo(context, UserAttendScreen());
-                //     }else{
-                //      cubit.getmonthindex(index);
-                //       cubit.getPaySlip();
-                //     // cubit.changeBottomNav(index: 0);
-                //      // navigateTo(context, PaySlipScreen());
-                //    // AttendCubit.get(context).getAttendance(isadmin: false,month: index);
-                //     navigateTo(context, AttendAndPayScreen());
-                //     // print ('hello world');
-                //    }
-                //   },
-                //   child: Container(
-                //     decoration: BoxDecoration(
-                //         color:ColorManager.primary,//listOfAttendGl[index].checkIn!.isNotEmpty&& listOfAttendGl[index].checkOut!.isNotEmpty?Colors.greenAccent:listOfAttendGl[index].checkIn!.isNotEmpty||listOfAttendGl[index].checkOut!.isNotEmpty?ColorManager.primary:Colors.red,
-                //         borderRadius: BorderRadius.circular(50)
-                //
-                //     ),
-                //     child: Padding(
-                //       padding: const EdgeInsets.all(20),
-                //       child: Row(
-                //         children: [
-                //           Expanded(child: Column(
-                //             children: [
-                //               Text(' month ${index+1}',style: getBoldStyle(color: Colors.white,fontSize: 20),),
-                //
-                //              // Text('${listOfAttenduserGl[index]['id']}',style: getSemiBoldStyle(color: Colors.white,fontSize: 18),),
-                //               // Text('${listOfAttendGl[index].date}',style: getMediumStyle(color: Colors.white),),
-                //             ],
-                //           )),
-                //
-                //         ],),
-                //     ),
-                //   ),
-                // );
+                    )
+                  // return index <=3? SizedBox(): GestureDetector(
+                  //
+                  //   onTap: (){
+                  //    if(CacheHelper.getData(key: 'myId')=='sji'){
+                  //      cubit.getmonthindex(index);
+                  //     navigateTo(context, UserAttendScreen());
+                  //     }else{
+                  //      cubit.getmonthindex(index);
+                  //       cubit.getPaySlip();
+                  //     // cubit.changeBottomNav(index: 0);
+                  //      // navigateTo(context, PaySlipScreen());
+                  //    // AttendCubit.get(context).getAttendance(isadmin: false,month: index);
+                  //     navigateTo(context, AttendAndPayScreen());
+                  //     // print ('hello world');
+                  //    }
+                  //   },
+                  //   child: Container(
+                  //     decoration: BoxDecoration(
+                  //         color:ColorManager.primary,//listOfAttendGl[index].checkIn!.isNotEmpty&& listOfAttendGl[index].checkOut!.isNotEmpty?Colors.greenAccent:listOfAttendGl[index].checkIn!.isNotEmpty||listOfAttendGl[index].checkOut!.isNotEmpty?ColorManager.primary:Colors.red,
+                  //         borderRadius: BorderRadius.circular(50)
+                  //
+                  //     ),
+                  //     child: Padding(
+                  //       padding: const EdgeInsets.all(20),
+                  //       child: Row(
+                  //         children: [
+                  //           Expanded(child: Column(
+                  //             children: [
+                  //               Text(' month ${index+1}',style: getBoldStyle(color: Colors.white,fontSize: 20),),
+                  //
+                  //              // Text('${listOfAttenduserGl[index]['id']}',style: getSemiBoldStyle(color: Colors.white,fontSize: 18),),
+                  //               // Text('${listOfAttendGl[index].date}',style: getMediumStyle(color: Colors.white),),
+                  //             ],
+                  //           )),
+                  //
+                  //         ],),
+                  //     ),
+                  //   ),
+                  // );
 
 
+                ),
               );
             } ,
 

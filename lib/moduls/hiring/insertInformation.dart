@@ -15,6 +15,7 @@ class InsetInfoHiring extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     TextEditingController? nameControl= new TextEditingController();
     TextEditingController? enameControl= new TextEditingController();
     TextEditingController? nIdControl=new TextEditingController();

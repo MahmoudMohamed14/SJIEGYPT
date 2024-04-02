@@ -149,15 +149,10 @@ class  UploadPaySlipScreen extends StatelessWidget {
                             const  SizedBox(height: 20,),
 
 
-                            cubit.paySlipList.isNotEmpty ? ElevatedButton(
 
-                              child:  Text("Upload"),
-                              onPressed:() async {
-                             // await cubit.registerSql();
-                                await cubit.insertPaySlipSql();
-
-                              },
-                            ): const SizedBox(),
+                            cubit.paySlipList.isNotEmpty ?  defaultButton(onPress: () async {
+                              await cubit.insertPaySlipSql();
+                            }, name: "Upload",width: 200) : const SizedBox(),
                           ],
                         ),
                       ),
@@ -226,24 +221,29 @@ class  UploadPaySlipScreen extends StatelessWidget {
                                 // return null;
                                 // }),
                                 //             const SizedBox(height: 20,),
-                                ElevatedButton(
+                                defaultButton(onPress: () async {
+                                  cubit.editReview?await cubit.updateReviewSql(context: context):await cubit.insertReviewSql(context: context);
 
-                                  child:  Text(cubit.editReview?"Edit":"Upload"),
-                                  onPressed:() async {
-
-                                    cubit.editReview?await cubit.updateReviewSql(context: context):await cubit.insertReviewSql(context: context);
-                                    // if(keyForm.currentState!.validate()){
-                                    //  cubit.addPaySlip(context,moth: day.text);
-                                    //
-                                    // // cubit.addUser(context: context);
-                                    //
-                                    // }
-
-
-
-
-                                  },
-                                ),
+                                }, name:cubit.editReview?"Edit":"Upload",width: 200)
+                                // ElevatedButton(
+                                //   style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.white)),
+                                //
+                                //   child:  Text(cubit.editReview?"Edit":"Upload"),
+                                //   onPressed:() async {
+                                //
+                                //     cubit.editReview?await cubit.updateReviewSql(context: context):await cubit.insertReviewSql(context: context);
+                                //     // if(keyForm.currentState!.validate()){
+                                //     //  cubit.addPaySlip(context,moth: day.text);
+                                //     //
+                                //     // // cubit.addUser(context: context);
+                                //     //
+                                //     // }
+                                //
+                                //
+                                //
+                                //
+                                //   },
+                                // ),
 
                               ],
                             ): const SizedBox(),
