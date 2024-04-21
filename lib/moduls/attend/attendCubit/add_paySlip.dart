@@ -60,7 +60,7 @@ class  UploadPaySlipScreen extends StatelessWidget {
 
 
 //               ),
-                      title:Text(cubit.isPayORreview=='pay'?"upload Payslip count ${ cubit.paySlipList.length}      ${cubit.valuepross.toInt()}%":'Upload Review = ${PermissionCubit.get(context).reviewList.length }     ${cubit.valuepross.toInt()}%',
+                      title:Text(cubit.isPayORreview=='pay'?"upload Payslip count ${ cubit.paySlipList.length}      ${cubit.valuepross.toInt()}%":'Upload Review = ${cubit.reviewList.length }     ${cubit.valuepross.toInt()}%',
                           style: TextStyle(color:ColorManager.primary,
                             fontSize: 20.0,)
                       ),
@@ -69,7 +69,7 @@ class  UploadPaySlipScreen extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: IconButton(onPressed: (){
                            // cubit.pickFileusers();
-                            cubit.isPayORreview=='pay'? cubit.pickFilePaySlip():PermissionCubit.get(context).pickFileReview();
+                            cubit.isPayORreview=='pay'? cubit.pickFilePaySlip():cubit.pickFileReview();
                           }, icon: Icon(Icons.file_upload_outlined)),
                         )
                       ],
@@ -149,19 +149,14 @@ class  UploadPaySlipScreen extends StatelessWidget {
                             const  SizedBox(height: 20,),
 
 
-                            cubit.paySlipList.isNotEmpty ? ElevatedButton(
 
-                              child:  Text("Upload"),
-                              onPressed:() async {
-                             // await cubit.registerSql();
-                                await cubit.insertPaySlipSql();
-
-                              },
-                            ): const SizedBox(),
+                            cubit.paySlipList.isNotEmpty ?  defaultButton(onPress: () async {
+                              await cubit.insertPaySlipSql();
+                            }, name: "Upload",width: 200) : const SizedBox(),
                           ],
                         ),
                       ),
-                    ):SizedBox():PermissionCubit.get(context).reviewList.isNotEmpty?SingleChildScrollView(child: Padding(
+                    ):SizedBox():cubit.reviewList.isNotEmpty?SingleChildScrollView(child: Padding(
                         padding: const EdgeInsets.all(20),
                         child: Column(
                           children: [
@@ -170,7 +165,7 @@ class  UploadPaySlipScreen extends StatelessWidget {
                             ListView.builder(
 
                               physics: NeverScrollableScrollPhysics(),
-                              itemCount: PermissionCubit.get(context).reviewList.length,
+                              itemCount: cubit.reviewList.length,
                               scrollDirection: Axis.vertical,
                               shrinkWrap: true,
                               itemBuilder: (context, index) {
@@ -178,25 +173,25 @@ class  UploadPaySlipScreen extends StatelessWidget {
                                   children: [
                                     Row(
                                       children: [
-                                        Expanded(child: Center(child: Text("${PermissionCubit.get(context).reviewList[index][0]}"))),
+                                        Expanded(child: Center(child: Text("${cubit.reviewList[index][0]}"))),
 
 
-                                        Expanded(child: Text("${PermissionCubit.get(context).reviewList[index][1]}")),
+                                        Expanded(child: Text("${cubit.reviewList[index][1]}")),
 
-                                        Expanded(child: Center(child: Text("${PermissionCubit.get(context).reviewList[index][2]}"))),
+                                        Expanded(child: Center(child: Text("${cubit.reviewList[index][2]}"))),
 
-                                        Expanded(child: Center(child: Text("${PermissionCubit.get(context).reviewList[index][3]}"))),
-                                        Expanded(child: Center(child: Text("${PermissionCubit.get(context).reviewList[index][4]}"))),
-                                        Expanded(child: Center(child: Text("${PermissionCubit.get(context).reviewList[index][5]}"))),
+                                        Expanded(child: Center(child: Text("${cubit.reviewList[index][3]}"))),
+                                        Expanded(child: Center(child: Text("${cubit.reviewList[index][4]}"))),
+                                        Expanded(child: Center(child: Text("${cubit.reviewList[index][5]}"))),
 
 
-                                        Expanded(child: Text("${PermissionCubit.get(context).reviewList[index][6]}")),
+                                        Expanded(child: Text("${cubit.reviewList[index][6]}")),
 
-                                        Expanded(child: Center(child: Text("${PermissionCubit.get(context).reviewList[index][7]}"))),
+                                        Expanded(child: Center(child: Text("${cubit.reviewList[index][7]}"))),
 
-                                        Expanded(child: Center(child: Text("${PermissionCubit.get(context).reviewList[index][8]}"))),
-                                        Expanded(child: Center(child: Text("${PermissionCubit.get(context).reviewList[index][9]}"))),
-                                        Expanded(child: Center(child: Text("${PermissionCubit.get(context).reviewList[index][10]}"))),
+                                        Expanded(child: Center(child: Text("${cubit.reviewList[index][8]}"))),
+                                        Expanded(child: Center(child: Text("${cubit.reviewList[index][9]}"))),
+                                        Expanded(child: Center(child: Text("${cubit.reviewList[index][10]}"))),
 
 
 
@@ -211,7 +206,7 @@ class  UploadPaySlipScreen extends StatelessWidget {
 
                             ),
                             const  SizedBox(height: 20,),
-                            PermissionCubit.get(context).reviewList.isNotEmpty ? Column(
+                            cubit.reviewList.isNotEmpty ? Column(
                               children: [
 
 
@@ -226,24 +221,29 @@ class  UploadPaySlipScreen extends StatelessWidget {
                                 // return null;
                                 // }),
                                 //             const SizedBox(height: 20,),
-                                ElevatedButton(
+                                defaultButton(onPress: () async {
+                                  cubit.editReview?await cubit.updateReviewSql(context: context):await cubit.insertReviewSql(context: context);
 
-                                  child:  Text("Upload"),
-                                  onPressed:() async {
-
-                                    await cubit.insertReviewSql(context: context);
-                                    // if(keyForm.currentState!.validate()){
-                                    //  cubit.addPaySlip(context,moth: day.text);
-                                    //
-                                    // // cubit.addUser(context: context);
-                                    //
-                                    // }
-
-
-
-
-                                  },
-                                ),
+                                }, name:cubit.editReview?"Edit":"Upload",width: 200)
+                                // ElevatedButton(
+                                //   style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.white)),
+                                //
+                                //   child:  Text(cubit.editReview?"Edit":"Upload"),
+                                //   onPressed:() async {
+                                //
+                                //     cubit.editReview?await cubit.updateReviewSql(context: context):await cubit.insertReviewSql(context: context);
+                                //     // if(keyForm.currentState!.validate()){
+                                //     //  cubit.addPaySlip(context,moth: day.text);
+                                //     //
+                                //     // // cubit.addUser(context: context);
+                                //     //
+                                //     // }
+                                //
+                                //
+                                //
+                                //
+                                //   },
+                                // ),
 
                               ],
                             ): const SizedBox(),

@@ -213,70 +213,101 @@ class HomeScreen extends StatelessWidget {
             child: Column(
               children: [
                 Container(
+                  padding: EdgeInsets.all(8.0),
+
                   decoration: BoxDecoration(
-                      border: Border.all(color:Colors.black,width: 1.5)
+                      border: Border.all(color:Colors.black,width: 1.5),
+                      borderRadius: BorderRadius.circular(15)
 
                   ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       itemInTable(label: 'الاسم',value: '${CacheHelper.getData(key: 'myname')??''}',),
+                      const SizedBox(height: 10,),
                       itemInTable(label: 'القسم',value: '${CacheHelper.getData(key: 'depart')??''}'),
+                      const SizedBox(height: 10,),
                       itemInTable(label: 'الكود',value: '${CacheHelper.getData(key: 'myId')??''}'),
+                      const SizedBox(height: 10,),
                       itemInTable(label: 'الاعتيادي',value: '${CacheHelper.getData(key: 'normal')??''}'),
+                      const SizedBox(height: 10,),
                       itemInTable(label: 'العارضه',value: '${CacheHelper.getData(key: 'sudden')??''}'),
+                      const SizedBox(height: 10,),
+                      itemInTable(label: 'اجمالي الاجازات المتاحه',value: '${int.parse(CacheHelper.getData(key: 'sudden')==''?'0':CacheHelper.getData(key: 'sudden'))+int.parse(CacheHelper.getData(key: 'normal')==''?'0':CacheHelper.getData(key: 'normal'))}'),
+
+                      // const SizedBox(height: 20,),
+                      // Container(
+                      //   decoration: BoxDecoration(
+                      //
+                      //       border: Border.all(color:ColorManager.primary,width: 2),
+                      //       borderRadius: BorderRadius.circular(15)
+                      //
+                      //   ),
+                      //   child: Padding(
+                      //     padding: const EdgeInsets.all(8.0),
+                      //     child: Column(
+                      //       mainAxisSize: MainAxisSize.min,
+                      //       children: [
+                      //         Directionality(
+                      //
+                      //           textDirection: TextDirection.rtl,
+                      //           child: Text(''' برجاء وضع  مقاسك لعمل يونفورم جديد ''',),
+                      //         ),
+                      //         SizedBox(height: 20,),
+                      //         Container(
+                      //           width: double.infinity,
+                      //           padding: EdgeInsets.symmetric(horizontal: 10),
+                      //           decoration: BoxDecoration(
+                      //               border: Border.all(color: ColorManager.lightPrimary),
+                      //               borderRadius: BorderRadius.circular(15)
+                      //           ),
+                      //           child: DropdownButton(
+                      //               dropdownColor: Colors.white,
+                      //
+                      //
+                      //               isExpanded: true,
+                      //               iconSize: 40,
+                      //
+                      //
+                      //               value: cubit.dropValueSize,
+                      //
+                      //
+                      //               onChanged: ( String?value){
+                      //
+                      //                 cubit.dropButtonChangeSize(vlu: value);
+                      //
+                      //
+                      //               },
+                      //
+                      //               items:List.generate(cubit.dropValueSizeList.length, (index) =>   DropdownMenuItem<String>(
+                      //
+                      //                 child: Text(cubit.dropValueSizeList[index],style: TextStyle(fontWeight: FontWeight.bold),),value: cubit.dropValueSizeList[index],))
+                      //           ),
+                      //         ),
+                      //         SizedBox(height: 20,),
+                      //
+                      //         //SizedBox(height: 10,),
+                      //         state is  SizeLoadingState?CircularProgressIndicator() :CacheHelper.getData(key: 'size${CacheHelper.getData(key: 'myId')}')!=null?defaultButton(onPress: (){
+                      //           // CacheHelper.removeWithKey(key: 'size${CacheHelper.getData(key: 'myId')}');
+                      //           //cubit.votFunction();
+                      //           cubit.EditSizeFunction();
+                      //         }, name: 'تعديل'):
+                      //         defaultButton(onPress: (){
+                      //           cubit.votFunction(context);
+                      //         }, name: 'تأكيد'),
+                      //         SizedBox(height: 10,)
+                      //       ],
+                      //     ),
+                      //   ),
+                      // )
 
 
 
-                    //  itemInTable(label: 'اجمالي الاجازات المتاحه',value: '${int.parse(CacheHelper.getData(key: 'sudden')==''?'0':CacheHelper.getData(key: 'sudden'))+int.parse(CacheHelper.getData(key: 'normal')==''?'0':CacheHelper.getData(key: 'normal'))}'),
-                    ],
+                      ],
                   ),
                 ),
-                // SizedBox(height: 5,),
-                //  CacheHelper.getData(key: 'vot')==null? Container(
-                //     decoration: BoxDecoration(
-                //         border: Border.all(color:ColorManager.primary,width: 2)
-                //
-                //     ),
-                //     child: Padding(
-                //       padding: const EdgeInsets.all(8.0),
-                //       child: Column(
-                //         mainAxisSize: MainAxisSize.min,
-                //         children: [
-                //           Directionality(
-                //
-                //             textDirection: TextDirection.rtl,
-                //             child: Text('''فى اطار المحافظه على البيئه العامه لمكان العمل وجعل المصنع اكثر صحه وامان تود الشركه ان تقرر اعطاء مصل البرد لكافه موظفين الشركه فاذا كان هناك ترحيب من جانب الموظفين سنقوم باحضار المصل  نحيط علمكم ان سلامتكم وصحتكم هامه لديناادراة الموارد البشريه\n برجاء ابداء الراى لتلقى المصل الخاص لمرض الانفلونزا؟ ''',),
-                //           ),
-                //           SizedBox(height: 20,),
-                //           Row(
-                //             children: [
-                //               Radio(value: 'ok', groupValue: cubit.valueRadioButton, onChanged: (value){
-                //                 cubit.onChangeRadioButton(value);
-                //               }),
-                //               SizedBox(width: 10,),
-                //               Text('نعم(yes)')
-                //             ],
-                //           ),
-                //           SizedBox(height: 10,),
-                //           Row(
-                //             children: [
-                //               Radio(value: 'no', groupValue: cubit.valueRadioButton, onChanged: (value){
-                //                 cubit.onChangeRadioButton(value);
-                //               }),
-                //               SizedBox(width: 10,),
-                //               Text('لا(No)')
-                //             ],
-                //           ),
-                //           //SizedBox(height: 10,),
-                //         cubit.valueRadioButton.isNotEmpty? state is  VotLoadingState?CircularProgressIndicator() :defaultButton(onPress: (){
-                //           cubit.votFunction();
-                //         }, name: 'تأكيد'):SizedBox(),
-                //           SizedBox(height: 10,)
-                //         ],
-                //       ),
-                //     ),
-                //   ):SizedBox()
+               // SizedBox(height: 5,),
+
               ],
             ),
           ),
@@ -362,7 +393,13 @@ class HomeScreen extends StatelessWidget {
 
   Widget  itemInTable({String label='',String value='0',Color colorRow=Colors.white,Color colorText=Colors.black,}){
     return Container(
-      color: colorRow,
+      padding: EdgeInsets.only(left: 5),
+      decoration: BoxDecoration(
+          border: Border.all(color:Colors.black,width: 1.5),
+          borderRadius: BorderRadius.circular(15)
+
+      ),
+      //color: colorRow,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -370,13 +407,18 @@ class HomeScreen extends StatelessWidget {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Expanded(child: Center(child: Text(label,style: TextStyle(color: colorText),))),
               Expanded(child: Center(child: Text(value,style: TextStyle(color: colorText),))),
-              SizedBox(width: 2,)
+              Expanded(child: Center(child: Text(label,style: TextStyle(color: colorText),))),
+
+             // SizedBox(width: 2,)
             ],
           ),
           SizedBox(height: 10,),
-          Container(width: double.infinity,height: 2,color: Colors.black,),
+          // Container(width: double.infinity,height: 2, decoration: BoxDecoration(
+          //     border: Border.all(color:Colors.black),
+          //     borderRadius: BorderRadius.circular(15)
+          //
+          // )),
 
         ],
       ),

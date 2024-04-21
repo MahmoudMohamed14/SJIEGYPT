@@ -12,7 +12,7 @@ class HiringModel{
   String?locatwork;
   //dowon ok
   String?english_name ;
-  String?arabic_name ;
+  dynamic arabic_name ;
   String?gender;
   String?nId ;
   String?issuing_id;
@@ -20,7 +20,7 @@ class HiringModel{
   String?mob_no;
   String?social_insno;
   String?birth_date;
-  String ?mother;
+ dynamic mother;
   String?age;
   String?governerate ;
   String?center;
@@ -65,19 +65,19 @@ class HiringModel{
     this.enddate,
 
     //ok down
-    this.english_name ,
-    this.arabic_name ,
-    this.gender,
-    this.nId ,
-    this.issuing_id,
-    this.expired_id,
-    this.mother,
-    this.mob_no,
-    this.social_insno,
-    this.birth_date,
-    this.age,
-    this.governerate ,
-    this.center,
+    this.english_name='' ,
+    this.arabic_name='' ,
+    this.gender='',
+    this.nId='' ,
+    this.issuing_id='',
+    this.expired_id='',
+    this.mother='',
+    this.mob_no='',
+    this.social_insno='',
+    this.birth_date='',
+    this.age='',
+    this.governerate ='',
+    this.center='',
     this.village="" ,
     this.address="",
 
@@ -122,20 +122,20 @@ class HiringModel{
 
     //ok down
     english_name =json['english_name'];
-    arabic_name =json['arabic_name'];
+    arabic_name =Uri.decodeFull(json['arabic_name']);
     gender=json['gender'];
     nId =json['nId'];
-    mother=json['mother'];
+    mother=Uri.decodeFull(json['mother']);
     issuing_id=json['issuing_id'];
     expired_id=json['expired_id'];
     mob_no=json['mob_no'];
     social_insno=json['social_insno'];
     birth_date=json['birth_date'];
     age=json['age'];
-    governerate =json['governerate'];
-    center=json['center'];
-    village =json['village'];
-    address=json['address'];
+    governerate =Uri.decodeFull(json['governerate']);
+    center=Uri.decodeFull(json['center']);
+    village =Uri.decodeFull(json['village']);
+    address=Uri.decodeFull(json['address']);
 
     project=json['project'];
     service =json['service'];
@@ -176,20 +176,21 @@ return {
   "locatwork":locatwork,
   //ok down
   'english_name':english_name ,
-  'arabic_name':arabic_name ,
+  'arabic_name':"${Uri.encodeFull(arabic_name)}" ,
+
   'gender':gender,
   'nId':nId ,
-  'mother':mother,
+  'mother':"${Uri.encodeFull(mother)}",
   'issuing_id':issuing_id,
   'expired_id':expired_id,
   'mob_no':mob_no,
   'social_insno':social_insno,
   'birth_date':birth_date,
   'age':age,
-  'governerate':governerate,
-  'center':center,
-  'village':village ,
-  'address':address,
+  'governerate':"${Uri.encodeFull(governerate??"")}",
+  'center':"${Uri.encodeFull(center??'')}",
+  'village':"${Uri.encodeFull(village??'')}" ,
+  'address':"${Uri.encodeFull(address??'')}",
 
   'project':project,
   'service':service ,

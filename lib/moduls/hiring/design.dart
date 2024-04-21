@@ -16,7 +16,7 @@ Widget dataTable(context, List<HiringModel> listModel){
     dataRowHeight:30,
 
 
-    minWidth: 2870,
+    minWidth: 2950,
     columnSpacing: 5,
     showBottomBorder:true ,
     showCheckboxColumn: true,
@@ -32,8 +32,8 @@ Widget dataTable(context, List<HiringModel> listModel){
 
 
     columns: [
-      DataColumn2(label: Center(child: Text('English name ')),fixedWidth: 300, ),
-      DataColumn2(label: Center(child: Text('Arabic name ')),fixedWidth: 300, ),
+      DataColumn2(label: Center(child: Text('English name ')),fixedWidth: 340, ),
+      DataColumn2(label: Center(child: Text('Arabic name ')),fixedWidth: 340, ),
       DataColumn2(label: Center(child: Text('NID')), fixedWidth: 150),
       DataColumn2(label: Center(child: Text('Gender')), fixedWidth: 120),
       DataColumn2(label: Center(child: Text('Issuing ID')),  fixedWidth: 100),
@@ -93,6 +93,7 @@ Widget dataTable(context, List<HiringModel> listModel){
           DataCell(Center(child: Text('${listModel[index].iscall}',style: TextStyle(),))),
           DataCell(Center(child: Text('${listModel[index].note}',style: TextStyle(),))),
           DataCell(Center(child: Icon(Icons.edit)),onTap: (){
+
             HiringCubit.get(context).edit(listModel[index]);
             navigateTo(context, EditHiring());
           }),
@@ -179,7 +180,7 @@ Widget dataTableSafety(context, List<HiringModel> listModel){
   ));
 }
 Widget dataTableAllData(context, List<HiringModel> listModel){
-  return Expanded(child: DataTable2(
+  return DataTable2(
 
 
     border: TableBorder.all(),
@@ -187,7 +188,7 @@ Widget dataTableAllData(context, List<HiringModel> listModel){
     dataRowHeight:28,
 
 
-    minWidth: 5570,
+    minWidth:  5570,
     columnSpacing: 5,
     showBottomBorder:true ,
     showCheckboxColumn: true,
@@ -203,8 +204,8 @@ Widget dataTableAllData(context, List<HiringModel> listModel){
 
 
     columns: [
-      DataColumn2(label: Center(child: Text('Code')),fixedWidth: 80, ),
-      DataColumn2(label: Center(child: Text('GenCode')),fixedWidth: 80, ),
+      DataColumn2(label: Center(child: Text('Code')),fixedWidth: MediaQuery.of(context).size.width/20, ),
+      DataColumn2(label: Center(child: Text('GenCode')),fixedWidth: MediaQuery.of(context).size.width/20, ),
       DataColumn2(label: Center(child: Text('English name ')),fixedWidth: 300, ),
       DataColumn2(label: Center(child: Text('Arabic name ')),fixedWidth: 300, ),
       DataColumn2(label: Center(child: Text('NID')), fixedWidth: 150),
@@ -261,7 +262,7 @@ Widget dataTableAllData(context, List<HiringModel> listModel){
     ], rows: List<DataRow>.generate(listModel.length, (index) =>
       DataRow(
 
-        selected:HiringCubit.get(context).selectedNID.contains( listModel[index].nId),
+       // selected:HiringCubit.get(context).selectedNID.contains( listModel[index].nId),
         //HiringCubit.get(context).selectall,
 
 
@@ -331,8 +332,9 @@ Widget dataTableAllData(context, List<HiringModel> listModel){
 
 
         ],)),
-  ));
+  );
 }
+
 Widget dataTableDocument(context, List<HiringModel> listModel){
   return Expanded(child: DataTable2(
 

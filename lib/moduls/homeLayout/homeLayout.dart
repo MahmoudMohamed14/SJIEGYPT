@@ -1,12 +1,18 @@
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled/componant/componant.dart';
 import 'package:untitled/componant/local/cache_helper.dart';
+import 'package:untitled/home.dart';
 import 'package:untitled/moduls/attend/add_suddenNormal_screen.dart';
+import 'package:untitled/moduls/attend/add_vacation.dart';
 import 'package:untitled/moduls/attend/attendCubit/cubitAttend.dart';
 import 'package:untitled/moduls/attend/attendCubit/statusAttend.dart';
-import 'package:untitled/moduls/attend/getHistory.dart';
+import 'package:untitled/moduls/attend/monthsAttend .dart';
+import 'package:untitled/moduls/attend/payslipscreen.dart';
+import 'package:untitled/moduls/attend/vacation_screen.dart';
 import 'package:untitled/moduls/login/login_screen.dart';
 import 'package:untitled/moduls/permisssion/AcceptRequest.dart';
 import 'package:untitled/moduls/permisssion/deparScreen.dart';
@@ -14,6 +20,7 @@ import 'package:untitled/moduls/permisssion/order_permission.dart';
 import 'package:untitled/moduls/permisssion/permission_cubit.dart';
 import 'package:untitled/shared/constant/color_manager.dart';
 import 'package:untitled/shared/constant/icon_broken.dart';
+import 'package:untitled/shared/constant/values_manager.dart';
 
 class HomeLayout extends StatelessWidget {
   @override
@@ -28,12 +35,17 @@ class HomeLayout extends StatelessWidget {
         var cubit=AttendCubit.get(context);
           return Scaffold(
             appBar: AppBar(
-              title: cubit.listTitleHome[cubit.indexHomeButton],//Text('SJI EGYPT',),
+              title: Text( "${cubit.listTitleHome[cubit.indexHomeButton]} ${cubit.indexHomeButton==3?cubit.countVacation:''}", style: TextStyle(color:ColorManager.primary , fontSize: 20.0,)),//cubit.listTitleHome[cubit.indexHomeButton],//Text('SJI EGYPT',),
               centerTitle: true,
-              actions: [
+              actions: !CacheHelper.getData(key: 'control') && cubit.indexHomeButton==4? [IconButton(onPressed: (){
+                PermissionCubit.get(context).getOrderPermissionSQL();
+                navigateTo(context, LayoutPermission());
+              }, icon: Icon(Icons.history_outlined))]:[
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: PopupMenuButton<String>(itemBuilder: (context)=>[
+                  child: PopupMenuButton<String>(
+
+                      itemBuilder: (context)=>[
                     PopupMenuItem(child: Text('Change Password'),value: 'password',),
                     PopupMenuItem(child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -160,7 +172,8 @@ class HomeLayout extends StatelessWidget {
                       },
 
 
-                      shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(20),side: BorderSide(color: Colors.orange.withOpacity(.5)))
+
+                      shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(20),side: BorderSide(color: ColorManager.primary))
                   ),
                 ),
 
@@ -190,6 +203,7 @@ class HomeLayout extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(1),
               child: Center(
+
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -220,7 +234,7 @@ class HomeLayout extends StatelessWidget {
                                       Icon(Icons.add,size: 50,color: Colors.white,),
                                     ],
                                   ),
-                                  Text('Add sudden and normal',style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),)
+                                  Text('Add normal',style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),)
                                 ],
                               ),
                             ),
@@ -230,7 +244,7 @@ class HomeLayout extends StatelessWidget {
 
 
                     ),
-                    SizedBox(height: 20,),
+                    SizedBox(height: 8,),
                     Expanded(
                       child:  GestureDetector(
                         onTap: (){
@@ -267,7 +281,7 @@ class HomeLayout extends StatelessWidget {
 
 
                     ),
-                    SizedBox(height: 20,),
+                    SizedBox(height: 8,),
                     Expanded(
                       child:  GestureDetector(
                         onTap: (){
@@ -293,7 +307,7 @@ class HomeLayout extends StatelessWidget {
                                       Icon(Icons.add,size: 50,color: Colors.white,),
                                     ],
                                   ),
-                                  Text('Add Review Attendance',style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),)
+                                  Text('Add Attendance',style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),)
                                 ],
                               ),
                             ),
@@ -303,206 +317,227 @@ class HomeLayout extends StatelessWidget {
 
 
                     ),
-                    // SizedBox(height: 20,),
-                    // Expanded(
-                    //   child:  GestureDetector(
-                    //     onTap: (){
-                    //       // AttendCubit.get(context).getPayOrReview('pay');
-                    //
-                    //       navigateTo(context, UploadSuddenNormalScreen ());
-                    //     },
-                    //     child: Padding(
-                    //       padding: const EdgeInsets.all(10),
-                    //       child: Container(
-                    //         width: 200,
-                    //
-                    //         decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: ColorManager.primary,),
-                    //         child: Padding(
-                    //           padding: const EdgeInsets.all(10.0),
-                    //           child: Column(
-                    //             crossAxisAlignment: CrossAxisAlignment.center,
-                    //             mainAxisAlignment: MainAxisAlignment.center,
-                    //
-                    //             children: [
-                    //               Column(
-                    //                 children: [
-                    //                   Icon(Icons.add,size: 100,color: Colors.white,),
-                    //                 ],
-                    //               ),
-                    //               Text('ADD SUDDEN AND NORMAL',style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.bold),)
-                    //             ],
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ),
-                    //
-                    //
-                    // ),
-                    // Expanded(
-                    //
-                    //   child: GestureDetector(
-                    //     onTap: (){
-                    //       //PermissionCubit.get(context).getOrderPermission();
-                    //       if(CacheHelper.getData(key: 'control')){
-                    //         AttendCubit.get(context).getDepart();
-                    //         navigateTo(context,DepartScreen());
-                    //       }else{
-                    //         PermissionCubit.get(context).getOrderPermissionSQL();
-                    //         // if(CacheHelper.getData(key: 'control'))   navigateTo(context, LayoutPermission());else navigateTo(context,MyScreen());
-                    //         navigateTo(context,MyScreen());}
-                    //     },
-                    //
-                    //     child: Padding(
-                    //         padding: const EdgeInsets.all(10),
-                    //         child:Container(
-                    //           width: 200,
-                    //
-                    //
-                    //           decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: ColorManager.primary,),
-                    //           child: Padding(
-                    //             padding: const EdgeInsets.all(10.0),
-                    //             child: Column(
-                    //               mainAxisAlignment: MainAxisAlignment.center,
-                    //               children: [
-                    //
-                    //                 Expanded(
-                    //                   child: Image(image: AssetImage('assets/holiday.png'),
-                    //                     // height: 90,
-                    //                     // width: 90,
-                    //                   ),
-                    //                 ),
-                    //                 Text('اجازه',style: TextStyle(color: Colors.white,fontSize: 25,fontWeight: FontWeight.bold),)
-                    //               ],
-                    //             ),
-                    //           ),
-                    //         )
-                    //     ),
-                    //   ),
-                    // ),
-                    // Expanded(
-                    //
-                    //   child: GestureDetector(
-                    //     onTap: (){
-                    //       AttendCubit.get(context).getPayOrReview('review');
-                    //
-                    //       navigateTo(context, MonthsAttend());
-                    //     },
-                    //
-                    //
-                    //     child: Padding(
-                    //         padding: const EdgeInsets.all(10),
-                    //         child:Container(
-                    //           width: 200,
-                    //
-                    //
-                    //           decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: ColorManager.primary,),
-                    //           child: Padding(
-                    //             padding: const EdgeInsets.all(10.0),
-                    //             child: Column(
-                    //               mainAxisAlignment: MainAxisAlignment.center,
-                    //               children: [
-                    //
-                    //                 Expanded(
-                    //                   child: Image(image: AssetImage('assets/review.png'),
-                    //                     // height: 90,
-                    //                     // width: 90,
-                    //                   ),
-                    //                 ),
-                    //                 Text('مراجعة الاجازات',style: TextStyle(color: Colors.white,fontSize: 25,fontWeight: FontWeight.bold),)
-                    //               ],
-                    //             ),
-                    //           ),
-                    //         )
-                    //     ),
-                    //   ),
-                    // ),
+                    SizedBox(height: 8,),
+                    Expanded(
+                      child:  GestureDetector(
+                        onTap: (){
+                          cubit.editReview=true;
+                          cubit.getPayOrReview('review');
 
-                    // Expanded(
-                    //
-                    //   child:
-                    //
-                    //
-                    //      GestureDetector(
-                    //
-                    //        onTap: ()async{
-                    //       //   PermissionCubit.get(context).getOrderPermission();
-                    //       //   navigateTo(context, LayoutPermission());
-                    //         // print(  await AttendCubit.get(context).testSql());
-                    //          //
-                    //        },
-                    //       child: Padding(
-                    //         padding: const EdgeInsets.all(10),
-                    //         child: Stack(
-                    //           alignment: AlignmentDirectional.center,
-                    //           children: [Container(
-                    //             width: 200,
-                    //
-                    //             decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color:Colors.orangeAccent.withOpacity(.5),),
-                    //             child: Padding(
-                    //               padding: const EdgeInsets.all(10.0),
-                    //               child: Column(
-                    //
-                    //                 mainAxisSize: MainAxisSize.min,
-                    //
-                    //                 mainAxisAlignment: MainAxisAlignment.center,
-                    //                 children: [
-                    //                   Expanded(
-                    //                     child: Image(image: AssetImage('assets/permission.jpg'),
-                    //                       // height: 90,
-                    //                       // width: 90,
-                    //                     ),
-                    //                   ),
-                    //                   Text('اذن',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),)
-                    //                 ],
-                    //               ),
-                    //             ),
-                    //           ),
-                    //             Container(
-                    //               width: 200,
-                    //
-                    //               decoration:  BoxDecoration(borderRadius: BorderRadius.circular(10),color:Colors.black45.withOpacity(.5),),
-                    //
-                    //             ),
-                    //             Text('قريبا',style: TextStyle( fontSize: 50, color: Colors.white70 ), )
-                    //
-                    //           ]
-                    //         ),
-                    //       ),
-                    //     ),
-                    //
-                    //
-                    // ),
+                          navigateTo(context, MonthsAttend());
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Container(
+                            width: 200,
+
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: ColorManager.primary,),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+
+                                children: [
+                                  Column(
+                                    children: [
+                                      Icon(Icons.add,size: 50,color: Colors.white,),
+                                    ],
+                                  ),
+                                  Text('Edit Attendance',style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),)
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
 
 
+                    ),
+                    SizedBox(height: 8,),
+                    Expanded(
+                      child:  GestureDetector(
+                        onTap: (){
+                          // cubit.editReview=true;
+                          // cubit.getPayOrReview('review');
+                          //
+                         navigateTo(context, UploadVacationScreen());
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Container(
+                            width: 200,
+
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: ColorManager.primary,),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+
+                                children: [
+                                  Column(
+                                    children: [
+                                      Icon(Icons.add,size: 50,color: Colors.white,),
+                                    ],
+                                  ),
+                                  Text('Add Vacation ',style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),)
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+
+
+                    ),
 
 
 
                   ],
                 ),
               ),
-            ):cubit.listScreenHome[cubit.indexHomeButton],
-            bottomNavigationBar:CacheHelper.getData(key: 'myId')=='sji'?null: BottomNavigationBar(
-              type: BottomNavigationBarType.fixed,
-              elevation: 0,
+            ):HomeScreen(),
+            drawer: Padding(
+              padding: const EdgeInsets.symmetric(vertical: AppPadding.p8),
+              child: Drawer(
+                elevation: 0,
+                //shape: Border.all(color: ColorManager.primary),
+                backgroundColor: Colors.white.withOpacity(.7),
+              shadowColor: ColorManager.lightPrimary,
+                surfaceTintColor: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.all(AppPadding.p8),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height/3,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+
+                      children: [
+                        SizedBox(height: MediaQuery.of(context).size.height/35 ,),
+                        GestureDetector(
+                          onTap: (){
+                           cubit.getPayOrReview('pay');
+                            navigateTo(context,MonthsAttend());
+                          // Navigator.pop(context);
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            height: 50,
+
+                            decoration: BoxDecoration(
+                              color: ColorManager.lightPrimary,
+                              border: Border.all(),
+                              borderRadius: BorderRadius.circular(20),
 
 
+                            ),
+                              child: Center(child: Text('المرتبات',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),)),
+                        ),
+                        SizedBox(height: MediaQuery.of(context).size.height/35 ,),
+                        GestureDetector(
+                          onTap: (){
+                           cubit.getVacation();
+                           // cubit.getPayOrReview('');
+                            navigateTo(context,VacationScreen());
+                          // Navigator.pop(context);
+                          },
+                          child: Container(
+                              width: double.infinity,
+                              height: 50,
 
-              items:   <BottomNavigationBarItem>[
-                BottomNavigationBarItem(icon: Icon(Icons.monetization_on_outlined,),label: 'المرتبات'),
-                BottomNavigationBarItem(icon: Icon(Icons.home_filled),label: 'home'),
-                BottomNavigationBarItem(icon: Icon(Icons.rate_review_outlined,),label: 'مراجعة الحضور'),
-                BottomNavigationBarItem(icon: Icon(Icons.holiday_village_outlined,),label: 'طلب الاجازة'),
+                              decoration: BoxDecoration(
+                                color: ColorManager.lightPrimary,
+                                border: Border.all(),
+                                borderRadius: BorderRadius.circular(20),
 
 
-              ],
-              onTap: (index){
+                              ),
+                              child: Center(child: Text('مراجعة الاجازات',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),)),
+                        ),
+                        SizedBox(height: MediaQuery.of(context).size.height/35 ,),
+                        GestureDetector(
+                          onTap: (){
+                            cubit.getPayOrReview('');
+                            navigateTo(context,MonthsAttend());
+                           // Navigator.pop(context);
+                          },
 
-                cubit.changeHomeButton(index,context);
-              },
-              currentIndex: cubit.indexHomeButton,
+                          child: Container(
+                              width: double.infinity,
+                              height: 50,
 
+                              decoration: BoxDecoration(
+                                color: ColorManager.lightPrimary,
+                                border: Border.all(),
+                                borderRadius: BorderRadius.circular(20),
+
+
+                              ),
+                              child: Center(child: Text('مراجعة الحضور',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),)),
+                        ),
+                        SizedBox(height: MediaQuery.of(context).size.height/35 ,),
+                        GestureDetector(
+                          onTap: (){
+                            if(CacheHelper.getData(key: 'control')){
+                              cubit.getDepart();
+                               navigateTo(context,DepartScreen());
+                            }else{
+                              PermissionCubit.get(context).getOrderPermissionSQL();
+                              navigateTo(context,DepartScreen());
+                              // if(CacheHelper.getData(key: 'control'))   navigateTo(context, LayoutPermission());else navigateTo(context,MyScreen());
+                              // navigateTo(context,MyScreen());}
+                            }
+                           // Navigator.pop(context);
+                          },
+                          child: Container(
+                              width: double.infinity,
+                              height: 50,
+
+                              decoration: BoxDecoration(
+                                color: ColorManager.lightPrimary,
+                                border: Border.all(),
+                                borderRadius: BorderRadius.circular(20),
+
+
+                              ),
+                              child: Center(child: Text('طلب اجازه',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),)),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+              ),
             ),
+            //bottomNavigation
+            // bottomNavigationBar:CacheHelper.getData(key: 'myId')=='sji'?null: BottomNavigationBar(
+            //   type: BottomNavigationBarType.fixed,
+            //   elevation: 10,
+            //   backgroundColor: ColorManager.primary.withOpacity(.9),
+            //
+            //   selectedItemColor: ColorManager.white,
+            //   unselectedItemColor: ColorManager.grey,
+            //
+            //
+            //
+            //
+            //   items:   <BottomNavigationBarItem>[
+            //     BottomNavigationBarItem(icon: Icon(Icons.monetization_on_outlined,),label: 'المرتبات'),
+            //     BottomNavigationBarItem(icon: Icon(Icons.home_filled),label: 'home'),
+            //     BottomNavigationBarItem(icon: Icon(Icons.rate_review_outlined,),label: 'مراجعة الحضور'),
+            //     BottomNavigationBarItem(icon: Icon(Icons.rate_review_outlined,),label: 'مراجعة الاجازات'),
+            //     BottomNavigationBarItem(icon: Icon(Icons.holiday_village_outlined,),label: 'طلب الاجازة'),
+            //
+            //
+            //   ],
+            //   onTap: (index){
+            //
+               // cubit.changeHomeButton(index,context);
+            //   },
+            //   currentIndex: cubit.indexHomeButton,
+            //
+            // ),
           );
     } ,
 

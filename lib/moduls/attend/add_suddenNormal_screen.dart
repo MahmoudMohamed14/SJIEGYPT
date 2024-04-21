@@ -11,10 +11,6 @@ import 'package:untitled/shared/constant/color_manager.dart';
 
 class  UploadSuddenNormalScreen extends StatelessWidget {
 
-
-
-
-
   @override
   Widget build(BuildContext context) {
     //TextEditingController? day=new TextEditingController();

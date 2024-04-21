@@ -15,6 +15,7 @@ class InsetInfoHiring extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     TextEditingController? nameControl= new TextEditingController();
     TextEditingController? enameControl= new TextEditingController();
     TextEditingController? nIdControl=new TextEditingController();
@@ -88,21 +89,25 @@ class InsetInfoHiring extends StatelessWidget {
               child: Column(children: [
                 Row(
                   children: [
-                    Expanded(child: defaultEditText(label: 'English Name',control: enameControl,validat: ( s){
+                    Expanded(child: defaultEditText(label: 'English Name',control: enameControl,
+                        validat: ( s){
                       if(s!.isEmpty){
 
                         return"name is empty";
                       }
                       return null;
-                    })),
+                    }
+                    )),
                     SizedBox(width: 20,),
-                    Expanded(child: defaultEditText(label: 'Arabic Name',control: nameControl,validat: ( s){
-                      if(s!.isEmpty){
-
-                        return"name is empty";
-                      }
-                      return null;
-                    })),
+                    Expanded(child: defaultEditText(label: 'Arabic Name',control: nameControl,
+                    //     validat: ( s){
+                    //   if(s!.isEmpty){
+                    //
+                    //     return"name is empty";
+                    //   }
+                    //   return null;
+                    // }
+                    )),
 
 
                     SizedBox(width: 20,),
@@ -143,7 +148,7 @@ class InsetInfoHiring extends StatelessWidget {
                             ageControl.clear();
 
                           }
-                          cubit.getEmit();
+                          //cubit.getEmit();
                         },
                             label: 'National ID',control: nIdControl,textType: TextInputType.number,maxlength: 14,validat: ( s){
                           RegExp regex = RegExp(r'^\d+$');
@@ -151,7 +156,7 @@ class InsetInfoHiring extends StatelessWidget {
 
                         return"NationalID is empty";
                         }
-                        else if(s.length<14)return'Must Length greater than 14';
+                       if(s.length<14)return'Must Length greater than 14';
                         // else if(s.length==14){
                         //   String date= s.toString().substring(0,7);
                         //   String day=date.substring(5,7);
@@ -176,10 +181,10 @@ class InsetInfoHiring extends StatelessWidget {
                                 maxlength: 11,
                                 validat: ( s){
                                   RegExp regex = RegExp(r'^\d+$');
-                                  if(s!.isEmpty) return"Mobile No is empty";
+                                 // if(s!.isEmpty) return"Mobile No is empty";
 
-                                  else if(!regex.hasMatch(s))return'input value must be number';
-                                  else if(s.length<11)return'Must Length  Not less than 11';
+                                   if(!regex.hasMatch(s)&&s.isNotEmpty)return'input value must be number';
+                                  else if(s.length<11&&s.isNotEmpty)return'Must Length  Not less than 11';
                                   else return null;
                                 }
                             ),
@@ -191,19 +196,23 @@ class InsetInfoHiring extends StatelessWidget {
                 Row(
                   children: [
 
-                    Expanded(child: defaultEditText(label: 'محافظة',control: governorateControl,validat: ( s){
+                    Expanded(child: defaultEditText(label: 'محافظة',control: governorateControl,
+                        validat: ( s){
                       if(s!.isEmpty){
                         return"Empty";
                       }
                       return null;
-                    })),
+                    }
+                    )),
                     SizedBox(width: 20,),
-                    Expanded(child: defaultEditText(label: 'المركز',control: centerControl,validat: ( s){
+                    Expanded(child: defaultEditText(label: 'المركز',control: centerControl,
+                        validat: ( s){
                       if(s!.isEmpty){
                         return"Empty";
                       }
                       return null;
-                    }),),
+                    }
+                    ),),
                     SizedBox(width: 20,),
                     Expanded(child: defaultEditText(label: 'Village',control: villageControl,
                         validat: ( s){
@@ -217,12 +226,12 @@ class InsetInfoHiring extends StatelessWidget {
 
                     SizedBox(width: 20,),
                     Expanded(child: defaultEditText(label: 'Mother’s Name',control:motherControl,
-                        validat: ( s){
-                          if(s!.isEmpty){
-                            return" Empty";
-                          }
-                          return null;
-                        }
+                        // validat: ( s){
+                        //   if(s!.isEmpty){
+                        //     return" Empty";
+                        //   }
+                        //   return null;
+                        // }
 
                     )),
                   ],
@@ -248,15 +257,16 @@ class InsetInfoHiring extends StatelessWidget {
                        ],
                      )),
                     SizedBox(width: 20,),
-                    Expanded(child: defaultEditText(label: 'Issuing ID',control: issuingtIDControl,validat: ( s){
-                      if(s!.isEmpty){
-                        return"Empty";
-                      }
-                      return null;
-                    },
+                    Expanded(child: defaultEditText(label: 'Issuing ID',control: issuingtIDControl,
+                    //     validat: ( s){
+                    //   if(s!.isEmpty){
+                    //     return"Empty";
+                    //   }
+                    //   return null;
+                    // },
                         onPress: (){
                           showDatePicker(context: context, initialDate: DateTime.now(), firstDate:
-                          DateTime.now() , lastDate: DateTime.parse('2030-12-31'))
+                          DateTime.parse('2010-12-31'), lastDate: DateTime.parse('2030-12-31'))
                               .then((value){
                             issuingtIDControl.text=DateFormat.yM().format(value!);
                             cubit.getEmit();
@@ -272,14 +282,15 @@ class InsetInfoHiring extends StatelessWidget {
                     ),
                     SizedBox(width: 20,),
                     Expanded(child: defaultEditText(label: 'expired ID',control: expiredIDControl,
-                        validat: ( s){
-                          if(s!.isEmpty){
-                            return" Empty";
-                          }
-                          return null;
-                        },onPress: (){
+                        // validat: ( s){
+                        //   if(s!.isEmpty){
+                        //     return" Empty";
+                        //   }
+                        //   return null;
+                        // }
+                        onPress: (){
                           showDatePicker(context: context, initialDate: DateTime.now(), firstDate:
-                          DateTime.now() , lastDate: DateTime.parse('2023-12-31'))
+                          DateTime.parse('2022-01-01') , lastDate: DateTime.parse('2030-12-31'))
                               .then((value){
                             expiredIDControl.text=DateFormat.yMd().format(value!);
                             cubit.getEmit();
@@ -294,15 +305,15 @@ class InsetInfoHiring extends StatelessWidget {
                     )),
                     SizedBox(width: 20,),
                     Expanded(child: defaultEditText(label: 'Date Interview',control: dateInterviewControl
-                        ,validat: ( s){
-                      if(s!.isEmpty){
-                        return"Date is empty";
-                      }
-                      return null;
-                    }
+                    //     ,validat: ( s){
+                    //   if(s!.isEmpty){
+                    //     return"Date is empty";
+                    //   }
+                    //   return null;
+                    // }
                     ,onPress: (){
                         showDatePicker(context: context, initialDate: DateTime.now(), firstDate:
-                        DateTime.now() , lastDate: DateTime.parse('2023-12-31'))
+                        DateTime.parse('2022-12-31') , lastDate: DateTime.parse('2020-12-31'))
                             .then((value){
                           dateInterviewControl.text=DateFormat.yMd().format(value!);
                           cubit.getEmit();
@@ -319,31 +330,35 @@ class InsetInfoHiring extends StatelessWidget {
                 Row(
                   children: [
 
-                    Expanded(child: defaultEditText(label: 'Gender',control: genderControl,validat: ( s){
-                      if(s!.isEmpty){
-                        return"Empty";
-                      }
-                      return null;
-                    })),
+                    Expanded(child: defaultEditText(label: 'Gender',control: genderControl,
+                    //     validat: ( s){
+                    //   if(s!.isEmpty){
+                    //     return"Empty";
+                    //   }
+                    //   return null;
+                    // }
+                    )),
                     SizedBox(width: 20,),
-                    Expanded(child: defaultEditText(label: 'Age',control: ageControl,validat: ( s){
-                      if(s!.isEmpty){
-                        return"Empty";
-                      }
-                      return null;
-                    },
+                    Expanded(child: defaultEditText(label: 'Age',control: ageControl,
+                    //   validat: ( s){
+                    //   if(s!.isEmpty){
+                    //     return"Empty";
+                    //   }
+                    //   return null;
+                    // },
 
                     ),
 
                     ),
                     SizedBox(width: 20,),
-                    Expanded(child: defaultEditText(label: 'Birth date(m/d/y)',control: birthControl,
-                        validat: ( s){
-                          if(s!.isEmpty){
-                            return" Empty";
-                          }
-                          return null;
-                        },onPress: (){
+                    Expanded(child: defaultEditText(label: 'Birth date(m/d/y)',control: birthControl
+                        // validat: ( s){
+                        //   if(s!.isEmpty){
+                        //     return" Empty";
+                        //   }
+                        //   return null;
+                        // }
+                        ,onPress: (){
                           showDatePicker(context: context, initialDate:  DateTime.parse('1999-01-01'), firstDate:
                           DateTime.parse('1950-12-31') , lastDate: DateTime.parse('2010-12-31'))
                               .then((value){
@@ -464,7 +479,96 @@ class InsetInfoHiring extends StatelessWidget {
           age: ageControl.text,
           issuing_id: issuingtIDControl.text.trim(),
           expired_id: expiredIDControl.text.trim(),
-      ));
+      )).then((value) {
+        if(cubit.messagesuccess.contains('successhiringincert')){
+        nameControl.clear();
+        enameControl.clear();
+        nIdControl.clear();
+        governorateControl.clear();
+       // dateInterviewControl.clear();
+        villageControl.clear();
+        centerControl.clear();
+        phoneControl.clear();
+        noteControl.clear();
+        motherControl.clear();
+        socialControl.clear();
+        issuingtIDControl.clear();
+        expiredIDControl.clear();
+        ageControl.clear();
+        birthControl.clear();
+        genderControl.clear();
+        locationControl.clear();
+        projectControl.clear();}
+        else if(cubit.messagesuccess.contains("Failed host lookup: 'sjiappeg.sji-eg.com'")){
+          Navigator.of(context).pop(true);
+          showDialog(
+              barrierDismissible: false,
+              context: context,
+              builder:(context )=>AlertDialog(
+
+                backgroundColor:Colors.grey,
+
+                title: Text('Connection to Internet',style: TextStyle(color: Colors.white),),
+                content:  Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    //Center(child: CircularProgressIndicator()),
+                   Text('يوجد مشكله في الانترنت',style: TextStyle(color: Colors.white))
+
+                  ],
+                ),
+                actions: [
+                  TextButton(onPressed: (){
+                    //emit(FinishSCanStateSuccess());
+                    // duplicated=false;
+                    // emitState();
+
+                    Navigator.of(context).pop(true);
+
+                  }, child: Text('Cancel',style: TextStyle(color: Colors.white),)),
+
+
+                ],
+
+              ));
+
+        }
+        else if(cubit.messagesuccess.contains('request returned an invalid status code of 500')){
+          Navigator.of(context).pop(true);
+          showDialog(
+              barrierDismissible: false,
+              context: context,
+              builder:(context )=>AlertDialog(
+
+                backgroundColor:Colors.grey,
+
+                title: Text('error Data ',style: TextStyle(color: Colors.white),),
+                content:  Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    //Center(child: CircularProgressIndicator()),
+                    Text('راجع البيانات جيدا ربما يكون متسجل او البيانات غير صحيحه',style: TextStyle(color: Colors.white))
+
+                  ],
+                ),
+                actions: [
+                  TextButton(onPressed: (){
+                    //emit(FinishSCanStateSuccess());
+                    // duplicated=false;
+                    // emitState();
+
+                    Navigator.of(context).pop(true);
+
+                  }, child: Text('Cancel',style: TextStyle(color: Colors.white),)),
+
+
+                ],
+
+              ));
+        }
+
+
+      });
       // cubit.add(name: nameControl.text,nId: nIdControl.text,center: centerControl.text,city: cityControl.text,governorate: governorateControl.text,covidNO: covedControl.text,note: noteControl.text,date: dateInterviewControl.text);
     } }, name: 'Insert'),
 

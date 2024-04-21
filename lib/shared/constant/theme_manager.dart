@@ -23,6 +23,13 @@ ThemeData getApplicationTheme(context) {
           primary: ColorManager.primary,
           secondary: ColorManager.primary
       ),
+      popupMenuTheme: PopupMenuThemeData(
+        color: Colors.white,
+        shadowColor: ColorManager.primary,
+        surfaceTintColor: Colors.white,
+          shape: Border.all(color:ColorManager.primary, )
+        // Set background color for PopupMenuButton
+      ),
     // cardview theme
     cardTheme: CardTheme(
       elevation: AppSize.s4,
@@ -50,11 +57,19 @@ ThemeData getApplicationTheme(context) {
           statusBarBrightness: Brightness.light,
               statusBarColor: ColorManager.white,
           statusBarIconBrightness: Brightness.dark
-        )
+        ),
+    //  backgroundColor: ColorManager.white,
+      foregroundColor:  ColorManager.white,
+      surfaceTintColor: ColorManager.white,
+
+
 
 
 
     ),
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        backgroundColor: ColorManager.white,
+      ),
 
     // button theme
     buttonTheme: ButtonThemeData(
@@ -71,10 +86,12 @@ ThemeData getApplicationTheme(context) {
         style: ElevatedButton.styleFrom(
             textStyle: getRegularStyle(
                 color: ColorManager.white, fontSize: FontSize.s17),
-            primary: ColorManager.primary,
+           // primary: ColorManager.primary,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(AppSize.s12)))),
-
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: Colors.green, // Set the FAB color
+    ),
     // text theme
     textTheme: TextTheme(
         // displayLarge: getLightStyle(color: ColorManager.white, fontSize: FontSize.s22),

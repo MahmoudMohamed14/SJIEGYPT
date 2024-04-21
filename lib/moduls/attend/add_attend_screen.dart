@@ -134,6 +134,8 @@ UploadAttendScreen({required this.isEdi,required this.delet});
                            isEdi || delet?   defaultEditText(label: 'day',control: day):SizedBox(),
                               const SizedBox(height: 20,),
                               ElevatedButton(
+
+                                style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.white)),
                                 child:  Text(delet ?"Delete":"Upload"),
                                 onPressed:(){
 

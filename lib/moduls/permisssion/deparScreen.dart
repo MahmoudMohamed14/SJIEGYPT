@@ -27,113 +27,135 @@ class  DepartScreen extends StatelessWidget {
             builder: (context,state){
               var cubit=  AttendCubit.get(context);
 
-              return  Builder(
-                builder: (context) {
-                  if(CacheHelper.getData(key: 'control')) {
-                  //  AttendCubit.get(context).getDepart();
-                    return Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: ListView.separated( separatorBuilder:(context,index)=>SizedBox(height: 20,),
-                        itemCount: cubit.myDepartList.length ,
-                        itemBuilder: (context,index){
-                          return GestureDetector(
-                            onTap: (){
-                              PermissionCubit.get(context).getDepart(cubit.myDepartList[index]);
-                              if(CacheHelper.getData(key: 'depart')=='HR'){
+              return  Scaffold(
 
-                                navigateTo(context, MyScreen());
-                              }else{
-                                PermissionCubit.get(context).getOrderPermissionSQLByDepart(cubit.myDepartList[index]);
+                appBar: AppBar(
+                  title: Text(" Order Vacation", style: TextStyle(color:ColorManager.primary , fontSize: 20.0,)),
+               centerTitle: true,
+                  actions: CacheHelper.getData(key: 'control')?null:[
+                    IconButton(onPressed: (){
+                      PermissionCubit.get(context).getOrderPermissionSQLByCode();
+
+                      navigateTo(context, LayoutPermission());
+
+                    }, icon: Icon(Icons.history))
+                  ],
+
+
+
+
+                ),
+                body: Builder(
+                  builder: (context) {
+                    if(CacheHelper.getData(key: 'control')) {
+                    //  AttendCubit.get(context).getDepart();
+                      return Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: ListView.separated( separatorBuilder:(context,index)=>SizedBox(height: 20,),
+                          itemCount: cubit.myDepartList.length ,
+                          itemBuilder: (context,index){
+                            return GestureDetector(
+                              onTap: (){
+                                PermissionCubit.get(context).getDepart(cubit.myDepartList[index]);
+                               // PermissionCubit.get(context).getOrderPermissionSQLByDepart(cubit.myDepartList[index]);
                                 navigateTo(context, LayoutPermission());
-                              }
-
-
-
-                              // cubit.getmonthindex(index);
-                              // if(CacheHelper.getData(key: 'myId')=='sji'){
-                              //   navigateTo(context,UploadPaySlipScreen());
-                              //
-                              // }else{
-                              //   cubit.getPaySlip(cubit.listOfNameMonth[index]);
-                              //
-                              //   navigateTo(context, AttendAndPayScreen());
-                              //
-                              //
-                              // }
-                              //     // print ('hello world');
-                            },
-
-                            child: Container(
-                              height: 50,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  color:  ColorManager.primary,
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Center(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text('${cubit.myDepartList[index]}',style: getBoldStyle(color: Colors.white,fontSize: 20),),
-                                    // SizedBox(height: 5,),
-                                    // Text('${cubit.listOfNameMonthArabic[index]}',style: getBoldStyle(color: Colors.black,fontSize: 17),),
-                                    //
-                                  ],
+                                if(CacheHelper.getData(key: 'depart')=='HR'){
+                                  PermissionCubit.get(context).getOrderPermissionSQLByLocation(cubit.myDepartList[index]);
+                
+                                  //navigateTo(context, MyScreen());
+                                }else{
+                                  PermissionCubit.get(context).getOrderPermissionSQLByDepart(cubit.myDepartList[index]);
+                                 // navigateTo(context, LayoutPermission());
+                                }
+                
+                
+                
+                                // cubit.getmonthindex(index);
+                                // if(CacheHelper.getData(key: 'myId')=='sji'){
+                                //   navigateTo(context,UploadPaySlipScreen());
+                                //
+                                // }else{
+                                //   cubit.getPaySlip(cubit.listOfNameMonth[index]);
+                                //
+                                //   navigateTo(context, AttendAndPayScreen());
+                                //
+                                //
+                                // }
+                                //     // print ('hello world');
+                              },
+                
+                              child: Container(
+                                height: 50,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                    color:  ColorManager.primary,
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: Center(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Text('${cubit.myDepartList[index]}',style: getBoldStyle(color: Colors.white,fontSize: 20),),
+                                      // SizedBox(height: 5,),
+                                      // Text('${cubit.listOfNameMonthArabic[index]}',style: getBoldStyle(color: Colors.black,fontSize: 17),),
+                                      //
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          );
-                        },
-
-                      )
-                    // return index <=3? SizedBox(): GestureDetector(
-                    //
-                    //   onTap: (){
-                    //    if(CacheHelper.getData(key: 'myId')=='sji'){
-                    //      cubit.getmonthindex(index);
-                    //     navigateTo(context, UserAttendScreen());
-                    //     }else{
-                    //      cubit.getmonthindex(index);
-                    //       cubit.getPaySlip();
-                    //     // cubit.changeBottomNav(index: 0);
-                    //      // navigateTo(context, PaySlipScreen());
-                    //    // AttendCubit.get(context).getAttendance(isadmin: false,month: index);
-                    //     navigateTo(context, AttendAndPayScreen());
-                    //     // print ('hello world');
-                    //    }
-                    //   },
-                    //   child: Container(
-                    //     decoration: BoxDecoration(
-                    //         color:ColorManager.primary,//listOfAttendGl[index].checkIn!.isNotEmpty&& listOfAttendGl[index].checkOut!.isNotEmpty?Colors.greenAccent:listOfAttendGl[index].checkIn!.isNotEmpty||listOfAttendGl[index].checkOut!.isNotEmpty?ColorManager.primary:Colors.red,
-                    //         borderRadius: BorderRadius.circular(50)
-                    //
-                    //     ),
-                    //     child: Padding(
-                    //       padding: const EdgeInsets.all(20),
-                    //       child: Row(
-                    //         children: [
-                    //           Expanded(child: Column(
-                    //             children: [
-                    //               Text(' month ${index+1}',style: getBoldStyle(color: Colors.white,fontSize: 20),),
-                    //
-                    //              // Text('${listOfAttenduserGl[index]['id']}',style: getSemiBoldStyle(color: Colors.white,fontSize: 18),),
-                    //               // Text('${listOfAttendGl[index].date}',style: getMediumStyle(color: Colors.white),),
-                    //             ],
-                    //           )),
-                    //
-                    //         ],),
-                    //     ),
-                    //   ),
-                    // );
-
-
-                  );}
-                  else{
-                   // PermissionCubit.get(context).getOrderPermissionSQL();
-                    return  MyScreen();
+                            );
+                          },
+                
+                        )
+                      // return index <=3? SizedBox(): GestureDetector(
+                      //
+                      //   onTap: (){
+                      //    if(CacheHelper.getData(key: 'myId')=='sji'){
+                      //      cubit.getmonthindex(index);
+                      //     navigateTo(context, UserAttendScreen());
+                      //     }else{
+                      //      cubit.getmonthindex(index);
+                      //       cubit.getPaySlip();
+                      //     // cubit.changeBottomNav(index: 0);
+                      //      // navigateTo(context, PaySlipScreen());
+                      //    // AttendCubit.get(context).getAttendance(isadmin: false,month: index);
+                      //     navigateTo(context, AttendAndPayScreen());
+                      //     // print ('hello world');
+                      //    }
+                      //   },
+                      //   child: Container(
+                      //     decoration: BoxDecoration(
+                      //         color:ColorManager.primary,//listOfAttendGl[index].checkIn!.isNotEmpty&& listOfAttendGl[index].checkOut!.isNotEmpty?Colors.greenAccent:listOfAttendGl[index].checkIn!.isNotEmpty||listOfAttendGl[index].checkOut!.isNotEmpty?ColorManager.primary:Colors.red,
+                      //         borderRadius: BorderRadius.circular(50)
+                      //
+                      //     ),
+                      //     child: Padding(
+                      //       padding: const EdgeInsets.all(20),
+                      //       child: Row(
+                      //         children: [
+                      //           Expanded(child: Column(
+                      //             children: [
+                      //               Text(' month ${index+1}',style: getBoldStyle(color: Colors.white,fontSize: 20),),
+                      //
+                      //              // Text('${listOfAttenduserGl[index]['id']}',style: getSemiBoldStyle(color: Colors.white,fontSize: 18),),
+                      //               // Text('${listOfAttendGl[index].date}',style: getMediumStyle(color: Colors.white),),
+                      //             ],
+                      //           )),
+                      //
+                      //         ],),
+                      //     ),
+                      //   ),
+                      // );
+                
+                
+                    );}
+                    else{
+                     // PermissionCubit.get(context).getOrderPermissionSQL();
+                      return  MyScreen();
+                    }
                   }
-                }
+                ),
               );
             } ,
 

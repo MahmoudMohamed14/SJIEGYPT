@@ -115,9 +115,9 @@ class DashBoardScreen extends StatelessWidget {
 
                          onTap: (){
 
-                           cubit.onSelectAll(false);
+                           //cubit.onSelectAll(false);
                              cubit.typeOfAccountHiring='workdata';
-                             cubit.getMyList();
+                            // cubit.getMyList();
                              navigateTo(context, AllDataBaseScreen());
 
 

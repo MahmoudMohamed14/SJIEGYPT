@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled/componant/componant.dart';
 import 'package:untitled/componant/local/cache_helper.dart';
+import 'package:untitled/moduls/attend/payslipscreen.dart';
 import 'package:untitled/moduls/login/login_screen.dart';
 
 import '../../shared/constant/color_manager.dart';
@@ -11,7 +12,8 @@ import 'attendCubit/statusAttend.dart';
 
 
 class AttendAndPayScreen extends StatelessWidget {
-  const AttendAndPayScreen ({Key? key}) : super(key: key);
+  late String month;
+   AttendAndPayScreen ({Key? key,required this. month}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +56,7 @@ class AttendAndPayScreen extends StatelessWidget {
           //
           // ],
         ),
-        body: cubit.listBody[0],
+        body:PaySlipScreen(month) //cubit.listBody[0],
           // bottomNavigationBar:
           // BottomNavigationBar(items:[
           //   BottomNavigationBarItem(icon:Icon(IconBroken.User,),label: 'Attendance'),
