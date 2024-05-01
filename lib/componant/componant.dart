@@ -5,7 +5,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:untitled/componant/local/cache_helper.dart';
 import 'package:untitled/moduls/hiring/dashBoardScreen.dart';
 
-import 'package:untitled/moduls/hiring/process_hiring.dart';
 import 'package:untitled/moduls/hiring/safetyScrean.dart';
 import 'package:untitled/moduls/login/login_screen.dart';
 import '../model/payroll.dart';
@@ -214,6 +213,7 @@ void signOut( context) {
   CacheHelper.removeWithKey(key: 'control');
   CacheHelper.removeWithKey(key: 'controller');
   CacheHelper.removeWithKey(key: 'location');
+  CacheHelper.removeWithKey(key: 'token');
 
   navigateAndFinish(context, LoginScreen());
 

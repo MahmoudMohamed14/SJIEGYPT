@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -95,11 +94,11 @@ ThemeData getApplicationTheme(context) {
     // text theme
     textTheme: TextTheme(
         // displayLarge: getLightStyle(color: ColorManager.white, fontSize: FontSize.s22),
-        headline1: getBoldStyle(color: ColorManager.primary, fontSize: FontSize.s16,),
-        headline2: getSemiBoldStyle(color: ColorManager.darkGrey, fontSize: FontSize.s16),
-        subtitle1: getMediumStyle(color: ColorManager.grey1, fontSize: FontSize.s14,height: 1.5),
-        caption: getRegularStyle(color: ColorManager.grey1),
-        bodyText1: getRegularStyle(color: ColorManager.grey)),
+        displayLarge: getBoldStyle(color: ColorManager.primary, fontSize: FontSize.s16,),
+        displayMedium: getSemiBoldStyle(color: ColorManager.darkGrey, fontSize: FontSize.s16),
+        titleMedium: getMediumStyle(color: ColorManager.grey1, fontSize: FontSize.s14,height: 1.5),
+        bodySmall: getRegularStyle(color: ColorManager.grey1),
+        bodyLarge: getRegularStyle(color: ColorManager.grey)),
     //input decoration theme (text form field)
     inputDecorationTheme: InputDecorationTheme(
       // content padding

@@ -8,7 +8,6 @@ import 'package:untitled/componant/local/cache_helper.dart';
 import 'package:untitled/moduls/attend/attendCubit/cubitAttend.dart';
 import 'package:untitled/moduls/hiring/cubit/hiringCubit.dart';
 import 'package:untitled/moduls/hiring/dashBoardScreen.dart';
-import 'package:untitled/moduls/hiring/process_hiring.dart';
 import 'package:untitled/moduls/hiring/safetyScrean.dart';
 
 import 'package:untitled/moduls/homeLayout/homeLayout.dart';
@@ -65,7 +64,7 @@ class LoginScreen extends StatelessWidget {
         listener: (context,state){
           if(state is LoginSuccessState){
             if (CacheHelper.getData(key: 'depart')!='ehiring'){
-              navigateAndFinish(context, HomeLayout());
+              navigateAndFinish(context, HomeLayout(vot: true,));
               AttendCubit.get(context).changeHomeButton(1, context);
             }
 

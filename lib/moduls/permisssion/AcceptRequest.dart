@@ -8,13 +8,16 @@ import 'package:untitled/moduls/permisssion/permission_cubit.dart';
 import 'package:untitled/moduls/permisssion/permission_status.dart';
 
 class LayoutPermission extends StatelessWidget {
+  late bool fromAdminRequest;
 
-  const LayoutPermission ({Key? key}) : super(key: key);
+   LayoutPermission ({Key? key,this.fromAdminRequest=false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<PermissionCubit, PermissionStates>(
-      listener: (context, state) {},
+      listener: (context, state) {
+
+      },
       builder:(context, state) {
         var cubit = PermissionCubit.get(context);
         return DefaultTabController(
@@ -22,7 +25,7 @@ class LayoutPermission extends StatelessWidget {
           child: Scaffold(
             appBar: AppBar(
               title: Text('Holiday Status'),
-              actions: ! CacheHelper.getData(key: 'control') ?null:[
+              actions: ! CacheHelper.getData(key: 'control')||fromAdminRequest ?null:[
               cubit.holidayByCalendar? IconButton(onPressed: (){
                 CacheHelper.getData(key: 'depart')=='HR'? PermissionCubit.get(context).getOrderPermissionSQLByLocation(cubit.departvar):PermissionCubit.get(context).getOrderPermissionSQLByDepart(cubit.departvar);
                 cubit.holidayByCalendar=false;
@@ -88,7 +91,7 @@ class LayoutPermission extends StatelessWidget {
         decoration: BoxDecoration(
 
             borderRadius:BorderRadius.circular(20),
-            color: Colors.grey.withOpacity(.3)
+            color: model.type=='عارضة'?Colors.yellow.withOpacity(.3):Colors.grey.withOpacity(.3)
 
 
         ),
@@ -100,13 +103,13 @@ class LayoutPermission extends StatelessWidget {
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('Holiday Request',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,),),
+                Text('Vacation Request',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,),),
                 SizedBox(width: 10,),
                 Text('${model.type}',),
               ],
             ),
             SizedBox(height: 10,),
-            Text('${model.name} (${model.code.toString()} ) request holiday for ${model.day} ${model.date}  '),
+            Text('${model.name} (${model.code.toString()} ) request Vacation for ${model.day} ${model.date}  '),
 
         model.reason!.isNotEmpty?    Column(
               children: [
@@ -117,8 +120,8 @@ class LayoutPermission extends StatelessWidget {
               ],
             ):SizedBox(),
             SizedBox(height: 20,),
-          CacheHelper.getData(key: 'depart')=='HR' || DateTime.now().difference(DateTime.parse(model.dateAccept!.isNotEmpty?model.dateAccept!:DateTime.now().toString())).inHours>=24
-              ||!CacheHelper.getData(key: 'control')? SizedBox():Row(
+            ( CacheHelper.getData(key: 'depart')=='HR' && model.depart!='admin') || DateTime.now().difference(DateTime.parse(model.dateAccept!.isNotEmpty?model.dateAccept!:DateTime.now().toString())).inHours>=24
+              ||!CacheHelper.getData(key: 'control')||(CacheHelper.getData(key: 'control')&&fromAdminRequest)? SizedBox():Row(
               mainAxisAlignment: MainAxisAlignment.start,
 
 
@@ -126,7 +129,7 @@ class LayoutPermission extends StatelessWidget {
              isNotAc ? SizedBox():Expanded(child: defaultButton(onPress: () {
                     PermissionCubit.get(context).EditPermissionSql(context, model.code!
                         , model.date!
-                        , 'NotAccept');
+                        , 'NotAccept',model.token,model.location);
 
 
                   }, name: 'Deny', width: 80, height: 30,color: Colors.red),),
@@ -136,7 +139,7 @@ class LayoutPermission extends StatelessWidget {
                   child: defaultButton(onPress: () {
                     PermissionCubit.get(context).EditPermissionSql(context, model.code!
                         , model.date!
-                        , 'Accept');
+                        , 'Accept',model.token,model.location);
 
                   }, name: 'Agree', width: 80, height: 30,color: Colors.green),
                 )

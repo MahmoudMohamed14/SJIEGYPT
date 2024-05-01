@@ -1,12 +1,18 @@
 import 'dart:convert';
+import 'dart:developer';
+import 'dart:io';
 
 
+import 'package:csv/csv.dart';
 import 'package:dio/dio.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled/componant/componant.dart';
 import 'package:untitled/componant/local/cache_helper.dart';
 import 'package:untitled/componant/remote/dioHelper.dart';
+import 'package:untitled/componant/remote/notification.dart';
 import 'package:untitled/home.dart';
 import 'package:untitled/model/payroll.dart';
 import 'package:untitled/model/reviewModel.dart';
@@ -16,6 +22,8 @@ import 'package:untitled/moduls/attend/monthsAttend .dart';
 import 'package:untitled/moduls/attend/vacation_screen.dart';
 import 'package:untitled/moduls/permisssion/deparScreen.dart';
 import 'package:untitled/moduls/permisssion/permission_cubit.dart';
+import 'package:untitled/shared/constant/color_manager.dart';
+
 import 'package:untitled/shared/constant/icon_broken.dart';
 
 class AttendCubit extends Cubit< AttendStates> {
@@ -36,92 +44,92 @@ class AttendCubit extends Cubit< AttendStates> {
   List<List<dynamic>> reviewList= [];
   pickFileReview() async {
 
-//     FilePickerResult? result = await FilePicker.platform.pickFiles();
-//
-//     if (result != null) {
-//       reviewList = [];
-//       print(result.files.first.name);
-//       filePathReview = result.files.first.path!;
-//
-//       final input = File(filePathReview!).openRead();
-//       final fields = await input
-//           .transform(utf8.decoder)
-//           .transform(const CsvToListConverter())
-//           .toList();
-//       reviewList   = fields;
-//       print(fields.length);
-//       print( reviewList.length);
-//
-//       reviewListModel=[];
-//
-//       for (int i = 0; i <fields.length; i++) {
-//
-//
-//         reviewListModel.add(ReviewModel(
-//           code: fields[i][0].toString().trim(),
-//           name: fields[i][1].toString().trim(),
-//           month_1: fields[i][2].toString().trim(),
-//           month_2: fields[i][3].toString().trim(),
-//           // Variable: fields[i][4].toString().trim(),
-//           // Clothing_Allow: fields[i][5].toString().trim(),
-//           month_3: fields[i][4].toString().trim(),
-//           month_4: fields[i][5].toString().trim(),
-//           month_5: fields[i][6].toString().trim(),
-//           month_6: fields[i][7].toString().trim(),
-//           month_7: fields[i][8].toString().trim(),
-//           month_8: fields[i][9].toString().trim(),
-//           month_9: fields[i][10].toString().trim(),
-//           month_10: fields[i][11].toString().trim(),
-//           month_11: fields[i][12].toString().trim(),
-//           month_12: fields[i][13].toString().trim(),
-//           month_13:  fields[i][14].toString().trim(),
-//           month_14: fields[i][15].toString().trim(),
-//           month_15: fields[i][16].toString().trim(),
-//           month_16: fields[i][17].toString().trim(),
-//           month_17: fields[i][18].toString().trim(),
-//           month_18: fields[i][19].toString().trim(),
-//           month_19: fields[i][20].toString().trim(),
-//           month_20: fields[i][21].toString().trim(),
-//           month_21: fields[i][22].toString().trim()??'',
-//           month_22: fields[i][23].toString().trim()??'',
-//           month_23: fields[i][24].toString().trim()??'',
-//           month_24: fields[i][25].toString().trim()??'',
-//           month_25: fields[i][26].toString().trim()??'',
-//           month_26: fields[i][27].toString().trim()??'',
-//           month_27: fields[i][28].toString().trim()??'',
-//           month_28: fields[i][29].toString().trim()??'',
-//           month_29: fields[i][30].toString().trim()??'',
-//           month_30: fields[i][31].toString().trim()??'',
-//           month_31: fields[i][32].toString().trim()??'',
-//           month: '',
-//
-//
-//
-//
-//
-//
-//         ));
-//
-//
-//
-//       }
-//
-//       emit(FetchStateSuccess());
-//       // print(pomList);
-//       PlatformFile file = result.files.first;
-//       print(reviewList.length);
-//
-//       print(file.name);
-//
-//       print(file.size);
-//       print(file.extension);
-//       print(file.path);
-//     }
-//
-//
-//     else {
-// // User canceled the picker
-//     }
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+    if (result != null) {
+      reviewList = [];
+      print(result.files.first.name);
+      filePathReview = result.files.first.path!;
+
+      final input = File(filePathReview!).openRead();
+      final fields = await input
+          .transform(utf8.decoder)
+          .transform(const CsvToListConverter())
+          .toList();
+      reviewList   = fields;
+      print(fields.length);
+      print( reviewList.length);
+
+      reviewListModel=[];
+
+      for (int i = 0; i <fields.length; i++) {
+
+
+        reviewListModel.add(ReviewModel(
+          code: fields[i][0].toString().trim(),
+          name: fields[i][1].toString().trim(),
+          month_1: fields[i][2].toString().trim(),
+          month_2: fields[i][3].toString().trim(),
+          // Variable: fields[i][4].toString().trim(),
+          // Clothing_Allow: fields[i][5].toString().trim(),
+          month_3: fields[i][4].toString().trim(),
+          month_4: fields[i][5].toString().trim(),
+          month_5: fields[i][6].toString().trim(),
+          month_6: fields[i][7].toString().trim(),
+          month_7: fields[i][8].toString().trim(),
+          month_8: fields[i][9].toString().trim(),
+          month_9: fields[i][10].toString().trim(),
+          month_10: fields[i][11].toString().trim(),
+          month_11: fields[i][12].toString().trim(),
+          month_12: fields[i][13].toString().trim(),
+          month_13:  fields[i][14].toString().trim(),
+          month_14: fields[i][15].toString().trim(),
+          month_15: fields[i][16].toString().trim(),
+          month_16: fields[i][17].toString().trim(),
+          month_17: fields[i][18].toString().trim(),
+          month_18: fields[i][19].toString().trim(),
+          month_19: fields[i][20].toString().trim(),
+          month_20: fields[i][21].toString().trim(),
+          month_21: fields[i][22].toString().trim()??'',
+          month_22: fields[i][23].toString().trim()??'',
+          month_23: fields[i][24].toString().trim()??'',
+          month_24: fields[i][25].toString().trim()??'',
+          month_25: fields[i][26].toString().trim()??'',
+          month_26: fields[i][27].toString().trim()??'',
+          month_27: fields[i][28].toString().trim()??'',
+          month_28: fields[i][29].toString().trim()??'',
+          month_29: fields[i][30].toString().trim()??'',
+          month_30: fields[i][31].toString().trim()??'',
+          month_31: fields[i][32].toString().trim()??'',
+          month: '',
+
+
+
+
+
+
+        ));
+
+
+
+      }
+
+      emit(FetchStateSuccess());
+      // print(pomList);
+      PlatformFile file = result.files.first;
+      print(reviewList.length);
+
+      print(file.name);
+
+      print(file.size);
+      print(file.extension);
+      print(file.path);
+    }
+
+
+    else {
+// User canceled the picker
+    }
 
 
   }
@@ -133,149 +141,149 @@ class AttendCubit extends Cubit< AttendStates> {
 
   pickVacation() async {
 
-//     FilePickerResult? result = await FilePicker.platform.pickFiles();
-//
-//     if (result != null) {
-//       vacationList = [];
-//       print(result.files.first.name);
-//       filePathVacation = result.files.first.path!;
-//
-//       final input = File(filePathVacation!).openRead();
-//       final fields = await input
-//           .transform(utf8.decoder)
-//           .transform(const CsvToListConverter())
-//           .toList();
-//       vacationList   = fields;
-//       print(fields.length);
-//       print( vacationList.length);
-//
-//       vacationListModel=[];
-//
-//       for (int i = 0; i <fields.length; i++) {
-//
-//
-//         vacationListModel.add(VacationModel(
-//           code: fields[i][0].toString().trim(),
-//           date1: fields[i][1].toString().trim(),
-//           type1: fields[i][2].toString().trim(),
-//           date2: fields[i][3].toString().trim(),
-//           type2: fields[i][4].toString().trim(),
-//           date3: fields[i][5].toString().trim(),
-//           type3: fields[i][6].toString().trim(),
-//           date4: fields[i][7].toString().trim(),
-//           type4: fields[i][8].toString().trim(),
-//           date5: fields[i][9].toString().trim(),
-//           type5: fields[i][10].toString().trim(),
-//           date6: fields[i][11].toString().trim(),
-//           type6: fields[i][12].toString().trim(),
-//           date7: fields[i][13].toString().trim(),
-//           type7:  fields[i][14].toString().trim(),
-//           date8: fields[i][15].toString().trim(),
-//           type8: fields[i][16].toString().trim(),
-//           date9: fields[i][17].toString().trim(),
-//           type9: fields[i][18].toString().trim(),
-//           date10: fields[i][19].toString().trim(),
-//           type10: fields[i][20].toString().trim(),
-//           date11: fields[i][21].toString().trim(),
-//           type11: fields[i][22].toString().trim()??'',
-//           date12: fields[i][23].toString().trim()??'',
-//           type12: fields[i][24].toString().trim()??'',
-//           date13: fields[i][25].toString().trim()??'',
-//           type13: fields[i][26].toString().trim()??'',
-//           date14: fields[i][27].toString().trim()??'',
-//           type14: fields[i][28].toString().trim()??'',
-//           date15: fields[i][29].toString().trim()??'',
-//           type15: fields[i][30].toString().trim()??'',
-//          date16: fields[i][31].toString().trim()??'',
-//           type16: fields[i][32].toString().trim()??'',
-//           date17: fields[i][33].toString().trim()??'',
-//           type17: fields[i][34].toString().trim()??'',
-//           date18: fields[i][35].toString().trim()??'',
-//           type18: fields[i][36].toString().trim()??'',
-//           date19: fields[i][37].toString().trim()??'',
-//           type19: fields[i][38].toString().trim()??'',
-//           date20: fields[i][39].toString().trim()??'',
-//           type20: fields[i][40].toString().trim()??'',
-//           date21: fields[i][41].toString().trim()??'',
-//           type21: fields[i][42].toString().trim()??'',
-//           date22: fields[i][43].toString().trim()??'',
-//           type22: fields[i][44].toString().trim()??'',
-//           date23: fields[i][45].toString().trim()??'',
-//           type23: fields[i][46].toString().trim()??'',
-//           date24: fields[i][47].toString().trim()??'',
-//           type24: fields[i][48].toString().trim()??'',
-//           date25: fields[i][49].toString().trim()??'',
-//           type25: fields[i][50].toString().trim()??'',
-//           date26: fields[i][51].toString().trim()??'',
-//           type26: fields[i][52].toString().trim()??'',
-//           date27: fields[i][53].toString().trim()??'',
-//           type27: fields[i][54].toString().trim()??'',
-//           date28: fields[i][55].toString().trim()??'',
-//           type28: fields[i][56].toString().trim()??'',
-//           date29: fields[i][57].toString().trim()??'',
-//           type29: fields[i][58].toString().trim()??'',
-//           date30: fields[i][59].toString().trim()??'',
-//           type30: fields[i][60].toString().trim()??'',
-//           date31: fields[i][61].toString().trim()??'',
-//          type31: fields[i][62].toString().trim()??'',
-//           date32: fields[i][63].toString().trim()??'',
-//           type32: fields[i][64].toString().trim()??'',
-//           date33: fields[i][65].toString().trim()??'',
-//           type33: fields[i][66].toString().trim()??'',
-//           date34: fields[i][67].toString().trim()??'',
-//           type34: fields[i][68].toString().trim()??'',
-//           date35: fields[i][69].toString().trim()??'',
-//           type35: fields[i][70].toString().trim()??'',
-//           date36: fields[i][71].toString().trim()??'',
-//           type36: fields[i][72].toString().trim()??'',
-//           date37: fields[i][73].toString().trim()??'',
-//           type37: fields[i][74].toString().trim()??'',
-//           date38: fields[i][75].toString().trim()??'',
-//           type38: fields[i][76].toString().trim()??'',
-//           date39: fields[i][77].toString().trim()??'',
-//           type39: fields[i][78].toString().trim()??'',
-//           date40: fields[i][79].toString().trim()??'',
-//          type40: fields[i][80].toString().trim()??'',
-//           date41: fields[i][81].toString().trim()??'',
-//           type41: fields[i][82].toString().trim()??'',
-//           date42: fields[i][83].toString().trim()??'',
-//           type42: fields[i][84].toString().trim()??'',
-//           date43: fields[i][85].toString().trim()??'',
-//           type43: fields[i][86].toString().trim()??'',
-//           date44: fields[i][87].toString().trim()??'',
-//           type44: fields[i][88].toString().trim()??'',
-//           date45: fields[i][89].toString().trim()??'',
-//           type45: fields[i][90].toString().trim()??'',
-//
-//
-//
-//
-//
-//
-//
-//
-//         ));
-//
-//
-//
-//       }
-//
-//       emit(FetchStateSuccess());
-//       // print(pomList);
-//       PlatformFile file = result.files.first;
-//       print(reviewList.length);
-//
-//       print(file.name);
-//
-//       print(file.size);
-//       print(file.extension);
-//       print(file.path);
-//     }
-//
-//
-//     else {
-// // User canceled the picker
-//     }
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+    if (result != null) {
+      vacationList = [];
+      print(result.files.first.name);
+      filePathVacation = result.files.first.path!;
+
+      final input = File(filePathVacation!).openRead();
+      final fields = await input
+          .transform(utf8.decoder)
+          .transform(const CsvToListConverter())
+          .toList();
+      vacationList   = fields;
+      print(fields.length);
+      print( vacationList.length);
+
+      vacationListModel=[];
+
+      for (int i = 0; i <fields.length; i++) {
+
+
+        vacationListModel.add(VacationModel(
+          code: fields[i][0].toString().trim(),
+          date1: fields[i][1].toString().trim(),
+          type1: fields[i][2].toString().trim(),
+          date2: fields[i][3].toString().trim(),
+          type2: fields[i][4].toString().trim(),
+          date3: fields[i][5].toString().trim(),
+          type3: fields[i][6].toString().trim(),
+          date4: fields[i][7].toString().trim(),
+          type4: fields[i][8].toString().trim(),
+          date5: fields[i][9].toString().trim(),
+          type5: fields[i][10].toString().trim(),
+          date6: fields[i][11].toString().trim(),
+          type6: fields[i][12].toString().trim(),
+          date7: fields[i][13].toString().trim(),
+          type7:  fields[i][14].toString().trim(),
+          date8: fields[i][15].toString().trim(),
+          type8: fields[i][16].toString().trim(),
+          date9: fields[i][17].toString().trim(),
+          type9: fields[i][18].toString().trim(),
+          date10: fields[i][19].toString().trim(),
+          type10: fields[i][20].toString().trim(),
+          date11: fields[i][21].toString().trim(),
+          type11: fields[i][22].toString().trim()??'',
+          date12: fields[i][23].toString().trim()??'',
+          type12: fields[i][24].toString().trim()??'',
+          date13: fields[i][25].toString().trim()??'',
+          type13: fields[i][26].toString().trim()??'',
+          date14: fields[i][27].toString().trim()??'',
+          type14: fields[i][28].toString().trim()??'',
+          date15: fields[i][29].toString().trim()??'',
+          type15: fields[i][30].toString().trim()??'',
+         date16: fields[i][31].toString().trim()??'',
+          type16: fields[i][32].toString().trim()??'',
+          date17: fields[i][33].toString().trim()??'',
+          type17: fields[i][34].toString().trim()??'',
+          date18: fields[i][35].toString().trim()??'',
+          type18: fields[i][36].toString().trim()??'',
+          date19: fields[i][37].toString().trim()??'',
+          type19: fields[i][38].toString().trim()??'',
+          date20: fields[i][39].toString().trim()??'',
+          type20: fields[i][40].toString().trim()??'',
+          date21: fields[i][41].toString().trim()??'',
+          type21: fields[i][42].toString().trim()??'',
+          date22: fields[i][43].toString().trim()??'',
+          type22: fields[i][44].toString().trim()??'',
+          date23: fields[i][45].toString().trim()??'',
+          type23: fields[i][46].toString().trim()??'',
+          date24: fields[i][47].toString().trim()??'',
+          type24: fields[i][48].toString().trim()??'',
+          date25: fields[i][49].toString().trim()??'',
+          type25: fields[i][50].toString().trim()??'',
+          date26: fields[i][51].toString().trim()??'',
+          type26: fields[i][52].toString().trim()??'',
+          date27: fields[i][53].toString().trim()??'',
+          type27: fields[i][54].toString().trim()??'',
+          date28: fields[i][55].toString().trim()??'',
+          type28: fields[i][56].toString().trim()??'',
+          date29: fields[i][57].toString().trim()??'',
+          type29: fields[i][58].toString().trim()??'',
+          date30: fields[i][59].toString().trim()??'',
+          type30: fields[i][60].toString().trim()??'',
+          date31: fields[i][61].toString().trim()??'',
+         type31: fields[i][62].toString().trim()??'',
+          date32: fields[i][63].toString().trim()??'',
+          type32: fields[i][64].toString().trim()??'',
+          date33: fields[i][65].toString().trim()??'',
+          type33: fields[i][66].toString().trim()??'',
+          date34: fields[i][67].toString().trim()??'',
+          type34: fields[i][68].toString().trim()??'',
+          date35: fields[i][69].toString().trim()??'',
+          type35: fields[i][70].toString().trim()??'',
+          date36: fields[i][71].toString().trim()??'',
+          type36: fields[i][72].toString().trim()??'',
+          date37: fields[i][73].toString().trim()??'',
+          type37: fields[i][74].toString().trim()??'',
+          date38: fields[i][75].toString().trim()??'',
+          type38: fields[i][76].toString().trim()??'',
+          date39: fields[i][77].toString().trim()??'',
+          type39: fields[i][78].toString().trim()??'',
+          date40: fields[i][79].toString().trim()??'',
+         type40: fields[i][80].toString().trim()??'',
+          date41: fields[i][81].toString().trim()??'',
+          type41: fields[i][82].toString().trim()??'',
+          date42: fields[i][83].toString().trim()??'',
+          type42: fields[i][84].toString().trim()??'',
+          date43: fields[i][85].toString().trim()??'',
+          type43: fields[i][86].toString().trim()??'',
+          date44: fields[i][87].toString().trim()??'',
+          type44: fields[i][88].toString().trim()??'',
+          date45: fields[i][89].toString().trim()??'',
+          type45: fields[i][90].toString().trim()??'',
+
+
+
+
+
+
+
+
+        ));
+
+
+
+      }
+
+      emit(FetchStateSuccess());
+      // print(pomList);
+      PlatformFile file = result.files.first;
+      print(reviewList.length);
+
+      print(file.name);
+
+      print(file.size);
+      print(file.extension);
+      print(file.path);
+    }
+
+
+    else {
+// User canceled the picker
+    }
 
 
   }
@@ -314,85 +322,85 @@ class AttendCubit extends Cubit< AttendStates> {
 //to build aab to add in google play
   pickFilePaySlip() async {
 
-//     FilePickerResult? result = await FilePicker.platform.pickFiles();
-//
-//     if (result != null) {
-//       paySlipList = [];
-//       print(result.files.first.name);
-//       filePathPaySlip = result.files.first.path!;
-//
-//       final input = File(filePathPaySlip!).openRead();
-//       final fields = await input
-//           .transform(utf8.decoder)
-//           .transform(const CsvToListConverter())
-//           .toList();
-//      paySlipList  = fields;
-//       print(fields.length);
-//       print(paySlipList.length);
-//
-//      payListModel=[];
-//
-//       for (int i = 0; i <fields.length; i++) {
-//
-//
-//           payListModel.add(PaySlipModel(
-//               code: fields[i][0].toString().trim(),
-//               name: fields[i][1].toString().trim(),
-//               job_position: fields[i][2].toString().trim(),
-//               basic: fields[i][3].toString().trim(),
-//               // Variable: fields[i][4].toString().trim(),
-//               // Clothing_Allow: fields[i][5].toString().trim(),
-//              Meal_Allow: fields[i][4].toString().trim(),
-//               Transportation: fields[i][5].toString().trim(),
-//               Productivity_Allow: fields[i][6].toString().trim(),
-//               Att_Bonus: fields[i][7].toString().trim(),
-//               Activity_Allow: fields[i][8].toString().trim(),
-//               Bonus: fields[i][9].toString().trim(),
-//               Overtime: fields[i][10].toString().trim(),
-//               Vacation_Balance: fields[i][11].toString().trim(),
-//               Other_Dues: fields[i][12].toString().trim(),
-//               Total_Dues: fields[i][13].toString().trim(),
-//             net_salary:  fields[i][14].toString().trim(),
-//               EmpSocial_Ins: fields[i][15].toString().trim(),
-//               Tax: fields[i][16].toString().trim(),
-//               Absent: fields[i][17].toString().trim(),
-//               Penalty: fields[i][18].toString().trim(),
-//              Sick: fields[i][19].toString().trim(),
-//               WI: fields[i][20].toString().trim(),
-//              Bonus_Deduction: fields[i][21].toString().trim(),
-//               Other_Deduction: fields[i][22].toString().trim(),
-//             total_Deduction: fields[i][23].toString().trim(),
-//             regular: fields[i][24].toString().trim(),
-//             casual: fields[i][25].toString().trim(),
-//             day_absent: fields[i][26].toString().trim(),
-//             day_Work: fields[i][27].toString().trim(),
-//
-//
-//
-//
-//
-//           ));
-//
-//
-//
-//       }
-//
-//       emit(FetchStateSuccess());
-//       // print(pomList);
-//       PlatformFile file = result.files.first;
-//       print(payListModel.length);
-//
-//       print(file.name);
-//
-//       print(file.size);
-//       print(file.extension);
-//       print(file.path);
-//     }
-//
-//
-//     else {
-// // User canceled the picker
-//     }
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+    if (result != null) {
+      paySlipList = [];
+      print(result.files.first.name);
+      filePathPaySlip = result.files.first.path!;
+
+      final input = File(filePathPaySlip!).openRead();
+      final fields = await input
+          .transform(utf8.decoder)
+          .transform(const CsvToListConverter())
+          .toList();
+     paySlipList  = fields;
+      print(fields.length);
+      print(paySlipList.length);
+
+     payListModel=[];
+
+      for (int i = 0; i <fields.length; i++) {
+
+
+          payListModel.add(PaySlipModel(
+              code: fields[i][0].toString().trim(),
+              name: fields[i][1].toString().trim(),
+              job_position: fields[i][2].toString().trim(),
+              basic: fields[i][3].toString().trim(),
+              // Variable: fields[i][4].toString().trim(),
+              // Clothing_Allow: fields[i][5].toString().trim(),
+             Meal_Allow: fields[i][4].toString().trim(),
+              Transportation: fields[i][5].toString().trim(),
+              Productivity_Allow: fields[i][6].toString().trim(),
+              Att_Bonus: fields[i][7].toString().trim(),
+              Activity_Allow: fields[i][8].toString().trim(),
+              Bonus: fields[i][9].toString().trim(),
+              Overtime: fields[i][10].toString().trim(),
+              Vacation_Balance: fields[i][11].toString().trim(),
+              Other_Dues: fields[i][12].toString().trim(),
+              Total_Dues: fields[i][13].toString().trim(),
+            net_salary:  fields[i][14].toString().trim(),
+              EmpSocial_Ins: fields[i][15].toString().trim(),
+              Tax: fields[i][16].toString().trim(),
+              Absent: fields[i][17].toString().trim(),
+              Penalty: fields[i][18].toString().trim(),
+             Sick: fields[i][19].toString().trim(),
+              WI: fields[i][20].toString().trim(),
+             Bonus_Deduction: fields[i][21].toString().trim(),
+              Other_Deduction: fields[i][22].toString().trim(),
+            total_Deduction: fields[i][23].toString().trim(),
+            regular: fields[i][24].toString().trim(),
+            casual: fields[i][25].toString().trim(),
+            day_absent: fields[i][26].toString().trim(),
+            day_Work: fields[i][27].toString().trim(),
+
+
+
+
+
+          ));
+
+
+
+      }
+
+      emit(FetchStateSuccess());
+      // print(pomList);
+      PlatformFile file = result.files.first;
+      print(payListModel.length);
+
+      print(file.name);
+
+      print(file.size);
+      print(file.extension);
+      print(file.path);
+    }
+
+
+    else {
+// User canceled the picker
+    }
 
 
   }
@@ -437,40 +445,40 @@ class AttendCubit extends Cubit< AttendStates> {
   }
   pickFileSuddenNormal() async {
 
-//     FilePickerResult? result = await FilePicker.platform.pickFiles();
-//
-//     if (result != null) {
-//       suddenNormalList = [];
-//       print(result.files.first.name);
-//       filePathSuddenNormal = result.files.first.path!;
-//
-//       final input = File(filePathSuddenNormal!).openRead();
-//       final fields = await input
-//           .transform(utf8.decoder)
-//           .transform(const CsvToListConverter())
-//           .toList();
-//       suddenNormalList  = fields;
-//       print(fields.length);
-//       print(suddenNormalList.length);
-//
-//
-//
-//       emit(FetchStateSuccess());
-//       // print(pomList);
-//       PlatformFile file = result.files.first;
-//       print(suddenNormalList.length);
-//
-//       print(file.name);
-//
-//       print(file.size);
-//       print(file.extension);
-//       print(file.path);
-//     }
-//
-//
-//     else {
-// // User canceled the picker
-//     }
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+    if (result != null) {
+      suddenNormalList = [];
+      print(result.files.first.name);
+      filePathSuddenNormal = result.files.first.path!;
+
+      final input = File(filePathSuddenNormal!).openRead();
+      final fields = await input
+          .transform(utf8.decoder)
+          .transform(const CsvToListConverter())
+          .toList();
+      suddenNormalList  = fields;
+      print(fields.length);
+      print(suddenNormalList.length);
+
+
+
+      emit(FetchStateSuccess());
+      // print(pomList);
+      PlatformFile file = result.files.first;
+      print(suddenNormalList.length);
+
+      print(file.name);
+
+      print(file.size);
+      print(file.extension);
+      print(file.path);
+    }
+
+
+    else {
+// User canceled the picker
+    }
 
 
   }
@@ -809,6 +817,7 @@ try{
   print(onError);
 
 }
+return null;
     //    Firestore.instance .collection("userAttend")
     //     .document("${CacheHelper.getData(key: 'myId')}")
     //     .collection('payslip').
@@ -1105,6 +1114,7 @@ try{
   print('payslip onError: ${onError.toString()}');
   print(onError);
 }
+return null;
   }
   int indexHomeButton=1;
   void changeHomeButton(ind,context){
@@ -1177,15 +1187,52 @@ try{
 
     }).then((value) {
 
+
       //
       if (value.statusCode == 200 ) {
+        print('text1');
+        print(value.data);
         var res=json.decode(value.data);
-        showToast(text: value.data.toString(), state: ToastState.SUCCESS);
+        print('text2');
+        print(res);
+        CacheHelper.removeWithKey(key: 'departLen');
+        //print('Accessory Fac'.toString().trim().replaceAll(' ', 'sji').toLowerCase());
+
+
+        if(CacheHelper.getData(key: 'departLen')== null){
+          //Data(key: 'departLen').
+          res.forEach((element){
+            try{
+              NotificationHelper.subscribeToTopic(topicName: element['depart'].toString().trim().replaceAll(' ', 'sji').toLowerCase());
+              CacheHelper.putData(key: 'departLen', value: res.length);
+              ;}catch(e){
+              print(e.toString());
+            }
+
+           // element['depart']
+          });
+        }else if(CacheHelper.getData(key: 'departLen') != res.length){
+
+          res.forEach((element){
+            try{
+            NotificationHelper.subscribeToTopic(topicName: element['depart'].toString().trim().replaceAll(' ', 'sji').toLowerCase());
+            CacheHelper.putData(key: 'departLen', value: res.length);
+            ;}catch(e){
+              print(e.toString());
+            }
+
+            // element['depart']
+          });
+
+        }
         if(res.length>0){
+
           print(res);
           res.forEach((element){
+
             myDepartList.add(element['depart']);
           });
+          showToast(text: 'Success', state: ToastState.SUCCESS);
 
           emit(GetDepartSQLSuccess());
 
@@ -1217,9 +1264,21 @@ try{
         Response response = await DioHelper.dio.post('login.php',
             queryParameters: {'code': username, 'password': password});
         if (response.statusCode == 200) {
+          if(CacheHelper.getData(key: 'token')==null){
+            try{
+          FirebaseMessaging.instance.getToken().then((value) {
+            CacheHelper.putData(key: 'token', value: value);
+            log(value!);
+           // globalToken=value!;
+            //print('token '+ value.toString());
+          });
+            }catch(e){
+
+            }
+          }
           var res = json.decode(response.data);
           if (res.length > 0) {
-            print(res);
+            log(res.toString());
             print(res[0]['normal']);
             CacheHelper.putData(key: 'isLogin', value: true);
             CacheHelper.putData(key: 'myId', value: res[0]['code']);
@@ -1470,20 +1529,26 @@ try{
       emit(SizeErrorState());
     }
   }
-  Future votFunction(context) async {
+  Future votFunction(context,) async {
     emit( SizeLoadingState());
     try{
-      Response response = await DioHelper.dio.post('size.php', queryParameters: {
+      Response response = await DioHelper.dio.post('addvot.php', queryParameters: {
         'code': CacheHelper.getData(key: 'myId')??"_" ,
         'location': CacheHelper.getData(key: 'location')??'_',
-        'size':dropValueSize??'_',
+        'phone':phoneControl.text??'_',
+         'nid':nidControl.text,
+        'n_wife':dropValueSize,
+        'state_wife':dropValueWife,
+        'son':dropValueSon,
         'name':CacheHelper.getData(key: 'myname').toString().replaceAll("'", "")??'_'}
       );
       if(response.statusCode==200){
         if(response.data.toString().contains("Success Size Incert")){
 
-          CacheHelper.putData(key: 'size${CacheHelper.getData(key: 'myId')}',value:  true );
+          CacheHelper.putData(key: 'data${CacheHelper.getData(key: 'myId')}',value:  true );
+          Navigator.of(context).pop(true);
           emit(SizeSuccessState());
+
           showDialog(
               barrierDismissible: false,
               context: context,
@@ -1514,6 +1579,41 @@ try{
 
               ));
         }
+        else if(response.data.toString().contains("Duplicate entry")){
+          CacheHelper.putData(key: 'data${CacheHelper.getData(key: 'myId')}',value:  true );
+          Navigator.of(context).pop(true);
+          emit(SizeSuccessState());
+
+          showDialog(
+              barrierDismissible: false,
+              context: context,
+              builder:(context )=>AlertDialog(
+
+                backgroundColor:Colors.grey,
+
+                title: Text('لقد سبق لك التسجيل من قبل',style: TextStyle(color: Colors.white),),
+                // content:  Column(
+                //   mainAxisSize: MainAxisSize.min,
+                //   children: [
+                //     Center(child: CircularProgressIndicator()),
+                //     // state is HiringAddErrorState? Text('تم الفحص الكود من قبل !!',style: TextStyle(color: Colors.white)):SizedBox(),
+                //   ],
+                // ),
+                actions: [
+                  TextButton(onPressed: (){
+                    //emit(FinishSCanStateSuccess());
+                    // duplicated=false;
+                    // emitState();
+
+                    Navigator.of(context).pop(true);
+
+                  }, child: Text('Cancel',style: TextStyle(color: Colors.white),)),
+
+
+                ],
+
+              ));
+        }
         print(i);
         // valuepross=(i+1)/suddenNormalList.length*100;
        // getEmit();
@@ -1521,9 +1621,79 @@ try{
         print(response.data);
 
       }else{
+        if(response.data.toString().contains("Duplicate entry")){
+          CacheHelper.putData(key: 'data${CacheHelper.getData(key: 'myId')}',value:  true );
+          Navigator.of(context).pop(true);
+          emit(SizeSuccessState());
+
+          showDialog(
+              barrierDismissible: false,
+              context: context,
+              builder:(context )=>AlertDialog(
+
+                backgroundColor:Colors.grey,
+
+                title: Text('لقد سبق لك التسجيل من قبل',style: TextStyle(color: Colors.white),),
+                // content:  Column(
+                //   mainAxisSize: MainAxisSize.min,
+                //   children: [
+                //     Center(child: CircularProgressIndicator()),
+                //     // state is HiringAddErrorState? Text('تم الفحص الكود من قبل !!',style: TextStyle(color: Colors.white)):SizedBox(),
+                //   ],
+                // ),
+                actions: [
+                  TextButton(onPressed: (){
+                    //emit(FinishSCanStateSuccess());
+                    // duplicated=false;
+                    // emitState();
+
+                    Navigator.of(context).pop(true);
+
+                  }, child: Text('Cancel',style: TextStyle(color: Colors.white),)),
+
+
+                ],
+
+              ));
+        }
         emit(SizeErrorState());
       }
     }catch(error){
+      if(error.toString().contains("Duplicate entry")){
+        CacheHelper.putData(key: 'data${CacheHelper.getData(key: 'myId')}',value:  true );
+        Navigator.of(context).pop(true);
+        emit(SizeSuccessState());
+
+        showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder:(context )=>AlertDialog(
+
+              backgroundColor:Colors.grey,
+
+              title: Text('لقد سبق لك التسجيل من قبل',style: TextStyle(color: Colors.white),),
+              // content:  Column(
+              //   mainAxisSize: MainAxisSize.min,
+              //   children: [
+              //     Center(child: CircularProgressIndicator()),
+              //     // state is HiringAddErrorState? Text('تم الفحص الكود من قبل !!',style: TextStyle(color: Colors.white)):SizedBox(),
+              //   ],
+              // ),
+              actions: [
+                TextButton(onPressed: (){
+                  //emit(FinishSCanStateSuccess());
+                  // duplicated=false;
+                  // emitState();
+
+                  Navigator.of(context).pop(true);
+
+                }, child: Text('Cancel',style: TextStyle(color: Colors.white),)),
+
+
+              ],
+
+            ));
+      }
       showDialog(
           barrierDismissible: false,
           context: context,
@@ -1557,11 +1727,241 @@ try{
       emit(SizeErrorState());
     }
   }
-  String dropValueSize='';
-  List<String>dropValueSizeList=['','Medium','Large','XLarge','2XLarge','3XLarge'];
+  String dropValueSize='0';
+  List<String>dropValueSizeList=['0','1','2','3','4'];
   void dropButtonChangeSize({vlu}) {
     dropValueSize = vlu;
     emit(HiringDropState ());
   }
+  String dropValueWife='';
+  List<String>dropValueWifeList=['','نعم','لا'];
+  void dropButtonChangeWife({vlu}) {
+    dropValueWife = vlu;
+    emit(HiringDropState ());
+  }
+  String dropValueSon='';
+  List<String>dropValueSonList=['','0','1','2','3','4'];
+  void dropButtonChangeSon({vlu}) {
+    dropValueSon = vlu;
+    emit(HiringDropState ());
+  }
+TextEditingController nidControl= new TextEditingController();
+//TextEditingController? newPasswordControl=new TextEditingController();
+TextEditingController phoneControl=new TextEditingController();
+void collectData(context){
+  var keyFormpassword=GlobalKey<FormState>();
 
+  showDialog(
+
+
+useSafeArea: true,
+      barrierDismissible: false,
+      context: context
+      , builder:(context )=>AlertDialog(
+
+    backgroundColor: Colors.white,
+
+    title: Text('من فضلك ادخل البيانات المطلوبه'),
+    content: BlocConsumer<AttendCubit,AttendStates>(
+      listener: (context,state){},
+      builder: (context,state){
+        return Form(
+          key: keyFormpassword,
+
+          child: SingleChildScrollView(
+
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                defaultEditText(
+                    control:nidControl,
+                    validat: ( s){
+                      RegExp regex = RegExp(r'^\d+$');
+                      if(s!.isEmpty){
+
+                        return"لازم تكتب الرقم القومي";
+                      }
+                      if(s.length<14)return' لازم لا يقل عن 14';
+
+                      else if(!regex.hasMatch(s))return'input value must be number';
+                      else  return null;
+                    },
+                    label: "الرقم القومي",
+                    prefIcon: Icons.perm_identity,
+                    textType: TextInputType.number
+                ),
+                SizedBox(height: 20,),
+                defaultEditText(
+                  control: phoneControl,
+                  textType:TextInputType.number,
+
+                  validat: ( s){
+                    RegExp regex = RegExp(r'^\d+$');
+
+                    if(s!.isEmpty){
+                      return"لازم تكتب رقم الموبيل";
+                    }
+                    // if(s!.isEmpty) return"Mobile No is empty";
+
+                    else if(!regex.hasMatch(s)&&s.isNotEmpty)return'لازم يكون ارقام';
+                    else if(s.length<11&&s.isNotEmpty)return'لازم لا يقل عن  11';
+
+                   else return null;
+                  },
+                  label: "رقم الموبيل",
+                  prefIcon: Icons.phone,
+
+                ),
+                SizedBox(height: 20,),
+                Text('كم عدد زوجاتك؟'),
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: ColorManager.lightPrimary),
+                      borderRadius: BorderRadius.circular(15)
+                  ),
+                  child: DropdownButton(
+                      dropdownColor: Colors.white,
+
+
+                      isExpanded: true,
+                      iconSize: 40,
+
+
+                      value: dropValueSize,
+
+
+                      onChanged: ( String?value){
+
+                        dropButtonChangeSize(vlu: value);
+
+
+                      },
+
+                      items:List.generate(dropValueSizeList.length, (index) =>   DropdownMenuItem<String>(
+
+                        child: Text(dropValueSizeList[index],style: TextStyle(fontWeight: FontWeight.bold),),value: dropValueSizeList[index],))
+                  ),
+                ),
+                SizedBox(height: 20,),
+                Visibility(
+                  visible: dropValueSize !='0',
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text('هل زوجتك تعمل؟'),
+                      Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        decoration: BoxDecoration(
+                            border: Border.all(color: ColorManager.lightPrimary),
+                            borderRadius: BorderRadius.circular(15)
+                        ),
+                        child: DropdownButton(
+                            dropdownColor: Colors.white,
+
+
+                            isExpanded: true,
+                            iconSize: 40,
+
+
+                            value: dropValueWife,
+
+
+                            onChanged: ( String?value){
+
+                              dropButtonChangeWife(vlu: value);
+
+
+                            },
+
+                            items:List.generate(dropValueWifeList.length, (index) =>   DropdownMenuItem<String>(
+
+                              child: Text(dropValueWifeList[index],style: TextStyle(fontWeight: FontWeight.bold),),value: dropValueWifeList[index],))
+                        ),
+                      ),
+                      Text('كم عدد اولادك؟'),
+                      Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        decoration: BoxDecoration(
+                            border: Border.all(color: ColorManager.lightPrimary),
+                            borderRadius: BorderRadius.circular(15)
+                        ),
+                        child: DropdownButton(
+                            dropdownColor: Colors.white,
+
+
+                            isExpanded: true,
+                            iconSize: 40,
+
+
+                            value: dropValueSon,
+
+
+                            onChanged: ( String?value){
+
+                              dropButtonChangeSon(vlu: value);
+
+
+                            },
+
+                            items:List.generate(dropValueSonList.length, (index) =>   DropdownMenuItem<String>(
+
+                              child: Text(dropValueSonList[index],style: TextStyle(fontWeight: FontWeight.bold),),value: dropValueSonList[index],))
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+
+              ],
+
+
+            ),
+          ),
+        );
+      },
+     
+    ),
+    actions: [
+      TextButton(onPressed: (){
+        Navigator.pop(context);
+
+        nidControl.clear();
+        phoneControl.clear();
+      }, child: Text('Cancel',style: TextStyle(color: Colors.red),)),
+
+      TextButton(onPressed: () async {
+        print(CacheHelper.getData(key: 'password'));
+        if(keyFormpassword.currentState!.validate()){
+          if(dropValueSize=='0'){
+          await   votFunction(context);
+          dropValueSon='';
+          dropValueWife='';
+          phoneControl.clear();
+          nidControl.clear();
+          }
+          else if(dropValueSon.isNotEmpty&&dropValueWife.isNotEmpty){
+            await   votFunction(context);
+            phoneControl.clear();
+            nidControl.clear();
+          } else if(dropValueSon.isEmpty||dropValueWife.isEmpty){
+            showToast(text: 'تاكد انه لايوجد شيء لم يتم اختياره', state: ToastState.ERROR);
+          }
+        }
+
+
+
+      }, child: Text('تاكيد')),
+
+    ],
+
+  )
+  );
+}
 }

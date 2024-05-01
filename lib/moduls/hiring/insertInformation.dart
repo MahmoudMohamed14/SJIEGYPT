@@ -1,4 +1,3 @@
-import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -157,14 +156,7 @@ class InsetInfoHiring extends StatelessWidget {
                         return"NationalID is empty";
                         }
                        if(s.length<14)return'Must Length greater than 14';
-                        // else if(s.length==14){
-                        //   String date= s.toString().substring(0,7);
-                        //   String day=date.substring(5,7);
-                        //   String month=date.substring(3,5);
-                        //   String year=date.substring(1,3);
-                        //   dateInterviewControl.text="$month/$day/19$year";
-                        //   cubit.getEmit();
-                        // }
+
                         else if(!regex.hasMatch(s))return'input value must be number';
                   else  return null;
                         }),

@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled/componant/componant.dart';
 import 'package:untitled/componant/local/cache_helper.dart';
 import 'package:untitled/moduls/attend/payslipscreen.dart';
-import 'package:untitled/moduls/login/login_screen.dart';
 
 import '../../shared/constant/color_manager.dart';
-import '../../shared/constant/icon_broken.dart';
 import 'attendCubit/cubitAttend.dart';
 import 'attendCubit/statusAttend.dart';
 

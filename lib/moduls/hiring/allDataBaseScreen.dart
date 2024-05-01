@@ -5,7 +5,6 @@ import 'package:untitled/componant/componant.dart';
 import 'package:untitled/model/hiringModel.dart';
 import 'package:untitled/moduls/hiring/cubit/hiringCubit.dart';
 import 'package:untitled/moduls/hiring/cubit/hiringStatus.dart';
-import 'package:untitled/moduls/hiring/design.dart';
 import 'package:untitled/moduls/hiring/edit_hiring.dart';
 import 'package:untitled/shared/constant/color_manager.dart';
 class AllDataBaseScreen extends StatelessWidget {

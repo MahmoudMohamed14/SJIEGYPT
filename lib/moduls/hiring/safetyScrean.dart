@@ -5,8 +5,6 @@ import 'package:untitled/componant/local/cache_helper.dart';
 import 'package:untitled/moduls/hiring/cubit/hiringCubit.dart';
 import 'package:untitled/moduls/hiring/cubit/hiringStatus.dart';
 import 'package:untitled/moduls/hiring/design.dart';
-import 'package:untitled/moduls/hiring/insertInformation.dart';
-import 'package:untitled/moduls/login/login_screen.dart';
 import 'package:untitled/shared/constant/color_manager.dart';
 class SafetyScreen extends StatelessWidget {
   const SafetyScreen ({Key? key}) : super(key: key);

@@ -48,7 +48,7 @@ class PendingRequest extends StatelessWidget {
                             child: defaultButton(onPress: () {
                               cubit.EditPermissionSql(context, cubit.listOfPermisPending[index].code!
                                   , cubit.listOfPermisPending[index].date!
-                                  , 'NotAccept');
+                                  , 'NotAccept',cubit.listOfPermisPending[index].token,cubit.listOfPermisPending[index].location);
 
 
                             }, name: 'Deny', width: 80, height: 30,color: Colors.red),
@@ -59,7 +59,7 @@ class PendingRequest extends StatelessWidget {
                             child: defaultButton(onPress: () {
                               cubit.EditPermissionSql(context, cubit.listOfPermisPending[index].code!
                                   , cubit.listOfPermisPending[index].date!
-                                  , 'Accept');
+                                  , 'Accept',cubit.listOfPermisPending[index].token,cubit.listOfPermisPending[index].location);
 
                             }, name: 'Agree', width: 80, height: 30,color: Colors.green),
                           ),

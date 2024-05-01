@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled/componant/componant.dart';
 
 
 import 'package:untitled/moduls/attend/attendCubit/cubitAttend.dart';

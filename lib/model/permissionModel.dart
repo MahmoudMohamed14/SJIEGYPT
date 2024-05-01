@@ -12,6 +12,7 @@ class PermissionModel{
   String ?type;
   String ?location;
   String ?dateAccept;
+  String ?token;
   PermissionModel(
       {
 
@@ -26,7 +27,8 @@ class PermissionModel{
         this.state,
         this.type,
         this.location,
-        this.dateAccept
+        this.dateAccept,
+        this.token,
 
       });
 
@@ -47,6 +49,7 @@ class PermissionModel{
     dateAccept=json['dateAccept'];
 
     location=json['location'];
+    token=json['token'];
 
   }
   Map<String,dynamic> toMap(){
@@ -62,6 +65,7 @@ class PermissionModel{
       "type":type,
       'location':location,
       "dateAccept":dateAccept,
+      "token":token,
 
     };
 

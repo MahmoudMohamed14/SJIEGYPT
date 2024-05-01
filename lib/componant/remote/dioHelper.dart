@@ -8,6 +8,9 @@ class DioHelper{
           baseUrl: 'https://sjiappeg.sji-eg.com/',
           receiveDataWhenStatusError: true,
 
+
+
+
         )
     );
 

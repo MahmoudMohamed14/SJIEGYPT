@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled/componant/componant.dart';
@@ -293,7 +292,7 @@ class HomeScreen extends StatelessWidget {
                       //           cubit.EditSizeFunction();
                       //         }, name: 'تعديل'):
                       //         defaultButton(onPress: (){
-                      //           cubit.votFunction(context);
+                        //        cubit.votFunction(context);
                       //         }, name: 'تأكيد'),
                       //         SizedBox(height: 10,)
                       //       ],

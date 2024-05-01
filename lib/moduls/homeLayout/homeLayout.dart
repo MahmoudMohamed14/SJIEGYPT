@@ -1,7 +1,5 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled/componant/componant.dart';
 import 'package:untitled/componant/local/cache_helper.dart';
@@ -11,18 +9,36 @@ import 'package:untitled/moduls/attend/add_vacation.dart';
 import 'package:untitled/moduls/attend/attendCubit/cubitAttend.dart';
 import 'package:untitled/moduls/attend/attendCubit/statusAttend.dart';
 import 'package:untitled/moduls/attend/monthsAttend .dart';
-import 'package:untitled/moduls/attend/payslipscreen.dart';
 import 'package:untitled/moduls/attend/vacation_screen.dart';
-import 'package:untitled/moduls/login/login_screen.dart';
 import 'package:untitled/moduls/permisssion/AcceptRequest.dart';
 import 'package:untitled/moduls/permisssion/deparScreen.dart';
-import 'package:untitled/moduls/permisssion/order_permission.dart';
 import 'package:untitled/moduls/permisssion/permission_cubit.dart';
 import 'package:untitled/shared/constant/color_manager.dart';
-import 'package:untitled/shared/constant/icon_broken.dart';
 import 'package:untitled/shared/constant/values_manager.dart';
 
-class HomeLayout extends StatelessWidget {
+class HomeLayout extends StatefulWidget {
+  late bool vot;
+  HomeLayout({this.vot=false});
+  @override
+  State<HomeLayout> createState() => _HomeLayoutState(vot: vot);
+}
+
+class _HomeLayoutState extends State<HomeLayout> {
+
+  late bool vot;
+  _HomeLayoutState({this.vot=false});
+
+  @override
+  void initState() {
+    super.initState();
+     Future.delayed(Duration(seconds: 3)).then((value) {
+       if(vot){
+       AttendCubit.get(context).emit(GETUserSuccessState());
+       vot=false;
+       }
+     });
+    //AttendCubit.get(context).emit(GETUserSuccessState());
+  }
   @override
   Widget build(BuildContext context) {
     var keyFormpassword=GlobalKey<FormState>();
@@ -30,10 +46,25 @@ class HomeLayout extends StatelessWidget {
     TextEditingController? newPasswordControl=new TextEditingController();
     TextEditingController? oldPassword=new TextEditingController();
     return BlocConsumer<AttendCubit,AttendStates>(
-        listener: (context,state){},
+        listener: (context,state){
+          if(state is GETUserSuccessState && CacheHelper.getData(key: 'data${CacheHelper.getData(key: 'myId')}')==null){
+
+            AttendCubit.get(context). collectData(context);
+          }
+          // if(widget.vot ){
+          //   AttendCubit.get(context). collectData(context);
+          //
+          // }
+
+
+        },
       builder:(context,state){
+
+
         var cubit=AttendCubit.get(context);
+
           return Scaffold(
+
             appBar: AppBar(
               title: Text( "${cubit.listTitleHome[cubit.indexHomeButton]} ${cubit.indexHomeButton==3?cubit.countVacation:''}", style: TextStyle(color:ColorManager.primary , fontSize: 20.0,)),//cubit.listTitleHome[cubit.indexHomeButton],//Text('SJI EGYPT',),
               centerTitle: true,
@@ -484,6 +515,7 @@ class HomeLayout extends StatelessWidget {
                                navigateTo(context,DepartScreen());
                             }else{
                               PermissionCubit.get(context).getOrderPermissionSQL();
+                              //PermissionCubit.get(context).token = PermissionCubit.get(context).getToken();
                               navigateTo(context,DepartScreen());
                               // if(CacheHelper.getData(key: 'control'))   navigateTo(context, LayoutPermission());else navigateTo(context,MyScreen());
                               // navigateTo(context,MyScreen());}
@@ -510,6 +542,7 @@ class HomeLayout extends StatelessWidget {
 
               ),
             ),
+
             //bottomNavigation
             // bottomNavigationBar:CacheHelper.getData(key: 'myId')=='sji'?null: BottomNavigationBar(
             //   type: BottomNavigationBarType.fixed,
@@ -539,8 +572,10 @@ class HomeLayout extends StatelessWidget {
             //
             // ),
           );
+
     } ,
 
     );
   }
+
 }

@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:untitled/componant/componant.dart';
-import 'package:untitled/componant/local/cache_helper.dart';
 import 'package:untitled/moduls/hiring/addNewHiring.dart';
 import 'package:untitled/moduls/hiring/cubit/hiringCubit.dart';
 import 'package:untitled/moduls/hiring/cubit/hiringStatus.dart';
 import 'package:untitled/moduls/hiring/design.dart';
 import 'package:untitled/moduls/hiring/insertInformation.dart';
-import 'package:untitled/moduls/login/login_screen.dart';
 import 'package:untitled/shared/constant/color_manager.dart';
 
 class ProcessHiring extends StatelessWidget {

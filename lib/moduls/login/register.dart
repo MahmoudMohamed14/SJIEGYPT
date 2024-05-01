@@ -2,14 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled/componant/componant.dart';
-import 'package:untitled/componant/local/cache_helper.dart';
 
 
 import 'package:untitled/moduls/attend/attendCubit/cubitAttend.dart';
-import 'package:untitled/moduls/hiring/cubit/hiringCubit.dart';
-import 'package:untitled/moduls/hiring/dashBoardScreen.dart';
-import 'package:untitled/moduls/hiring/process_hiring.dart';
-import 'package:untitled/moduls/hiring/safetyScrean.dart';
 
 import 'package:untitled/moduls/homeLayout/homeLayout.dart';
 

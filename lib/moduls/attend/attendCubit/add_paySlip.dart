@@ -6,7 +6,6 @@ import 'package:untitled/componant/componant.dart';
 
 import 'package:untitled/moduls/attend/attendCubit/cubitAttend.dart';
 import 'package:untitled/moduls/attend/attendCubit/statusAttend.dart';
-import 'package:untitled/moduls/permisssion/permission_cubit.dart';
 import 'package:untitled/shared/constant/color_manager.dart';
 
 

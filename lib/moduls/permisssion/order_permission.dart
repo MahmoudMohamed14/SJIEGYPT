@@ -9,12 +9,12 @@ import 'package:untitled/moduls/permisssion/permission_status.dart';
 import 'package:untitled/shared/constant/color_manager.dart';
 import 'package:untitled/shared/constant/test_styles_manager.dart';
 
-class MyScreen extends StatefulWidget {
+class RequestVacationScreen extends StatefulWidget {
   @override
-  State<MyScreen> createState() => _MyScreenState();
+  State<RequestVacationScreen> createState() => _RequestVacationScreenState();
 }
 
-class _MyScreenState extends State<MyScreen> {
+class _RequestVacationScreenState extends State<RequestVacationScreen> {
   final _currentDate = DateTime.now();
 
   final _dayFormatter = DateFormat('d');
@@ -29,7 +29,7 @@ class _MyScreenState extends State<MyScreen> {
 
     final dates = <Widget>[];
 
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 7; i++) {
       final date = _currentDate.add(Duration(days: i + 1));
       int pending=0;
       int accept=0;
@@ -305,136 +305,262 @@ class _MyScreenState extends State<MyScreen> {
                              ],
                         ),
                         Spacer(),
-                        Visibility(
-                          visible: DateTime.now().add(Duration(days: 1)).hour>14 && i==0,
-                          child:const SizedBox.shrink() ,
-                          replacement: defaultButton(onPress: () {
-                       cubit.valueofdepart='';
-                       showDialog(
+                        defaultButton(onPress: () {
+                          cubit.valueofdepart='';
+                          showDialog(
 
 
-                           barrierDismissible: false,
-                           context: context, builder: (context) =>
-                           AlertDialog(
+                              barrierDismissible: false,
+                              context: context, builder: (context) =>
+                              AlertDialog(
 
-                             title: Text('طلب اجازه'),
-                             content: state is PermissionLoadingState
-                                 ? CircularProgressIndicator()
-                                 : Form(
-                               // key: keyFormpassword,
-                                 child: Column(
-                                   mainAxisSize: MainAxisSize.min,
-                                   children: [
-                                     Container(
-                                       padding: const EdgeInsets.symmetric(
-                                           horizontal: 12, vertical: 4),
-                                       width: double.infinity,
-                                       height: 60,
-                                       decoration: BoxDecoration(
-                                           borderRadius: BorderRadius
-                                               .circular(10),
-                                           border: Border.all(
-                                               color: ColorManager.primary)
+                                title: Text('طلب اجازه'),
+                                content: state is PermissionLoadingState
+                                    ? CircularProgressIndicator()
+                                    : Form(
+                                  // key: keyFormpassword,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 12, vertical: 4),
+                                          width: double.infinity,
+                                          height: 60,
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius
+                                                  .circular(10),
+                                              border: Border.all(
+                                                  color: ColorManager.primary)
 
-                                       ),
-                                       child: BlocConsumer<
-                                           PermissionCubit,
-                                           PermissionStates>(
-                                         listener: (context, state) {},
-                                         builder: (context, state) =>
-                                             DropdownButton(
+                                          ),
+                                          child: BlocConsumer<
+                                              PermissionCubit,
+                                              PermissionStates>(
+                                            listener: (context, state) {},
+                                            builder: (context, state) =>
+                                                DropdownButton(
 
-                                                 isExpanded: true,
-                                                 iconSize: 50,
-
-
-                                                 value: PermissionCubit
-                                                     .get(context)
-                                                     .valueofdepart,
-                                                 //cubit.shift,
+                                                    isExpanded: true,
+                                                    iconSize: 50,
 
 
-                                                 onChanged: (String?value) {
-                                                   PermissionCubit.get(
-                                                       context)
-                                                       .onChangeDepart(
-                                                       value);
-
-                                                   //cubit.radioButtonShift(sht: value);
+                                                    value: PermissionCubit
+                                                        .get(context)
+                                                        .valueofdepart,
+                                                    //cubit.shift,
 
 
-                                                 },
+                                                    onChanged: (String?value) {
+                                                      PermissionCubit.get(
+                                                          context)
+                                                          .onChangeDepart(
+                                                          value);
 
-                                                 items: i==0 || (i==2 && _nameFormatter.format(date)=='Sunday')?List.generate(
-                                                     PermissionCubit
-                                                         .get(context)
-                                                         .Vaction
-                                                         .length, (index) =>
-                                                     DropdownMenuItem<
-                                                         String>(child: Text(
-                                                         PermissionCubit
-                                                             .get(context)
-                                                             .Vaction[index],
-                                                         style: getBoldStyle(
-                                                           color: ColorManager
-                                                               .primary,)),
-                                                       value: PermissionCubit
-                                                           .get(context)
-                                                           .Vaction[index],)):List.generate(
-                                                     PermissionCubit
-                                                         .get(context)
-                                                         .allVaction
-                                                         .length, (index) =>
-                                                     DropdownMenuItem<
-                                                         String>(child: Text(
-                                                         PermissionCubit
-                                                             .get(context)
-                                                             .allVaction[index],
-                                                         style: getBoldStyle(
-                                                           color: ColorManager
-                                                               .primary,)),
-                                                       value: PermissionCubit
-                                                           .get(context)
-                                                           .allVaction[index],))
-
-                                             ),
-                                       ),
-
-                                     ),
-                                     SizedBox(height: 20,),
-                                     defaultEditText(control: reasonControl,
-                                         label: 'السبب', maxLine: 3)
-
-                                   ],
+                                                      //cubit.radioButtonShift(sht: value);
 
 
-                                 )
-                             ),
-                             actions:[
-                               TextButton(onPressed: () {
-                                 Navigator.pop(context);
-                               },
-                                   child: Text('Cancel',
-                                     style: TextStyle(color: Colors.red),)),
-                               TextButton(onPressed: () {
-                                 if(cubit.valueofdepart.isEmpty){
-                                   showToast(text: 'لم يتم اختيار نوع الاجازة', state: ToastState.ERROR);
-                                 }
-                                 else cubit.orderPermission(
-                                     context,
-                                     _nameFormatter.format(date),
-                                     reasonControl.text ??'',
+                                                    },
 
-                                     CacheHelper.getData(key: 'myId'),
-                                     CacheHelper.getData(key: 'myname'),
-                                     "${_dayFormatter.format(date)} ${_monthFormatter.format(date)}",'pending',   cubit.valueofdepart);
-                               }, child: Text('تاكيد')),
+                                                    items: i==0 || (i==2 && _nameFormatter.format(date)=='Sunday')?List.generate(
+                                                        PermissionCubit
+                                                            .get(context)
+                                                            .Vaction
+                                                            .length, (index) =>
+                                                        DropdownMenuItem<
+                                                            String>(child: Text(
+                                                            PermissionCubit
+                                                                .get(context)
+                                                                .Vaction[index],
+                                                            style: getBoldStyle(
+                                                              color: ColorManager
+                                                                  .primary,)),
+                                                          value: PermissionCubit
+                                                              .get(context)
+                                                              .Vaction[index],)):List.generate(
+                                                        PermissionCubit
+                                                            .get(context)
+                                                            .allVaction
+                                                            .length, (index) =>
+                                                        DropdownMenuItem<
+                                                            String>(child: Text(
+                                                            PermissionCubit
+                                                                .get(context)
+                                                                .allVaction[index],
+                                                            style: getBoldStyle(
+                                                              color: ColorManager
+                                                                  .primary,)),
+                                                          value: PermissionCubit
+                                                              .get(context)
+                                                              .allVaction[index],))
 
-                             ],
+                                                ),
+                                          ),
 
-                           ));
-                     }, name: 'طلب', width: 80, height: 30),
-                        )
+                                        ),
+                                        SizedBox(height: 20,),
+                                        defaultEditText(control: reasonControl,
+                                            label: 'السبب', maxLine: 3)
+
+                                      ],
+
+
+                                    )
+                                ),
+                                actions:[
+                                  TextButton(onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                      child: Text('Cancel',
+                                        style: TextStyle(color: Colors.red),)),
+                                  TextButton(onPressed: () {
+                                    if(cubit.valueofdepart.isEmpty){
+                                      showToast(text: 'لم يتم اختيار نوع الاجازة', state: ToastState.ERROR);
+                                    }
+                                    else cubit.orderPermission(
+                                        context,
+                                        _nameFormatter.format(date),
+                                        reasonControl.text ??'',
+
+                                        CacheHelper.getData(key: 'myId'),
+                                        CacheHelper.getData(key: 'myname'),
+                                        "${_dayFormatter.format(date)} ${_monthFormatter.format(date)}",'pending',   cubit.valueofdepart);
+                                  }, child: Text('تاكيد')),
+
+                                ],
+
+                              ));
+                        }, name: 'طلب', width: 80, height: 30),
+                        // Visibility(
+                        //   visible: DateTime.now().add(Duration(days: 1)).hour>14 && i==0,
+                        //   child:const SizedBox.shrink() ,
+                        //   replacement: defaultButton(onPress: () {
+                        //                        cubit.valueofdepart='';
+                        //                        showDialog(
+                        //
+                        //
+                        //                            barrierDismissible: false,
+                        //                            context: context, builder: (context) =>
+                        //                            AlertDialog(
+                        //
+                        //                              title: Text('طلب اجازه'),
+                        //                              content: state is PermissionLoadingState
+                        //                                  ? CircularProgressIndicator()
+                        //                                  : Form(
+                        //                                // key: keyFormpassword,
+                        //                                  child: Column(
+                        //                                    mainAxisSize: MainAxisSize.min,
+                        //                                    children: [
+                        //                                      Container(
+                        //                                        padding: const EdgeInsets.symmetric(
+                        //                                            horizontal: 12, vertical: 4),
+                        //                                        width: double.infinity,
+                        //                                        height: 60,
+                        //                                        decoration: BoxDecoration(
+                        //                                            borderRadius: BorderRadius
+                        //                                                .circular(10),
+                        //                                            border: Border.all(
+                        //                                                color: ColorManager.primary)
+                        //
+                        //                                        ),
+                        //                                        child: BlocConsumer<
+                        //                                            PermissionCubit,
+                        //                                            PermissionStates>(
+                        //                                          listener: (context, state) {},
+                        //                                          builder: (context, state) =>
+                        //                                              DropdownButton(
+                        //
+                        //                                                  isExpanded: true,
+                        //                                                  iconSize: 50,
+                        //
+                        //
+                        //                                                  value: PermissionCubit
+                        //                                                      .get(context)
+                        //                                                      .valueofdepart,
+                        //                                                  //cubit.shift,
+                        //
+                        //
+                        //                                                  onChanged: (String?value) {
+                        //                                                    PermissionCubit.get(
+                        //                                                        context)
+                        //                                                        .onChangeDepart(
+                        //                                                        value);
+                        //
+                        //                                                    //cubit.radioButtonShift(sht: value);
+                        //
+                        //
+                        //                                                  },
+                        //
+                        //                                                  items: i==0 || (i==2 && _nameFormatter.format(date)=='Sunday')?List.generate(
+                        //                                                      PermissionCubit
+                        //                                                          .get(context)
+                        //                                                          .Vaction
+                        //                                                          .length, (index) =>
+                        //                                                      DropdownMenuItem<
+                        //                                                          String>(child: Text(
+                        //                                                          PermissionCubit
+                        //                                                              .get(context)
+                        //                                                              .Vaction[index],
+                        //                                                          style: getBoldStyle(
+                        //                                                            color: ColorManager
+                        //                                                                .primary,)),
+                        //                                                        value: PermissionCubit
+                        //                                                            .get(context)
+                        //                                                            .Vaction[index],)):List.generate(
+                        //                                                      PermissionCubit
+                        //                                                          .get(context)
+                        //                                                          .allVaction
+                        //                                                          .length, (index) =>
+                        //                                                      DropdownMenuItem<
+                        //                                                          String>(child: Text(
+                        //                                                          PermissionCubit
+                        //                                                              .get(context)
+                        //                                                              .allVaction[index],
+                        //                                                          style: getBoldStyle(
+                        //                                                            color: ColorManager
+                        //                                                                .primary,)),
+                        //                                                        value: PermissionCubit
+                        //                                                            .get(context)
+                        //                                                            .allVaction[index],))
+                        //
+                        //                                              ),
+                        //                                        ),
+                        //
+                        //                                      ),
+                        //                                      SizedBox(height: 20,),
+                        //                                      defaultEditText(control: reasonControl,
+                        //                                          label: 'السبب', maxLine: 3)
+                        //
+                        //                                    ],
+                        //
+                        //
+                        //                                  )
+                        //                              ),
+                        //                              actions:[
+                        //                                TextButton(onPressed: () {
+                        //                                  Navigator.pop(context);
+                        //                                },
+                        //                                    child: Text('Cancel',
+                        //                                      style: TextStyle(color: Colors.red),)),
+                        //                                TextButton(onPressed: () {
+                        //                                  if(cubit.valueofdepart.isEmpty){
+                        //                                    showToast(text: 'لم يتم اختيار نوع الاجازة', state: ToastState.ERROR);
+                        //                                  }
+                        //                                  else cubit.orderPermission(
+                        //                                      context,
+                        //                                      _nameFormatter.format(date),
+                        //                                      reasonControl.text ??'',
+                        //
+                        //                                      CacheHelper.getData(key: 'myId'),
+                        //                                      CacheHelper.getData(key: 'myname'),
+                        //                                      "${_dayFormatter.format(date)} ${_monthFormatter.format(date)}",'pending',   cubit.valueofdepart);
+                        //                                }, child: Text('تاكيد')),
+                        //
+                        //                              ],
+                        //
+                        //                            ));
+                        //                      }, name: 'طلب', width: 80, height: 30),
+                        // )
 
 
 
@@ -661,12 +787,28 @@ class _MyScreenState extends State<MyScreen> {
             //     ),
             //   ),
             // );
-            return Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: dates.map((widget) => Expanded(child: widget)).toList(),
+            // her comment to test list view
+            // return Padding(
+            //   padding: const EdgeInsets.all(12),
+            //   child: Column(
+            //     mainAxisSize: MainAxisSize.min,
+            //     children: dates.map((widget) => Expanded(child: widget)).toList(),
+            //   ),
+            // );
+            if(!CacheHelper.getData(key: 'control'))
+            return ListView.builder(itemBuilder:(context,index)=>dates[index],itemCount: dates.length,);
+            else return Scaffold(
+              appBar: AppBar(
+                actions: [
+                  IconButton(onPressed: (){
+                    PermissionCubit.get(context).getOrderPermissionSQLByCode();
+
+                    navigateTo(context, LayoutPermission(fromAdminRequest: true,));
+
+                  }, icon: Icon(Icons.history))
+                ],
               ),
+              body: ListView.builder(itemBuilder:(context,index)=>dates[index],itemCount: dates.length,),
             );
 
           }

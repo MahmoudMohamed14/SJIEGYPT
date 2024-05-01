@@ -1,11 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled/componant/componant.dart';
 
 
-import 'package:untitled/moduls/attend/attendCubit/cubitAttend.dart';
-import 'package:untitled/moduls/attend/attendCubit/statusAttend.dart';
 import 'package:untitled/moduls/hiring/cubit/hiringCubit.dart';
 import 'package:untitled/moduls/hiring/cubit/hiringStatus.dart';
 import 'package:untitled/shared/constant/color_manager.dart';

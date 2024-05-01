@@ -32,7 +32,26 @@ class  DepartScreen extends StatelessWidget {
                 appBar: AppBar(
                   title: Text(" Order Vacation", style: TextStyle(color:ColorManager.primary , fontSize: 20.0,)),
                centerTitle: true,
-                  actions: CacheHelper.getData(key: 'control')?null:[
+                  actions: CacheHelper.getData(key: 'control')? CacheHelper.getData(key: 'depart')=='HR'?null:[GestureDetector(
+                    onTap: (){
+                    //  PermissionCubit.get(context).getOrderPermissionSQLByCode();
+                      PermissionCubit.get(context).getOrderPermissionSQL();
+
+                      navigateTo(context, RequestVacationScreen());
+
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: Container(
+                        height:23,
+                        width: 23,
+                        decoration: BoxDecoration(
+                            image: DecorationImage(image: AssetImage('assets/vacation.png'))
+
+                        ),
+                      ),
+                    ),
+                  ),]:[
                     IconButton(onPressed: (){
                       PermissionCubit.get(context).getOrderPermissionSQLByCode();
 
@@ -152,7 +171,7 @@ class  DepartScreen extends StatelessWidget {
                     );}
                     else{
                      // PermissionCubit.get(context).getOrderPermissionSQL();
-                      return  MyScreen();
+                      return  RequestVacationScreen();
                     }
                   }
                 ),

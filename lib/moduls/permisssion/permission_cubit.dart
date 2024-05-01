@@ -3,16 +3,14 @@
 
 
 import 'dart:convert';
-
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled/componant/local/cache_helper.dart';
-import 'package:untitled/componant/local/cache_helper.dart';
 import 'package:untitled/componant/remote/dioHelper.dart';
+import 'package:untitled/componant/remote/notification.dart';
 import 'package:untitled/model/permissionModel.dart';
 import 'package:untitled/moduls/permisssion/permission_status.dart';
-
-import '../../componant/local/cache_helper.dart';
 
 class PermissionCubit extends Cubit< PermissionStates> {
   PermissionCubit () : super( PermissionInitState());
@@ -31,23 +29,15 @@ class PermissionCubit extends Cubit< PermissionStates> {
     emit(ChangeDepartState());
   }
 
+
   void orderPermission(context,String day,String reason,  String id,
   String  name,
   String date,
 
       String state,type){
     emit( PermissionLoadingState());
-    // var url = Uri.parse('https://sjeg.seongji-eg.com/addHoliday.php');// Replace with your PHP script URL
-    //
-    // http.post(url,headers: {'Accept':'application/json'} ,
-    //     body:  PermissionModel(day:day
-    //         ,date: date
-    //         ,code: id
-    //         ,name: name
-    //         ,depart: CacheHelper.getData(key: 'depart')??'NoDepart'
-    //         ,reason: reason
-    //         ,state: state
-    //     ).toMap())
+
+
         DioHelper.dio.post('addHoliday.php',queryParameters: PermissionModel(day:day
             ,date: date
             ,code: id
@@ -57,10 +47,15 @@ class PermissionCubit extends Cubit< PermissionStates> {
             ,state: state,
             location: CacheHelper.getData(key: 'location'),
             dateAccept: '',
-            type: type
+            type: type,
+          token: CacheHelper.getData(key: 'token'),
+
         ).toMap() ).then((value) {
       if (value.statusCode == 200 ) {
+
+        NotificationHelper.postNotification(to: '/topics/${CacheHelper.getData(key: 'location')}', title: 'Request Vacation', body: '${name} ($id) ${CacheHelper.getData(key: 'depart')??''}  ',);
         emit(PermissionSuccessState());
+        NotificationHelper.postNotification(to: '/topics/${CacheHelper.getData(key: 'depart').toString().trim().replaceAll(' ', 'sji').toLowerCase()}', title: 'Request Vacation', body: '${name} ($id)   ');
         Navigator.pop(context);
         getOrderPermissionSQL();
 
@@ -103,6 +98,11 @@ class PermissionCubit extends Cubit< PermissionStates> {
 
     }).catchError((onError){
       emit( PermissionDeleteErrorState());
+      if(onError.toString().contains("NO HOLIDAY")){
+        Navigator.pop(context);
+        getOrderPermissionSQL();
+      }
+
       print(onError.toString().trim());
     });
     // Firestore.instance
@@ -125,10 +125,6 @@ class PermissionCubit extends Cubit< PermissionStates> {
     listOfPermisAccept=[];
     listOfPermisNotAccept=[];
 
-    // var url = Uri.parse('https://sjeg.seongji-eg.com/getholidybycode.php');// Replace with your PHP script URL
-    //
-    // http.post(url,headers: {'Accept':'application/json'} ,
-    //     body:  {'code':CacheHelper.getData(key: 'myId')})
         DioHelper.dio.post('getholidybycode.php',queryParameters:{'code':CacheHelper.getData(key: 'myId')} ).then((value) {
 
       // if (value.statusCode == 200 ) {
@@ -150,9 +146,11 @@ class PermissionCubit extends Cubit< PermissionStates> {
       //  // The response from PHP script
       // }
       if (value.statusCode == 200 ) {
+        listofpermis=[];
         print(value.data);
         var res=json.decode(value.data);
         if(res.length>0){
+
           res.forEach((element){
             listofpermis.add(PermissionModel.fromJson(element));
 
@@ -411,41 +409,41 @@ print(value.data);
 
   }
 
-  void getOrderPermission(){
-    listofpermis=[];
-    listOfPermisNotAccept=[];
-    listOfPermisAccept=[];
-    listOfPermisPending=[];
-    // Firestore.instance
-    //     .collection("Permission").orderBy('date').get().then((value) {
-    //       print(value);
-    //
-    //       value.forEach((element) {
-    //
-    //      listofpermis.add(PermissionModel.fromJson(element.map));
-    //      if(CacheHelper.getData(key: 'control')){
-    //        // print(CacheHelper.getData(key: 'control'));
-    //        // print(CacheHelper.getData(key: 'depart'));
-    //      if(element.map['state']=='pending'&&element.map['depart']==CacheHelper.getData(key: 'depart')){
-    //        listOfPermisPending.add(PermissionModel.fromJson(element.map));
-    //
-    //      }else if(element.map['state']=='Accept'&&element.map['depart']==CacheHelper.getData(key: 'depart')){
-    //        listOfPermisAccept.add(PermissionModel.fromJson(element.map));
-    //      }else if(element.map['state']=='NotAccept'&& element.map['depart']==CacheHelper.getData(key: 'depart')){
-    //        listOfPermisNotAccept.add(PermissionModel.fromJson(element.map));
-    //      }}
-    //       });
-    //
-    //       emit(PermissionGetSuccessState());
-    //       print(listofpermis[0].toMap());
-    //
-    //
-    // }).catchError((onError){
-    //   emit(PermissionGetErrorState());
-    //
-    // });
-
-  }
+  // void getOrderPermission(){
+  //   listofpermis=[];
+  //   listOfPermisNotAccept=[];
+  //   listOfPermisAccept=[];
+  //   listOfPermisPending=[];
+  //   // Firestore.instance
+  //   //     .collection("Permission").orderBy('date').get().then((value) {
+  //   //       print(value);
+  //   //
+  //   //       value.forEach((element) {
+  //   //
+  //   //      listofpermis.add(PermissionModel.fromJson(element.map));
+  //   //      if(CacheHelper.getData(key: 'control')){
+  //   //        // print(CacheHelper.getData(key: 'control'));
+  //   //        // print(CacheHelper.getData(key: 'depart'));
+  //   //      if(element.map['state']=='pending'&&element.map['depart']==CacheHelper.getData(key: 'depart')){
+  //   //        listOfPermisPending.add(PermissionModel.fromJson(element.map));
+  //   //
+  //   //      }else if(element.map['state']=='Accept'&&element.map['depart']==CacheHelper.getData(key: 'depart')){
+  //   //        listOfPermisAccept.add(PermissionModel.fromJson(element.map));
+  //   //      }else if(element.map['state']=='NotAccept'&& element.map['depart']==CacheHelper.getData(key: 'depart')){
+  //   //        listOfPermisNotAccept.add(PermissionModel.fromJson(element.map));
+  //   //      }}
+  //   //       });
+  //   //
+  //   //       emit(PermissionGetSuccessState());
+  //   //       print(listofpermis[0].toMap());
+  //   //
+  //   //
+  //   // }).catchError((onError){
+  //   //   emit(PermissionGetErrorState());
+  //   //
+  //   // });
+  //
+  // }
   String departvar='';
   getDepart(val){
     departvar=val;
@@ -454,16 +452,23 @@ print(value.data);
   void getEmit(){
     emit(EmitPermission() );
   }
-  void EditPermissionSql(context,String code,String date,String state){
-    // var url = Uri.parse('https://sjeg.seongji-eg.com/updateholiday.php');// Replace with your PHP script URL
-    //
-    // http.post(url,headers: {'Accept':'application/json'} ,
-    //     body:  {'code':code,"date":date,"state":state})
+  void EditPermissionSql(context,String code,String date,String state,token,location){
+
     DioHelper.dio.post('updateholiday.php',queryParameters: {'code':code,"date":date,"state":state,'dateAccept':DateTime.now().toString()}).then((value) {
 
       if (value.statusCode == 200 ) {
+        if(state =='Accept'){
+
+          log("from accept"+token );
+          NotificationHelper.postNotification(to: token, title: 'Request Vacation', body: 'ok Accept');
+        }else{
+          NotificationHelper.postNotification(to: token, title: 'Request Vacation', body: 'NO Reject');
+          log("from  not accept"+token );
+        }
         emit(PermissionUpdateSuccessState());
-        getOrderPermissionSQLByDepart(departvar);
+       if(CacheHelper.getData(key: 'depart')=='HR') getOrderPermissionSQLByLocation(location);
+         else getOrderPermissionSQLByDepart(departvar);
+
         //getOrderPermissionSQL();
        // Navigator.pop(context);
 
@@ -476,15 +481,6 @@ print(value.data);
       emit( PermissionUpdateErrorState());
       print(onError.toString().trim());
     });
-    // Firestore.instance
-    //     .collection("Permission").document(id+date).update({'state':state.toString()}).then((value) {
-    //  // emit(PermissionUpdateSuccessState());
-    //   getOrderPermission();
-    //
-    //  // Navigator.pop(context);
-    // }).catchError((onError){
-    //   emit( PermissionUpdateErrorState());
-    // });
 
   }
 }

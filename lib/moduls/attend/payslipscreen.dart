@@ -1,5 +1,5 @@
+
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled/moduls/attend/attendCubit/cubitAttend.dart';
 import 'package:untitled/shared/constant/color_manager.dart';
 
@@ -16,8 +16,9 @@ PaySlipScreen(this.month);
     return FutureBuilder(
       future: AttendCubit.get(context).isPayORreview=='pay'?AttendCubit.get(context).getPaySlip(month):AttendCubit.get(context).getReview(month),
       builder: (context,snabshat){
+
         if(snabshat.hasData){
-          print(snabshat.data);
+         // print(snabshat.data);
           return SingleChildScrollView(
 
             child:AttendCubit.get(context).isPayORreview=='pay' ?AttendCubit.get(context).paySlipModel==null ? Center(child: Text('NO PaySlip')):Padding(
@@ -200,9 +201,11 @@ PaySlipScreen(this.month);
               ),
             ),
           );
+        }else if(snabshat.hasError){
+
+          return Center(child: Text('NO PaySlip'));
         }else{
-          print(snabshat.error.toString());
-          return Center(child: CircularProgressIndicator(),);
+          return Center(child: CircularProgressIndicator());
         }
       },
 
