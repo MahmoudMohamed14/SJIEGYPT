@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled/componant/local/cache_helper.dart';
-import 'package:untitled/moduls/attend/payslipscreen.dart';
-
+import 'package:untitled/moduls/attend/attendanceReviewScreen.dart';
+import 'package:untitled/moduls/attend/payslipScreen.dart';
 import '../../shared/constant/color_manager.dart';
 import 'attendCubit/cubitAttend.dart';
 import 'attendCubit/statusAttend.dart';
@@ -18,7 +18,7 @@ class AttendAndPayScreen extends StatelessWidget {
         listener: (context,state){},
 
         builder: (context,state){
-          var cubit=  AttendCubit.get(context);
+         // var cubit=  AttendCubit.get(context);
       return Scaffold(
         appBar: AppBar(
 
@@ -53,7 +53,12 @@ class AttendAndPayScreen extends StatelessWidget {
           //
           // ],
         ),
-        body:PaySlipScreen(month) //cubit.listBody[0],
+        body:SingleChildScrollView(
+
+          child:AttendCubit.get(context).isPayORreview=='pay' ?state is LoadGetPaySlipStateSuccess?Center(child: CircularProgressIndicator(),):state is GetPaySlipStateSuccess?
+          PaySlipScreen()
+              : Center(child: Text('NO PaySlip')):state is LoadReviewStateSuccess ?Center(child: CircularProgressIndicator(),): state is GetReviewStateSuccess?AttendanceReviewScreen():Center(child: Text('Not Uploaded')),
+        ) //cubit.listBody[0],
           // bottomNavigationBar:
           // BottomNavigationBar(items:[
           //   BottomNavigationBarItem(icon:Icon(IconBroken.User,),label: 'Attendance'),

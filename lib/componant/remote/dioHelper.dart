@@ -7,7 +7,7 @@ class DioHelper{
         BaseOptions(
           baseUrl: 'https://sjiappeg.sji-eg.com/',
           receiveDataWhenStatusError: true,
-
+//*888*5#
 
 
 

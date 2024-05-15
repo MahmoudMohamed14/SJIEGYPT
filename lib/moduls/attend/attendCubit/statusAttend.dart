@@ -5,7 +5,7 @@ class AddUserStateSuccess extends  AttendStates{}
 class AddAttendStateSuccess extends  AttendStates{}
 class GetAttendStateSuccess extends  AttendStates{}
 class GetPaySlipStateSuccess extends  AttendStates{}
-class LoadPaySlipStateSuccess extends  AttendStates{}
+class LoadGetPaySlipStateSuccess extends  AttendStates{}
 class GetPaySlipStateError extends  AttendStates{}
 class AddPaySlipStateSuccess extends  AttendStates{}
 class AddPaySlipLoadState extends  AttendStates{}

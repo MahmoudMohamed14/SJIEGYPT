@@ -38,7 +38,7 @@ import 'bloc_observer.dart';
 
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
-  if(! Platform.isWindows) {
+ // if(! Platform.isWindows) {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
@@ -57,7 +57,7 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
           )
       );
     }
-  }
+ // }
 
 
 }
@@ -73,7 +73,7 @@ void main()async  {
   DioHelper.init();
 
   await CacheHelper.init();
-  if(! Platform.isWindows) {
+  //if(! Platform.isWindows) {
     NotificationHelper.init();
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
@@ -162,7 +162,7 @@ void main()async  {
 
     });
     FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
-  }
+//  }
 
 
 

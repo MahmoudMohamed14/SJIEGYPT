@@ -141,7 +141,8 @@ class  MonthsAttend extends StatelessWidget {
                               navigateTo(context,UploadPaySlipScreen());
 
                             }else{
-                             // cubit.isPayORreview=='pay'?cubit.getPaySlip(cubit.listOfNameMonth[index]):cubit.getReview(cubit.listOfNameMonth[index]);
+                             // AttendCubit.get(context).isPayORreview=='pay'?AttendCubit.get(context).getPaySlip(month):AttendCubit.get(context).getReview(month),
+                              cubit.isPayORreview=='pay'?cubit.getPaySlip(cubit.listOfNameMonth[index]):cubit.getReview(cubit.listOfNameMonth[index]);
 
                               navigateTo(context, AttendAndPayScreen(month: cubit.listOfNameMonth[index]));
 

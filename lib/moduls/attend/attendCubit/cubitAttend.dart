@@ -771,7 +771,7 @@ class AttendCubit extends Cubit< AttendStates> {
 
   ReviewModel ?reviewModel;
  Future<ReviewModel ?> getReview(month) async {
-  //  emit(LoadReviewStateSuccess());
+    emit(LoadReviewStateSuccess());
 
     reviewModel=null;//PaySlipModel.fromJson({"code":"","name":"","Absent":"","Activity_Allow":"","Att_Bonus":"","basic":"","Bonus":"","Bonus_Deduction":"","EmpSocial_Ins":"","job_position":"","Meal_Allow":"","Other_Deduction":"","Other_Dues":"","Overtime":"","Penalty":"","Productivity_Allow":"","Sick":"","Tax":"","Total_Dues":"","Transportation":"","Vacation_Balance":"","WI":"","total_Deduction":"","regular":"","net_salary":"","day_Work":"","day_absent":"","casual":""});
 try{
@@ -790,7 +790,7 @@ try{
        reviewModel= ReviewModel.fromJson(res[0]);
        // print(paySlipModel!.toMap());
 
-     //  emit(GetReviewStateSuccess());
+       emit(GetReviewStateSuccess());
 
 
 
@@ -1070,7 +1070,7 @@ return null;
   }
   PaySlipModel ?paySlipModel;
  Future<PaySlipModel?>  getPaySlip(month) async {
-   // emit(LoadPaySlipStateSuccess());
+   emit(LoadGetPaySlipStateSuccess());
 
     paySlipModel=null;//PaySlipModel.fromJson({"code":"","name":"","Absent":"","Activity_Allow":"","Att_Bonus":"","basic":"","Bonus":"","Bonus_Deduction":"","EmpSocial_Ins":"","job_position":"","Meal_Allow":"","Other_Deduction":"","Other_Dues":"","Overtime":"","Penalty":"","Productivity_Allow":"","Sick":"","Tax":"","Total_Dues":"","Transportation":"","Vacation_Balance":"","WI":"","total_Deduction":"","regular":"","net_salary":"","day_Work":"","day_absent":"","casual":""});
 try{
@@ -1084,13 +1084,13 @@ try{
 
     var res=json.decode(response .data);
     if(res.length>0){
-      // showToast(text: 'GET SUCCESS', state: ToastState.SUCCESS);
+       showToast(text: 'GET SUCCESS', state: ToastState.SUCCESS);
 
       print(res);
       paySlipModel= PaySlipModel.fromJson(res[0]);
       // print(paySlipModel!.toMap());
 
-      //  emit(GetPaySlipStateSuccess());
+       emit(GetPaySlipStateSuccess());
 
 
 
